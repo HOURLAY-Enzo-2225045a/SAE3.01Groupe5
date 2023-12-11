@@ -24,8 +24,8 @@
 
         <footer>
             <p>© 2023 Hockey sur glace</p>
-            <a href="index.php">Retour à l'accueil</a>
-            <a href="rulesGameSurface.php">Plus de détails</a>
+            <button onclick="window.location.href='index.php'">Retour à l'accueil</button>
+            <button onclick="window.location.href='rulesGameSurface.php'">Plus de détails</button>
         </footer>
 
     </body>
