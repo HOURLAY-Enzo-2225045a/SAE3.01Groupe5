@@ -7,7 +7,7 @@
     <body>
 
         <header>
-            <h1>Bienvenue "Username !"</h1>
+            <h1>Bienvenue %username% </h1>
             <h2>Ici je vais t’apprendre les basiques du hockey sur glace.</h2>
             <h2>Alors enfile tes patins et c’est partie !</h2>
             <!-- Ajoutez des liens vers vos fichiers CSS si nécessaire -->
