@@ -13,9 +13,9 @@ class Connexion
         if (self::$instance == null) {
 
             self::$instance = new \PDO(
-                getenv('DB_DND_DSN'),
-                getenv('DB_DND_USER'),
-                getenv('DB_DND_PASSWORD')
+                getenv('DB_DSN'),
+                getenv('DB_USER'),
+                getenv('DB_PASSWORD')
             );
         }
         return self::$instance;
