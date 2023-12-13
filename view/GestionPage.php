@@ -12,6 +12,7 @@ function start_page($title): void
         <link id="theme" rel="stylesheet" href="/Style/style.css" media="all and (orientation: landscape)"> <!--css pour ecran en paysage-->
         <link id="themeP" rel="stylesheet" href="/Style/stylePortable.css" media="all and (orientation: portrait)"><!--css pour telephone et tout appareille quand la page est sur un ecran en portrait-->
     </head>
+    <body>
     <?php
 }
 ?>
@@ -19,7 +20,7 @@ function start_page($title): void
 <?php function end_page(): void
 {
     ?>
-
+    </body>
     <footer>
         <small>CC-by 2023-2024 le site </small>
     </footer>

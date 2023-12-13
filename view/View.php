@@ -11,7 +11,7 @@ Class View
     {
         start_page($title);
         $page = file_get_contents($path);
-        echo str_replace(['%username%', "%content%"], ['Alex', $presenter->show("joueurs")], $page); //$_GET['username']
+        echo str_replace(['%username%'], ['Alex'], $page); //$_GET['username']
         end_page();
 
     }

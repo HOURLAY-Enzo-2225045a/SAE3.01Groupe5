@@ -1,10 +1,5 @@
-<?php
+<H1> Bienvenue sur le jeu des spartiates </H1>
 
-require 'GestionPage.php';
-
-start_page('Acceuil');//Charge la balise "head" avec le css, favicon et le nom de la page donner en parametre.
-?>
-    <section>
-        <button onclick="window.location.href='Interface Jeu/DifficultyChoice.php'">Jouer</button>
-        <button onclick="window.location.href='Rules/Regles.php'">Règles</button>
-    </section>
+<button onclick="window.location.href='play'">Jouer</button>
+<button onclick="window.location.href='rules'">Voir les regles</button>
+<button onclick="window.location.href='admin'">Panneau administrateur</button>
