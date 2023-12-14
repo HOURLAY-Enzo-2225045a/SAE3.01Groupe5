@@ -1,0 +1,55 @@
+body {
+    /* Définir l'image de fond avec la propriété background-image */
+    background-image: url('https://www.hockeyfrance.com/wp-content/uploads/2022/12/Benar.jpg');
+    /* Ajuster la taille de l'image (facultatif) */
+    background-size: cover; /* couvre toute la surface */
+    /* Répéter ou non l'image (facultatif) */
+    background-repeat: no-repeat; /* ne pas répéter l'image */
+    /* Position de l'image (facultatif) */
+    background-position: center center; /* centré horizontalement et verticalement */
+    /* Fixer l'image pour qu'elle ne défile pas avec le contenu (facultatif) */
+    background-attachment: fixed; /* l'image reste fixe lorsque la page est défilée */
+}
+
+header {
+    text-align: center; /* Centre le texte horizontalement */
+    margin-bottom: 20px; /* Marge basse entre le header et la section */
+
+}
+
+.text-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Couleur de fond noire avec une transparence */
+    color: white; /* Couleur du texte blanc pour un meilleur contraste */
+    padding: 1.5rem; /* Ajoute de la marge à l'intérieur de la boîte noire */
+    border-radius: 10px; /* Coins arrondis pour un aspect plus esthétique */
+}
+
+button {
+    background-color: #00D5FF; /* Couleur de fond */
+    color: black; /* Couleur du texte */
+    padding: 10px 20px; /* Espacement intérieur du bouton */
+    font-size: 16px; /* Taille de police */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur interactif au survol */
+    position: fixed; /* Position fixe */
+    bottom: 10px; /* Distance depuis le bas */
+}
+
+/* Hover effect */
+button:hover {
+    background-color: #00D5FF; /* Couleur de fond au survol */
+}
+
+button.left {
+    left: 10px; /* Distance depuis la gauche */
+}
+
+/* Style pour le bouton de droite */
+button.right {
+    right: 10px; /* Distance depuis la droite */
+}
+
+p {
+    font-family: 'Inter', sans-serif; /* Remplacez 'Arial' par la police de votre choix pour les paragraphes */
+}
