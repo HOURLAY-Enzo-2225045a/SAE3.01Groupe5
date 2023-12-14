@@ -7,12 +7,11 @@ function start_page($title): void
     <head>
         <meta charset="utf-8">
         <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
-        <link rel="icon" href="/image/favicon.ico" type="image/x-icon" />
+<!--        <link rel="icon" href="/image/favicon.ico" type="image/x-icon" />-->
         <title><?php echo $title; ?></title>
-        <link id="theme" rel="stylesheet" href="/Style/style.css" media="all and (orientation: landscape)"> <!--css pour ecran en paysage-->
-        <link id="themeP" rel="stylesheet" href="/Style/stylePortable.css" media="all and (orientation: portrait)"><!--css pour telephone et tout appareille quand la page est sur un ecran en portrait-->
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
+    <body class="bg-[var(--color-bg)] h-[100vh]">
     <?php
 }
 ?>

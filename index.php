@@ -25,8 +25,7 @@ if (isset($_GET['action']) ) {
 
 if ('' == $url || '/' == $url || 'home' == $url) {
 
-    $path = ucfirst($url); ;
-    $view->display('Home', 'view/Home.php');
+    $view->display('Home', 'view/home.php');
 
 }elseif (preg_match('/^rules.*/', $url)) {
     if(preg_match('/^rules\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
@@ -52,8 +51,8 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 
 }elseif ('play' == $url) {
 
-    $path = ucfirst($url) . '.php';
-    $view->display('Jeu', 'view/'.$path);
+    $path = 'view/'. $url. '.php';
+    $view->display('Jeu', $path);
 
 }elseif ('signUp' == $url) {
 

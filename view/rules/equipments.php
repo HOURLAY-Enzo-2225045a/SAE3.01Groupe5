@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/assets/rules.css" >
+
 <h1>Equipements</h1>
 
 <p>L'équipement complet d'un joueur de Hockey sur glace se compose ainsi :
@@ -10,6 +12,6 @@
     Il existe 3 type de protection pour le casque :
 </p>
 
-<button onclick="window.location.href='/home'">Accueil</button>
-<button onclick="window.location.href='/rules/surface'">Precedent</button>
-<button onclick="window.location.href='/rules/game'">Suivant</button>
+<button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='/home'">Accueil</button>
+<button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='/rules/surface'">Precedent</button>
+<button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='/rules/game'">Suivant</button>

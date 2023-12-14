@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/assets/rules.css" >
+
 <h1>Surface de jeu</h1>
 
 <p>La patinoire est divisée en 3 zones, délimitées par 2 lignes bleues: la zone d’attaque, la zone neutre (au milieu) et la zone de défense.</p>

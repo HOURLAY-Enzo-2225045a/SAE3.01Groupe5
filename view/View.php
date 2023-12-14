@@ -7,9 +7,12 @@ Class View
 
     public function display($title, $path)
     {
+        ob_start();
+        include $path;
+        $content = ob_get_clean();
+
         start_page($title);
-        $page = file_get_contents($path);
-        echo str_replace(['%username%'], ['Alex'], $page); //$_GET['username']
+        echo str_replace(['%username%'], ['Alex'], $content); //$_GET['username']
         end_page();
     }
 }
