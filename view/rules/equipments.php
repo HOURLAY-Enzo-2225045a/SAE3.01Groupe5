@@ -10,6 +10,6 @@
     Il existe 3 type de protection pour le casque :
 </p>
 
-<button onclick="window.location.href='home'">Accueil</button>
-<button onclick="window.location.href='rules'">Precedent</button>
-<button onclick="window.location.href='rules&page=2'">Suivant</button>
+<button onclick="window.location.href='/home'">Accueil</button>
+<button onclick="window.location.href='/rules/surface'">Precedent</button>
+<button onclick="window.location.href='/rules/game'">Suivant</button>

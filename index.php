@@ -1,5 +1,5 @@
 <?php
-require 'view/GestionPage.php';
+include_once 'view/GestionPage.php';
 include_once 'view/View.php';
 
 // chemin de l'URL demandée au navigateur
@@ -13,28 +13,35 @@ $view = new View();
 
 if ('' == $url || '/' == $url || 'home' == $url) {
 
-    $pageName = ucfirst($url); ;
+    $path = ucfirst($url); ;
     $view->display('Home', 'view/Home.php');
 
-}elseif ('rules' == $url) {
-    if(isset($_GET['page']) && filter_var($_GET['page'], FILTER_VALIDATE_INT) !== false && $_GET['page'] >= 1 && $_GET['page'] <= 4){
-        $pageName = $url . $_GET['page'] . '.php';
-    }elseif(isset($_GET['page']))
-        header('refresh:0;url=rules');
-    else{
-        $pageName = $url . '.php';
+}elseif (preg_match('/^rules.*/', $url)) {
+    if(preg_match('/^rules\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
+        $path = 'view/' . $url . '.php';
+    }elseif ($url == 'rules') {
+        $path = 'view/rules/rules.php';
+    }else {
+        header('refresh:0;url=/rules');
+        $path = 'view/rules/rules.php';
     }
-    $view->display('Regles', 'view/rules/'.$pageName);
+    $view->display('Admin', $path);
 
-}elseif ('admin' == $url) {
-
-    $pageName = ucfirst($url) . '.php';
-    $view->display('Admin', 'view/'.$pageName);
+}elseif (preg_match('/^admin.*/', $url)) {
+    if(preg_match('/^admin\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
+        $path = 'view/' . $url . '.php';
+    }elseif ($url == 'admin') {
+        $path = 'view/admin/admin.php';
+    }else {
+        header('refresh:0;url=/admin');
+        $path = 'view/admin/admin.php';
+    }
+    $view->display('Admin', $path);
 
 }elseif ('play' == $url) {
 
-    $pageName = ucfirst($url) . '.php';
-    $view->display('Jeu', 'view/'.$pageName);
+    $path = ucfirst($url) . '.php';
+    $view->display('Jeu', 'view/'.$path);
 
 }else {
     echo "zebi ca marche pas";

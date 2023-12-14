@@ -8,6 +8,6 @@
     Elle comprend également l’autre ligne de but de la patinoire,
     sur laquelle est positionné le but adverse.</p>
 
-<button onclick="window.location.href='home'">Accueil</button>
-<button onclick="window.location.href='rules&page=2'">Precedent</button>
-<button onclick="window.location.href='rules&page=4'">Suivant</button>
+<button onclick="window.location.href='/home'">Accueil</button>
+<button onclick="window.location.href='/rules/rules'">Precedent</button>
+<button onclick="window.location.href='/rules/equipments'">Suivant</button>

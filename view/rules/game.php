@@ -12,6 +12,6 @@
     Le capitaine porte un “C” et les assistant un “A” bien visible sur le devant du maillot pour les identifier.
 </p>
 
-<button onclick="window.location.href='home'">Accueil</button>
-<button onclick="window.location.href='rules&page=1'">Precedent</button>
-<button onclick="window.location.href='rules&page=3'">Suivant</button>
+<button onclick="window.location.href='/home'">Accueil</button>
+<button onclick="window.location.href='/rules/equipments'">Precedent</button>
+<button onclick="window.location.href='/rules/offSide'">Suivant</button>
