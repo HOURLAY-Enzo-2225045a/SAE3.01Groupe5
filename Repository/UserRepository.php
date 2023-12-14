@@ -10,6 +10,10 @@ use App\Model\User;
 
 class UserRepository extends AbstractRepository
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function signUp(string $password, string $password1,string $pseudo, string $email): User {
 
         if ($password === "" || $password1 === "" || $pseudo === "" || $email === "" ){
@@ -39,7 +43,6 @@ class UserRepository extends AbstractRepository
 
         $user = $statement->fetch();
 
-        //Aprés avoir créer l'utilisateur on le connecte
         return new User($user['USER_ID'],$user['PASSWORD'],$user["PSEUDO"],$user['MAIL'],$user['SCORE']);
     }
 }

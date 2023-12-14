@@ -13,9 +13,9 @@ class Connexion
         if (self::$instance == null) {
 
             self::$instance = new \PDO(
-                getenv('DB_DSN'),
-                getenv('DB_USER'),
-                getenv('DB_PASSWORD')
+                getenv('DB_HOCKEY_DSN'),
+                getenv('DB_HOCKEY_USER'),
+                getenv('DB_HOCKEY_PASSWORD')
             );
         }
         return self::$instance;

@@ -17,7 +17,7 @@ class User
      * @param string $email => addresse mail du User
      * @param int $score => le score du User
      */
-    public function __construct(private int    $userId, private string $password, private string $pseudo,
+    public function __construct(private int $userId , private string $password, private string $pseudo,
                                 private string $email, private int $score)
     {
 
