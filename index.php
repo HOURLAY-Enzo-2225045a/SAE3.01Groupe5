@@ -1,6 +1,10 @@
 <?php
+
+use App\Controller\SignUpController;
+
 include_once 'view/GestionPage.php';
 include_once 'view/View.php';
+require_once 'Controller/SignUpController.php';
 
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';
@@ -10,6 +14,14 @@ ini_set('session.gc_maxlifetime', 1800);
 session_start();
 
 $view = new View();
+$signUpController = new SignUpController();
+
+if (isset($_GET['action']) ) {
+    if($_GET['action'] == 'signUp') {
+        $signUpController->getSignUp();
+    }
+}
+
 
 if ('' == $url || '/' == $url || 'home' == $url) {
 
@@ -42,6 +54,11 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 
     $path = ucfirst($url) . '.php';
     $view->display('Jeu', 'view/'.$path);
+
+}elseif ('signUp' == $url) {
+
+    $path = 'view/'.$url . '.php';
+    $view->display('signUp', $path);
 
 }else {
     echo "zebi ca marche pas";
