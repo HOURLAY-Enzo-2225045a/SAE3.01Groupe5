@@ -5,7 +5,7 @@
     <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
     <link rel="icon" href="/image/favicon.ico" type="image/x-icon" />
     <title>Titre</title>
-    <link id="theme" rel="stylesheet" href="../Style/style.css" media="all and (orientation: landscape)"> <!--css pour ecran en paysage-->
+    <link id="theme" rel="stylesheet" href="../Style/rulesStyle.css">
 </head>
     <body>
         <header>

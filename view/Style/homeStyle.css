@@ -1,0 +1,72 @@
+/* Styles pour le texte centré horizontalement */
+.centered-text {
+    text-align: center;
+    margin-top: 50px; /* Ajustez la marge supérieure selon vos besoins */
+}
+
+/* Styles pour les boutons sous le texte */
+.button-container {
+    text-align: center;
+    margin-top: 20px; /* Ajustez la marge supérieure selon vos besoins */
+    width: 100%; /* Force la largeur à 100% */
+    box-sizing: border-box; /* Inclut la bordure et le padding dans la largeur totale */
+}
+
+.buttonOne {
+    background-color: #ADD5E8;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #333; /* Ajout d'un léger trait noir autour des boutons */
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px auto; /* Espace autour des boutons */
+    display: block; /* Fait en sorte que les boutons soient affichés en tant que bloc (un en dessous de l'autre) */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Ajout d'un léger effet d'ombre */
+}
+.buttonTwo {
+    background-color: #2E5C8F;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #333; /* Ajout d'un léger trait noir autour des boutons */
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px auto; /* Espace autour des boutons */
+    display: block; /* Fait en sorte que les boutons soient affichés en tant que bloc (un en dessous de l'autre) */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Ajout d'un léger effet d'ombre */
+}
+/* Styles pour l'effet d'ombre au survol */
+.button:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Styles pour le menu hamburger en haut à droite */
+.hamburger-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+/* Styles pour les lignes du menu hamburger */
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s; /* Ajout d'une transition fluide lors du survol ou du clic */
+}
+
+/* Styles pour l'animation du menu hamburger lorsqu'il est ouvert */
+.change .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.change .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.change .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
