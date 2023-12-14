@@ -23,7 +23,7 @@
                 sur laquelle est positionné le but adverse.</p>
         </section>
         <div class="button-container">
-            <button class="left" onclick="window.location.href='../Home.php'">Accueil</button>
+            <button class="left-button" onclick="window.location.href='../Home.php'">Accueil</button>
         </div>
         <div class="right-button-container">
             <button class="right-button" onclick="window.location.href='rules.php'">Précédent</button>
