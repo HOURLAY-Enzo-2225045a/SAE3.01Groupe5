@@ -1,36 +1,25 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Règles Officielles - Hockey sur glace</title>
-        <!-- Ajoutez des liens vers vos fichiers CSS si nécessaire -->
-    </head>
-    <body>
+<?php
+require '../GestionPage.php';
 
-        <header>
-            <h1>Equipements</h1>
-        </header>
+start_page('Règles Officielles - Hockey sur glace');   //Charge la balise "head" avec le css, favicon et le nom de la page donner en parametre.
+rules_start_page('Equipements');
+?>
 
-        <section>
-            <p>L'équipement complet d'un joueur de Hockey sur glace se compose ainsi :
-                Une crosses
-                Des patins
-                L'équipement de protection (casque, coudières, jambières, gants, etc.)
-                L'uniforme de l'équipe
+    <section>
+        <p>L'équipement complet d'un joueur de Hockey sur glace se compose ainsi :
+            Une crosses
+            Des patins
+            L'équipement de protection (casque, coudières, jambières, gants, etc.)
+            L'uniforme de l'équipe
 
-                Le gardien possède des protections suplémentaire ainsi qu’un crosse différente.</p>
-        </section>
+            Le gardien possède des protections suplémentaire ainsi qu’un crosse différente.</p>
+    </section>
 
-        <section>
-            <p>Il existe 3 type de protection pour le casque :</p>
-        </section>
+    <section>
+        <p>Il existe 3 type de protection pour le casque :</p>
+    </section>
 
-        <footer>
-            <p>© 2023 Hockey sur glace</p>
-            <button onclick="window.location.href='../../index.php'">Retour à l'accueil</button>
-            <button onclick="window.location.href='rulesGameSurface.php'">Précédant</button>
-            <button onclick="window.location.href='rulesGame.php'">Jeu</button>
-        </footer>
-
-    </body>
-</html>
+<?php
+rules_end_page('rulesGameSurface.php', 'rulesGame.php', 'Jeu');
+end_page();
+?>
