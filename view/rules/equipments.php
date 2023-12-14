@@ -30,8 +30,12 @@
                 Il existe 3 type de protection pour le casque :
             </p>
         </article>
-        <button onclick="window.location.href='/home'">Accueil</button>
-        <button onclick="window.location.href='/rules/surface'">Precedent</button>
-        <button onclick="window.location.href='/rules/game'">Suivant</button>
+        <div class="button-container">
+            <button class="left-button" onclick="window.location.href='../Home.php'">Accueil</button>
+        </div>
+        <div class="right-button-container">
+            <button class="right-button" onclick="window.location.href='surface.php'">Précédent</button>
+            <button class="right-button" onclick="window.location.href='game.php'">Suivant</button>
+        </div>
     </body>
 </html>

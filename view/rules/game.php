@@ -26,8 +26,12 @@
                 Le capitaine porte un “C” et les assistant un “A” bien visible sur le devant du maillot pour les identifier.
             </p>
         </section>
-        <button class="left" onclick="window.location.href='home'">Accueil</button>
-        <button onclick="window.location.href='rules&page=1'">Precedent</button>
-        <button class="right" onclick="window.location.href='rules&page=3'">Suivant</button>
+        <div class="button-container">
+            <button class="left" onclick="window.location.href='../Home.php'">Accueil</button>
+        </div>
+        <div class="right-button-container">
+            <button class="right-button" onclick="window.location.href='equipments.php'">Précédent</button>
+            <button class="right-button" onclick="window.location.href='offSide.php'">Suivant</button>
+        </div>
     </body>
 </html>
