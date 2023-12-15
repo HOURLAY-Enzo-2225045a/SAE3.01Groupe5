@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Exception\CannotCreateException;
 use App\Exception\EmptyFieldException;
 use App\Exception\MoreThanOneException;
+use App\Exception\NotFoundException;
 use App\Exception\PasswordVerificationException;
 use App\Model\User;
 
@@ -13,6 +14,27 @@ class UserRepository extends AbstractRepository
     public function __construct()
     {
         parent::__construct();
+    }
+    public function login(string $pseudo , string $password) : User
+    {
+        //on select tout les Users avec le même pseudo et password
+        $query = 'SELECT * FROM USER WHERE PSEUDO = :pseudo and PASSWORD = :password';
+        $statement = $this->connexion -> prepare(
+            $query );
+        $statement->execute(['pseudo' => $pseudo , 'password' => $password]);
+
+        //Si la fonction ne rend rien cela veut dire qu'il n'y a pas de User correspondant
+        if ( $statement -> rowCount() === 0 ){
+            throw new NotFoundException("L'utilisateur de pseudo : ".$pseudo." n'a pas été trouvé");
+        }
+        if ( $statement -> rowCount() > 1 ){
+            throw new MoreThanOneException("Deux utilisateurs de pseudo : ".$pseudo." avec le même mot de passe ont été trouvé");
+        }
+
+        $user = $statement->fetch();
+
+        return new User($user['USER_ID'],$user['PASSWORD'],$user["PSEUDO"],$user['MAIL'],$user['SCORE']);
+
     }
     public function signUp(string $password, string $password1,string $pseudo, string $email): User {
 
@@ -41,8 +63,6 @@ class UserRepository extends AbstractRepository
             throw new MoreThanOneException("Le USER de pseudo : ".$pseudo." ne peut être créer qu'une fois");
         }
 
-        $user = $statement->fetch();
-
-        return new User($user['USER_ID'],$user['PASSWORD'],$user["PSEUDO"],$user['MAIL'],$user['SCORE']);
+        return $this->login($pseudo,$password);
     }
 }

@@ -24,8 +24,8 @@ class SignUpController
         //on recupère les information rentrer dans la formulaire par le User
         $pseudo = $_POST['pseudo'];
         $email = $_POST['email'];
-        $password = md5($_POST['password']);
-        $password1 = md5($_POST['password1']);
+        $password = $_POST['password'];
+        $password1 = $_POST['password1'];
 
         try{
             //on créer et récupère le User qui correspond dans la BD
