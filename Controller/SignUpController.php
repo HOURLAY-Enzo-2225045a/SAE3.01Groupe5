@@ -19,12 +19,8 @@ class SignUpController
      *
      * @return void
      */
-    public function getSignUp() : void {
+    public function getSignUp($password,$password1,$pseudo,$email) : void {
         //on recupère les information rentrer dans la formulaire par le User
-        $pseudo = $_POST['pseudo'];
-        $email = $_POST['email'];
-        $password = md5($_POST['password']);
-        $password1 = md5($_POST['password1']);
 
         try{
             //on créer et récupère le User qui correspond dans la BD
