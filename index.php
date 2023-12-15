@@ -17,16 +17,22 @@ $view = new View();
 $signUpController = new SignUpController();
 
 if (isset($_GET['action']) ) {
-    if($_GET['action'] == 'signUp') {
-        $signUpController->getSignUp();
+    if($_GET['action'] == 'signUp' && isset($_POST['pseudo'])&& isset($_POST['email'])
+            && isset($_POST['password'])&& isset($_POST['password1'])  ) {
+
+        $pseudo = htmlspecialchars($_POST['pseudo']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
+        $password1 = htmlspecialchars($_POST['password1']);
+
+        $signUpController->getSignUp($password,$password1,$pseudo,$email);
     }
 }
 
 
 if ('' == $url || '/' == $url || 'home' == $url) {
 
-    $path = ucfirst($url); ;
-    $view->display('Home', 'view/Home.php');
+    $view->display('Home', 'view/home.php');
 
 }elseif (preg_match('/^rules.*/', $url)) {
     if(preg_match('/^rules\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
@@ -52,8 +58,8 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 
 }elseif ('play' == $url) {
 
-    $path = ucfirst($url) . '.php';
-    $view->display('Jeu', 'view/'.$path);
+    $path = 'view/'. $url. '.php';
+    $view->display('Jeu', $path);
 
 }elseif ('signUp' == $url) {
 

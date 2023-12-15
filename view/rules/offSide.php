@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
-        <link rel="icon" href="/image/favicon.ico" type="image/x-icon" />
-        <title>Titre</title>
-        <link id="theme" rel="stylesheet" href="../Style/rulesStyle.css">
-    </head>
-    <body>
+<link rel="stylesheet" href="/assets/rules.css" >
+
         <header>
             <div class="text-container">
                 <h1>Le Hors Jeu</h1>
@@ -23,5 +15,3 @@
         <div class="right-button-container">
             <button class="right-button" onclick="window.location.href='game.php'">Précédent</button>
         </div>
-    </body>
-</html>

@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
-        <link rel="icon" href="/image/favicon.ico" type="image/x-icon" />
-        <title>Titre</title>
-        <link id="theme" rel="stylesheet" href="../Style/rulesStyle.css">
-    </head>
-    <body>
-        <header>
+<?php
+$buttonClasses ="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4";
+?>
+
+<link rel="stylesheet" href="/assets/rules.css" >
+
+<header>
             <div class="text-container">
                 <h1>Bienvenue "Username !"</h1>
                 <h2>Ici je vais t’apprendre les basiques du hockey sur glace.</h2>
@@ -29,5 +25,7 @@
         <div class="right-button-container">
             <button class="right-button" onclick="window.location.href='surface.php'">Suivant</button>
         </div>
-    </body>
-</html>
+
+        /*<button class="<?php echo $buttonClasses ?>" onclick="window.location.href='/home'">Accueil</button>
+        <button class="<?php echo $buttonClasses ?>" onclick="window.location.href='/rules/surface'">Suivant</button>
+        */
