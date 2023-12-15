@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,7 +5,7 @@
     <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
     <link rel="icon" href="/image/favicon.ico" type="image/x-icon" />
     <title>Titre</title>
-    <link id="theme" rel="stylesheet" href="Style/homeStyle.css"> <!--css pour ecran en paysage-->
+    <link id="theme" rel="stylesheet" href="Style/homeStyle.css">
 </head>
     <body>
         <header>

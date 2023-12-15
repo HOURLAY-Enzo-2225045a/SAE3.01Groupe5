@@ -1,0 +1,83 @@
+.corner-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px; /* Ajustez la largeur selon vos besoins */
+    height: auto; /* Pour maintenir les proportions de l'image */
+    z-index: 1; /* Assure que l'image est au-dessus du contenu */
+}
+
+.top-button {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ADD5E8;
+    color: black;
+    border: 1px solid #333; /* Ajout d'un léger trait noir autour des boutons */
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px auto; /* Espace autour des boutons */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Ajout d'un léger effet d'ombre */
+}
+
+.clickable-container {
+    display: flex; /* Utiliser un modèle de boîte flexible */
+    justify-content: center; /* Aligner horizontalement les éléments dans le centre */
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.clickable-area {
+    text-align: center;
+    margin: 0 10px; /* Ajuster l'espace entre les zones cliquables */
+    background-color: #2F6291;
+    border: 1px solid black; /* Ajout d'un léger trait noir autour des boutons */
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Ajout d'un léger effet d'ombre */
+}
+
+.clickable-area a {
+    text-decoration: none; /* Supprime le soulignement des liens */
+    color: black; /* Définir la couleur du texte */
+}
+
+.clickable-area img {
+    border-radius: 10px; /* Coins arrondis pour l'image */
+    max-width: 90%; /* Définissez la largeur maximale à 100% */
+    max-height: 85%; /* Définissez la hauteur maximale à 100% */
+}
+
+.clickable-area p {
+    margin-top: 10px;
+    color: black;
+}
+
+
+
+.button-container {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+.left-button {
+    background-color: #00D5FF;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.left-button:hover {
+    background-color: #00D5FF;
+}
