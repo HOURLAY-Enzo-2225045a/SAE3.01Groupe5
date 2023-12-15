@@ -18,6 +18,7 @@ class Connexion
                 getenv('DB_PASSWORD')
             );
         }
+        
         return self::$instance;
     }
 }

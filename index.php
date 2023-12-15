@@ -17,7 +17,8 @@ $view = new View();
 $signUpController = new SignUpController();
 
 if (isset($_GET['action']) ) {
-    if($_GET['action'] == 'signUp') {
+    if($_GET['action'] == 'signUp' && isset($_POST['pseudo']) ) {
+        $pseudo = htmlspecialchars($_POST['pseudo']);
         $signUpController->getSignUp();
     }
 }
