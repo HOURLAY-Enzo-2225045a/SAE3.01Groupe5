@@ -20,8 +20,8 @@ function start_page($title): void
 {
     ?>
     </body>
-    <footer>
-        <small>CC-by 2023-2024 le site </small>
+    <footer class="absolute bottom-0 ">
+        <p>CC-by 2023-2024 le site </p>
     </footer>
 
     </html>

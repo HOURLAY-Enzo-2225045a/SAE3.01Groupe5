@@ -19,8 +19,7 @@ class UserRepository extends AbstractRepository
     {
         //on select tout les Users avec le même pseudo et password
         $query = 'SELECT * FROM USER WHERE PSEUDO = :pseudo and PASSWORD = :password';
-        $statement = $this->connexion -> prepare(
-            $query );
+        $statement = $this->connexion -> prepare( $query );
         $statement->execute(['pseudo' => $pseudo , 'password' => $password]);
 
         //Si la fonction ne rend rien cela veut dire qu'il n'y a pas de User correspondant
@@ -34,8 +33,8 @@ class UserRepository extends AbstractRepository
         $user = $statement->fetch();
 
         return new User($user['USER_ID'],$user['PASSWORD'],$user["PSEUDO"],$user['MAIL'],$user['SCORE']);
-
     }
+
     public function signUp(string $password, string $password1,string $pseudo, string $email): User {
 
         if ($password === "" || $password1 === "" || $pseudo === "" || $email === "" ){
@@ -49,10 +48,8 @@ class UserRepository extends AbstractRepository
 
         //on insert dans la BD le nouvel utilisateur
         $query = 'INSERT INTO USER (PASSWORD, PSEUDO, MAIL, SCORE) VALUES (:password, :pseudo, :email,0)';
-        $statement = $this->connexion -> prepare(
-            $query );
-        $statement->execute(['password' => $password, 'pseudo'=> $pseudo,
-            'email' => $email]);
+        $statement = $this->connexion -> prepare( $query );
+        $statement->execute(['password' => $password, 'pseudo'=> $pseudo, 'email' => $email]);
 
         //Si la requête ne nous rend rien on dit que l'on peut pas insérer
         if ( $statement -> rowCount() === 0){

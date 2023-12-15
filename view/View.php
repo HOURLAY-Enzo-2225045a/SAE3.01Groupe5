@@ -5,14 +5,13 @@ Class View
     {
     }
 
-    public function display($title, $path)
+    public function display($title, $path, $contentBD = null)
     {
         ob_start();
-        include $path;
+        require $path;
         $content = ob_get_clean();
-
         start_page($title);
-        echo str_replace(['%username%'], ['Alex'], $content); //$_GET['username']
+        echo str_replace(['%username%', '%contentBD%'], ['Alex', $contentBD], $content); //todo $_GET['username']
         end_page();
     }
 }

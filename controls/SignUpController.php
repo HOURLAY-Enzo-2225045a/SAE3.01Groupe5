@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\controls;
 
 use App\Exception\CannotCreateException;
 use App\Exception\EmptyFieldException;
@@ -17,6 +17,10 @@ class SignUpController
      * @catch PasswordVerificationException
      * @catch NotFoundException
      *
+     * @param $password
+     * @param $password1
+     * @param $pseudo
+     * @param $email
      * @return void
      */
     public function getSignUp($password,$password1,$pseudo,$email) : void {
@@ -28,7 +32,6 @@ class SignUpController
             $user->signUp($password,$password1,$pseudo,$email);
 
         }
-
             //on catch si un champ de saisie est vide ou si on ne peut pas créer l'utilisateurs ou si les password données ne sont pas les même
         catch (EmptyFieldException | CannotCreateException | PasswordVerificationException $ERROR){
             //on fais un retour d'erreur

@@ -7,7 +7,3 @@
 *{
     font-family: 'Lilita One', sans-serif;
 }
-
-.button {
-    @apply text-red-400;
-}
