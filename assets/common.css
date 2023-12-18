@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 :root{
     --color-bg: #F5F5F5;
     --color-btn-admin: #00D5FF;
@@ -6,4 +11,8 @@
 
 *{
     font-family: 'Lilita One', sans-serif;
+}
+
+.button{
+    @apply bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4 mx-1;
 }

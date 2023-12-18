@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="/assets/rules.css" >
-
 <h1>Surface de jeu</h1>
 
 <p>La patinoire est divisée en 3 zones, délimitées par 2 lignes bleues: la zone d’attaque, la zone neutre (au milieu) et la zone de défense.</p>
@@ -10,6 +8,8 @@
     Elle comprend également l’autre ligne de but de la patinoire,
     sur laquelle est positionné le but adverse.</p>
 
-<button onclick="window.location.href='/home'">Accueil</button>
-<button onclick="window.location.href='/rules/rules'">Precedent</button>
-<button onclick="window.location.href='/rules/equipments'">Suivant</button>
+<div class="flex flex-col md:flex-row justify-center items-center">
+    <button class="button" onclick="window.location.href='/home'">Accueil</button>
+    <button class="button" onclick="window.location.href='/rules/rules'">Precedent</button>
+    <button class="button" onclick="window.location.href='/rules/equipments'">Suivant</button>
+</div>

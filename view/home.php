@@ -1,17 +1,14 @@
-<link rel="stylesheet" href="/assets/home.css" >
-
-<div class="relative bg-[url('/assets/images/header.png')] bg-center bg-cover h-[25vh] w-full">
-    <img src="/assets/images/headerLines.png" alt="headerLines" class="w-1/3 absolute right-0 bottom-0">
-    <img src="/assets/images/logo.png" alt="lg-logo" class="w-1/3 md:w-1/5 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+<div class="bg-cover bg-bottom h-[40vh] w-full relative" style="background-image: url('/assets/images/header.png')">
+    <img class="w-1/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" src="/assets/images/logo.png" alt="lg-logo" >
+    <img class="w-1/5 absolute bottom-0 right-0" src="/assets/images/headerLines.png" alt="headerLines">
     <button class="absolute top-4 right-4 bg-white w-1/4 md:w-1/5 py-1.5 drop-shadow-2xl text-lg" onclick="window.location.href='signUp'">CONNEXION</button>
 </div>
 
-<div class="w-full h-[50vh] flex flex-col justify-center items-center">
-    <button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='play'">JOUER</button>
-    <button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='rules'">LES REGLES</button>
-    <button class="bg-[var(--color-btn-admin)] w-1/3 py-4 drop-shadow-xl text-lg my-4 hidden" onclick="window.location.href='admin'">ADMIN</button>
+<div class="relative w-full h-[50vh] flex flex-col justify-center items-center">
+    <button class="button" onclick="window.location.href='play'">JOUER</button>
+    <button class="button" onclick="window.location.href='rules'">LES REGLES</button>
 </div>
 
-<div class="relative bg-[url('/assets/images/footer.png')] bg-center bg-cover h-[25vh] w-full">
-    <img src="/assets/images/headerLines.png" alt="headerLines.png" class="w-1/3 absolute right-0 bottom-0">
+<div class="bg-cover bg-center h-[40vh] w-full relative" style="background-image: url('/assets/images/footer.png')">
+    <img class="w-1/5 absolute bottom-0 right-0" src="/assets/images/headerLines.png" alt="headerLines.png" >
 </div>

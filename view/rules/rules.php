@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="/assets/rules.css" >
-
 <h1>Les règles du jeu %username% </h1>
 
 <p>Le hockey sur glace est un sport qui se pratique à 6 contre 6, avec 1 gardien et 5 joueurs par équipe.</p>
@@ -9,6 +7,7 @@
 <p>Le terrain de jeu, appelé patinoire, mesure entre 56 et 60 mètres de long, et entre 26 à 30 mètres de large.</p>
 <p>Il est entouré par des balustrades.</p>
 
-<button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='/home'">Accueil</button>
-<button class="bg-white w-1/2 md:w-1/3 py-8 md:py-6 drop-shadow-xl text-lg my-4" onclick="window.location.href='/rules/surface'">Suivant</button>
-
+<div class="w-7/8 flex flex-col md:flex-row justify-center items-center">
+    <button class="button" onclick="window.location.href='/home'">Accueil</button>
+    <button class="button" onclick="window.location.href='/rules/surface'">Suivant</button>
+</div>
