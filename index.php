@@ -2,9 +2,9 @@
 
 use App\controls\SignUpController;
 
-include_once 'view/GestionPage.php';
-include_once 'view/View.php';
-require_once 'controls/SignUpController.php';
+include_once './view/GestionPage.php';
+include_once './view/View.php';
+require_once './controls/SignUpController.php';
 
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';

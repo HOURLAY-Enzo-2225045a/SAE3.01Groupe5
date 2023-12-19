@@ -1,3 +1,4 @@
+
 <h1>Les règles du jeu %username% </h1>
 
 <p>Le hockey sur glace est un sport qui se pratique à 6 contre 6, avec 1 gardien et 5 joueurs par équipe.</p>
