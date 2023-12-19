@@ -45,14 +45,14 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     }
     $view->display('Admin', $path);
 
-}elseif (preg_match('/^admin.*/', $url)) {
-    if(preg_match('/^admin\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
+}elseif (preg_match('/^adminPages.*/', $url)) {
+    if(preg_match('/^adminPages\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
         $path = 'view/' . $url . '.php';
-    }elseif ($url == 'admin') {
-        $path = 'view/admin/admin.php';
+    }elseif ($url == 'adminPages') {
+        $path = 'view/adminPages/admin.php';
     }else {
         header('refresh:0;url=/admin');
-        $path = 'view/admin/admin.php';
+        $path = 'view/adminPages/admin.php';
     }
     $view->display('Admin', $path);
 
