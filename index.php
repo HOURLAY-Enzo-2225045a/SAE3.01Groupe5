@@ -70,6 +70,11 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     $path = 'view/'.$url . '.php';
     $view->display('signUp', $path);
 
+}elseif ('krouxselle' == $url) {
+
+    $path = 'view/'.$url . '.php';
+    $view->display('signUp', $path);
+
 }else {
     echo "zebi ca marche pas";
 }
