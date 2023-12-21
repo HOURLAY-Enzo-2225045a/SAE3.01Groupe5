@@ -2,7 +2,6 @@
 
 use App\controls\SignUpController;
 
-include_once './view/GestionPage.php';
 include_once './view/View.php';
 require_once './controls/SignUpController.php';
 
@@ -15,6 +14,8 @@ session_start();
 
 $view = new View();
 $signUpController = new SignUpController();
+
+
 
 if (isset($_GET['action']) ) {
     if($_GET['action'] == 'signUp' && isset($_POST['pseudo'])&& isset($_POST['email'])
@@ -29,10 +30,12 @@ if (isset($_GET['action']) ) {
     }
 }
 
-
 if ('' == $url || '/' == $url || 'home' == $url) {
-
-    $view->display('Home', 'view/home.php');
+    if(isset($_SESSION['admin']) && $_SESSION['admin'])
+        $path = 'view/homeAdmin.php';
+    else
+        $path = 'view/home.php';
+    $view->display('Home', $path);
 
 }elseif (preg_match('/^rules.*/', $url)) {
     if(preg_match('/^rules\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
@@ -46,6 +49,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     $view->display('Admin', $path);
 
 }elseif (preg_match('/^adminPages.*/', $url)) {
+
     if(preg_match('/^adminPages\/\w+$/', $url) && file_exists('view/' . $url . '.php')){
         $path = 'view/' . $url . '.php';
     }elseif ($url == 'adminPages') {
