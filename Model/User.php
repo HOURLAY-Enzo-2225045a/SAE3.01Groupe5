@@ -6,71 +6,93 @@ namespace App\Model;
  *
  * @author BELABBAS-Rayane-2225010aa <Belabbas.rayane[@]etu.univ-amu.fr>
  */
-class User
+class User extends Entity
 {
+    private $userId;
+    private $password;
+    private $pseudo;
+    private $mail;
+    private $score;
+
     /**
-     * Le constructeur de la class User
-     *
-     * @param int $userId => l'id du user
-     * @param string $password => mot de passe du User
-     * @param string $pseudo => nom d'affichage du User
-     * @param string $email => addresse mail du User
-     * @param int $score => le score du User
+     * @return mixed
      */
-    public function __construct(private int $userId , private string $password, private string $pseudo,
-                                private string $email, private int $score)
-    {
-
-    }
-
-    public function getUserId(): int
+    public function getUserId()
     {
         return $this->userId;
     }
 
-    public function setUserId(int $userId): void
+    /**
+     * @param mixed $userId
+     */
+    public function setUserId($userId): void
     {
         $this->userId = $userId;
     }
 
-    public function getPassword(): string
+    /**
+     * @return mixed
+     */
+    public function getPassword()
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): void
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password): void
     {
         $this->password = $password;
     }
 
-    public function getPseudo(): string
+    /**
+     * @return mixed
+     */
+    public function getPseudo()
     {
         return $this->pseudo;
     }
 
-    public function setPseudo(string $pseudo): void
+    /**
+     * @param mixed $pseudo
+     */
+    public function setPseudo($pseudo): void
     {
         $this->pseudo = $pseudo;
     }
 
-    public function getEmail(): string
+    /**
+     * @return mixed
+     */
+    public function getMail()
     {
-        return $this->email;
+        return $this->mail;
     }
 
-    public function setEmail(string $email): void
+    /**
+     * @param mixed $mail
+     */
+    public function setMail($mail): void
     {
-        $this->email = $email;
+        $this->mail = $mail;
     }
 
-    public function getScore(): int
+    /**
+     * @return mixed
+     */
+    public function getScore()
     {
         return $this->score;
     }
 
-    public function setScore(int $score): void
+    /**
+     * @param mixed $score
+     */
+    public function setScore($score): void
     {
         $this->score = $score;
     }
+
 
 }

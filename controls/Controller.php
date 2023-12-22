@@ -57,4 +57,16 @@ class Controller
             file_put_contents('Log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
         }
     }
+    public function getRankingScore($userRepo) : void{
+        try{
+
+            $this->outputData->setOutputData($userRepo->userRanking());
+
+        }
+
+        catch (NotFoundException | MoreThanOneException $ERROR){
+
+            file_put_contents('Log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+        }
+    }
 }

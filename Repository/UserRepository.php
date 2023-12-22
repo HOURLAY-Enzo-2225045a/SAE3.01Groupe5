@@ -34,7 +34,7 @@ class UserRepository extends AbstractRepository
 
         $user = $statement->fetch();
 
-        return new User($user['USER_ID'], $user['PASSWORD'], $user["PSEUDO"], $user['MAIL'], $user['SCORE']);
+        return new User(($user));
     }
 
     public function signUp(string $password, string $password1, string $pseudo, string $email): User
@@ -84,10 +84,32 @@ class UserRepository extends AbstractRepository
         }
         $user = $statement->fetch();
 
-        return new User($user['USER_ID'], $user['PASSWORD'], $user["PSEUDO"], $user['MAIL'], $user['SCORE']);
+        return new User($user);
     }
 
-    public function userRankingByScore() :  array{
+    public function userRanking() :  array{
+            $query = 'SELECT PSEUDO,SCORE FROM USER ORDER BY USER.SCORE DESC';
+        $statement = $this->connexion->prepare(
+            $query);
+        $statement->execute();
 
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
+        }
+        if ($statement->rowCount() > 1) {
+            throw new MoreThanOneException("Problème présent dans la BD");
+        }
+
+        //on créer un tableau de Usercontenant toutes les données
+        $arraySQL = $statement->fetchAll();
+        $arrayUser = array();
+
+        /* on récupére le résultat de la requête SQL et on le met dans un tableau d'User'*/
+        for ($i = 0; $i < sizeof($arraySQL); $i++) {
+            $user = new User($arraySQL[$i]);
+            $arrayUser[] = $user;
+        }
+
+        return $arrayUser;
     }
 }
