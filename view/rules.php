@@ -8,39 +8,35 @@
 
 <div class="w-full flex flex-col justify-center items-center">
     <h1 >Les règles du jeu %username% </h1>
-    <div class = "w-full flex flex-row justify-center items-center">
-        <button class="button" onclick="window.location.href='/home'">Accueil</button>
-        <button class="button" onclick="window.location.href='/rules/surface'">Suivant</button>
-    </div>
+    <button class="button" onclick="window.location.href='/home'">Accueil</button>
 </div>
 
-
 <div class="max-w-2xl m-auto">
-    <div id="default-carousel" class="relative mb-4 mt-4 ml-4" data-carousel="static">
+    <div id="default-carousel" class="relative mb-4 mt-4" data-carousel="static">
         <!-- Carousel wrapper -->
         <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96 w-4/5 left-[10%]">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    Voici le premier texte avec des regles
+                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <?php echo file_get_contents('view/rules/equipments.php') ?>
                 </span>
             </div>
             <!-- Item 2 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    Voici le deuxieme texte avec des regles
+                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <?php echo file_get_contents('view/rules/game.php') ?>
                 </span>
             </div>
             <!-- Item 3 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    Voici le troisieme texte avec des regles dzddddddezf zef ezf ezf ez fezfezfez  e
+                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <?php echo file_get_contents('view/rules/offSide.php') ?>
                 </span>
             </div>
             <!-- Item 3 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    Voici le quatriezdza  texte avec des regles
+                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <?php echo file_get_contents('view/rules/surface.php') ?>
                 </span>
             </div>
             <!--            <img src="https://libertinade.com/wp-content/uploads/2021/11/photos-gros-seins.jpg" class="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" alt="...">-->
