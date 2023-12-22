@@ -11,11 +11,10 @@ use App\Model\User;
 
 class UserRepository extends AbstractRepository
 {
-    private $outputData;
+
     public function __construct()
     {
         parent::__construct();
-        $this->outputData = $outputData;
     }
 
     public function login(string $pseudo, string $password): User
@@ -67,7 +66,7 @@ class UserRepository extends AbstractRepository
         return $this->login($pseudo, $password);
     }
 
-    public function getScoreByID($id): User
+    public function getScoreByID(int $id): User
     {
         //On select le score d'un utilisateur par rapport a son id
         $query = 'SELECT SCORE FROM USER WHERE USER.USER_ID = :id';
@@ -86,5 +85,9 @@ class UserRepository extends AbstractRepository
         $user = $statement->fetch();
 
         return new User($user['USER_ID'], $user['PASSWORD'], $user["PSEUDO"], $user['MAIL'], $user['SCORE']);
+    }
+
+    public function userRankingByScore() :  array{
+
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
-use App\controls\SignUpController;
+use App\controls\Controller;
+use App\Repository\OutputData;
+use App\Repository\UserRepository;
 
 include_once './view/View.php';
-require_once './controls/SignUpController.php';
+require_once './controls/Controller.php';
 
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';
@@ -13,7 +15,9 @@ ini_set('session.gc_maxlifetime', 1800);
 session_start();
 
 $view = new View();
-$signUpController = new SignUpController();
+$outPutData = new OutputData();
+$userRepo = new UserRepository();
+$controller = new Controller($outPutData);
 
 
 
@@ -26,7 +30,7 @@ if (isset($_GET['action']) ) {
         $password = htmlspecialchars($_POST['password']);
         $password1 = htmlspecialchars($_POST['password1']);
 
-        $signUpController->getSignUp($password,$password1,$pseudo,$email);
+        $controller->getSignUp($password,$password1,$pseudo,$email,$userRepo);
     }
 }
 

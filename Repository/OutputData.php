@@ -4,7 +4,7 @@ namespace App\Repository;
 
 class OutputData
 {
-    protected $outputData;
+    private $outputData;
 
     public function __destruct()
     {
