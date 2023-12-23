@@ -15,7 +15,6 @@ class Connexion
             self::$instance = new \PDO(
                 'mysql:host=localhost;dbname=jeuspartiates_bd',
                 'root',
-
 //                getenv('DB_DSN'),
 //                getenv('DB_USER'),
 //                getenv('DB_PASSWORD')

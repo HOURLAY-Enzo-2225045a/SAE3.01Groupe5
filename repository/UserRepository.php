@@ -96,7 +96,6 @@ class UserRepository extends AbstractRepository
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
         }
-
         //on créer un tableau de Usercontenant toutes les données
         $arraySQL = $statement->fetchAll();
         $arrayUser = array();
