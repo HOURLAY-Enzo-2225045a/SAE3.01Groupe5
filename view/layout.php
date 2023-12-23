@@ -5,7 +5,7 @@
     <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon" />
     <title>%title%</title>
-<!--    style-->
+    <!--    style-->
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/dist/bundle.js"></script>
@@ -15,7 +15,9 @@
     <a href="https://marseillehockeyclub.com" target="_blank"><img class="w-2/5 md:w-1/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" src="/assets/images/logo.png" alt="lg-logo"></a>
     <img class="w-1/5 absolute bottom-0 right-0" src="/assets/images/headerLines.png" alt="headerLines">
 </header>
-%content%
+<div class="px-5">
+    %content%
+</div>
 </body>
 <footer class="bg-cover bg-top h-[30vh] w-full relative" style="background-image: url('/assets/images/footer.png')">
     <img class="w-1/5 absolute bottom-0 right-0" src="/assets/images/headerLines.png" alt="headerLines.png" >

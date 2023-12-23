@@ -11,10 +11,10 @@ use App\Repository\UserRepository;
 
 class Controller
 {
-    private $outputData;
-    public function __construct($outputData)
+
+    public function __construct()
     {
-        $this->outputData = $outputData;
+
     }
 
 
@@ -49,7 +49,6 @@ class Controller
         try{
 
             $this->outputData->setOutputData($userRepo->getScoreByID($id));
-
         }
 
         catch (NotFoundException | MoreThanOneException $ERROR){
@@ -57,15 +56,25 @@ class Controller
             file_put_contents('Log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
         }
     }
-    public function getRankingScore($userRepo) : void{
+
+    public function showAdmin($userRepo, $view): void
+    {
         try{
-
-            $this->outputData->setOutputData($userRepo->userRanking());
-
+            $path = 'view/adminPages/admin.php';
+            $view->display('Admin', $path, $userRepo->userRanking());
         }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+        }
+    }
 
-        catch (NotFoundException | MoreThanOneException $ERROR){
-
+    public function showSpartiates($spartiatesRepo, $view): void
+    {
+        try{
+            $path = 'view/adminPages/spartiates.php';
+            $view->display('Admin', $path, $spartiatesRepo->getAll());
+        }
+        catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
         }
     }

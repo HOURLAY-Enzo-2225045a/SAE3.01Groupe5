@@ -4,7 +4,7 @@
 
 <div class="w-full flex flex-row justify-center items-center">
     <button class='button' onclick="window.location.href='/adminPages'">Admin</button>
-    <button class='button' onclick="window.location.href='/adminPages/sportifs'">Sportifs</button>
+    <button class='button' onclick="window.location.href='/adminPages/spartiates'">Sportifs</button>
 </div>
 
 <div class="flex flex-col items-center justify-center">

@@ -88,16 +88,13 @@ class UserRepository extends AbstractRepository
     }
 
     public function userRanking() :  array{
-            $query = 'SELECT PSEUDO,SCORE FROM USER ORDER BY USER.SCORE DESC';
+            $query = 'SELECT * FROM USER ORDER BY USER.SCORE DESC';
         $statement = $this->connexion->prepare(
             $query);
         $statement->execute();
 
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
-        }
-        if ($statement->rowCount() > 1) {
-            throw new MoreThanOneException("Problème présent dans la BD");
         }
 
         //on créer un tableau de Usercontenant toutes les données
