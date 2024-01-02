@@ -8,7 +8,7 @@ namespace App\Model;
  */
 class User extends Entity
 {
-    private $userId;
+    private $user_id;
     private $password;
     private $pseudo;
     private $mail;
@@ -17,17 +17,17 @@ class User extends Entity
     /**
      * @return mixed
      */
-    public function getUserId()
+    public function getUser_id()
     {
-        return $this->userId;
+        return $this->user_id;
     }
 
     /**
-     * @param mixed $userId
+     * @param mixed $user_id
      */
-    public function setUserId($userId): void
+    public function setUser_id($user_id): void
     {
-        $this->userId = $userId;
+        $this->user_id = $user_id;
     }
 
     /**

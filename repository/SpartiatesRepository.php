@@ -18,16 +18,15 @@ class SpartiatesRepository extends AbstractRepository
     }
 
     public function getAll() :  array{
-            $query = 'SELECT * FROM USER ORDER BY USER.SCORE DESC';
-        $statement = $this->connexion->prepare(
-            $query);
+        $query = 'SELECT * FROM USER ORDER BY USER.SCORE DESC';
+        $statement = $this->connexion->prepare($query);
         $statement->execute();
 
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
         }
 
-        //on créer un tableau de Usercontenant toutes les données
+        //on créer un tableau de User contenant toutes les données
         $arraySQL = $statement->fetchAll();
         $arrayUser = array();
 

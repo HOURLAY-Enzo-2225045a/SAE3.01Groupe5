@@ -29,7 +29,7 @@
             <tr class="bg-white">
                 <td class="px-4 py-2 border-t border-b text-center font-bold">1</td>
                 <td class="px-4 py-2 border-t border-b text-center"><?= $user->getPseudo()?></td>
-                <td class="px-4 py-2 border-t border-b text-center"><?= $user->getScore()?></td>
+                <td class="px-4 py-2 border-t border-b text-center"><?= $user->getUser_id()?></td>
                 <td class="px-4 py-2 border bg-[var(--color-bg)] text-center">
                     <button class="bg-red-500 hover:bg-red-700 text-white rounded p-1">supprimer</button>
                 </td>

@@ -1,14 +1,10 @@
 <?php
 
-namespace App\controls;
-
 use App\Exception\CannotCreateException;
 use App\Exception\EmptyFieldException;
 use App\Exception\MoreThanOneException;
 use App\Exception\NotFoundException;
 use App\Exception\PasswordVerificationException;
-use App\Repository\UserRepository;
-
 class Controller
 {
 
@@ -57,22 +53,33 @@ class Controller
         }
     }
 
-    public function showAdmin($userRepo, $view): void
+    public function showAdmin($userRepo): void
     {
         try{
             $path = 'view/adminPages/admin.php';
-            $view->display('Admin', $path, $userRepo->userRanking());
+            View::display('Admin', $path, $userRepo->userRanking());
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
         }
     }
 
-    public function showSpartiates($spartiatesRepo, $view): void
+    public function showSpartiates($spartiatesRepo): void
     {
         try{
             $path = 'view/adminPages/spartiates.php';
-            $view->display('Admin', $path, $spartiatesRepo->getAll());
+            View::display('Spartiates', $path, $spartiatesRepo->getAll());
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+        }
+    }
+
+    public function showQuestions($questionsRepo): void
+    {
+        try{
+            $path = 'view/adminPages/questions.php';
+            View::display('Questions', $path, $questionsRepo->getAll());
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);

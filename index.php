@@ -1,16 +1,18 @@
 <?php
-use App\controls\Controller;
+use App\Repository\QuestionsRepository;
 use App\Repository\SpartiatesRepository;
 use App\Repository\UserRepository;
 
 include_once './view/View.php';
-include_once './controls/Controller.php';
-include_once './repository/Connexion.php';
-include_once './repository/AbstractRepository.php';
-include_once './repository/UserRepository.php';
-include_once './repository/SpartiatesRepository.php';
-include_once './model/Entity.php';
-include_once './model/User.php';
+include_once './Controls/Controller.php';
+include_once './Repository/Connexion.php';
+include_once './Repository/AbstractRepository.php';
+include_once './Repository/UserRepository.php';
+include_once './Repository/SpartiatesRepository.php';
+include_once './Repository/QuestionsRepository.php';
+include_once './Model/Entity.php';
+include_once './Model/Question.php';
+include_once './Model/User.php';
 
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';
@@ -25,9 +27,9 @@ putenv("DB_HOCKEY_DSN=mysql:host=mysql-jeuspartiates.alwaysdata.net;dbname=jeusp
 putenv("DB_HOCKEY_USER=340307");
 putenv("DB_HOCKEY_PASSWORD=Sparte300");
 
-$view = new View();
 $userRepo = new UserRepository();
 $spartiatesRepo = new SpartiatesRepository();
+$questionsRepo = new QuestionsRepository();
 $controller = new Controller();
 
 //listes des mots dans l'url permettant d'accéder à une page
@@ -60,7 +62,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 //        $path = 'view/homeAdmin.php';
     }else
         $path = 'view/home.php';
-    $view->display('Home', $path);
+    View::display('Home', $path);
 
 }elseif ('adminPages'== $url) {
 
@@ -68,12 +70,16 @@ if ('' == $url || '/' == $url || 'home' == $url) {
         $method = "show".ucfirst($url2);
         if(method_exists($controller,$method)) {
             switch ($url2) {
-                case 'spartiates':
-                    $controller->$method($spartiatesRepo, $view);
-                    break;
                 case 'admin':
-                    $controller->$method($userRepo, $view);
+                    $controller->$method($userRepo);
                     break;
+                case 'spartiates':
+                    $controller->$method($spartiatesRepo);
+                    break;
+                case 'questions':
+                    $controller->$method($questionsRepo);
+                    break;
+
             }
         }
     }else {
@@ -86,7 +92,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     if(!empty($url2))
         header('refresh:0;url=/'.$url);
     $path = 'view/' . $url . '.php';
-    $view->display($actions[$url], $path);
+    View::display($actions[$url], $path);
 
 }else {
     echo "zebi ca marche pas";

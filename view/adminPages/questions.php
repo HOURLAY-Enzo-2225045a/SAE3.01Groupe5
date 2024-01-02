@@ -15,10 +15,10 @@
     </div>
 
     <div class="grid gap-4 p-4">
-        <?php for($i=0;$i<6;$i++){ ?>
+        <?php foreach($data as $question){ ?>
             <div class="flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md">
                 <div class="flex flex-row items-center justify-between w-full mt-2">
-                    <p class="text-lg font-medium text-gray-800 mr-5">Etre ou ne pas etre telle est la question Etre ou ne pas etre telle est la questionEtre ou ne pas etre telle est la question </p>
+                    <p class="text-lg font-medium text-gray-800 mr-5"><?= $question->getIntitule()?> </p>
                     <button class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400">modifier</button>
                 </div>
             </div>
