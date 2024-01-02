@@ -32,27 +32,14 @@ class Controller
      * @return void
      */
     public function getSignUp($password,$password1,$pseudo,$email,$userRepo) : void {
-        //on recupère les information rentrer dans la formulaire par le User
-
+        //on recupère les information rentrée dans la formulaire par le User
         try{
             //on créer et récupère le User qui correspond dans la BD
             $userRepo->signUp($password,$password1,$pseudo,$email);
-
         }
-            //on catch si un champ de saisie est vide ou si on ne peut pas créer l'utilisateurs ou si les password données ne sont pas les même
+            //on catch si un champ de saisie est vide ou si on ne peut pas créer l'utilisateurs ou si les password donnés ne sont pas les mêmes
         catch (EmptyFieldException | CannotCreateException | PasswordVerificationException |MoreThanOneException | NotFoundException $ERROR){
             //on fais un retour d'erreur
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
-        }
-    }
-    public function getScoreById($id,$userRepo) : void{
-        try{
-
-            $this->outputData->setOutputData($userRepo->getScoreByID($id));
-        }
-
-        catch (NotFoundException | MoreThanOneException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
             echo $ERROR->getMessage();
         }

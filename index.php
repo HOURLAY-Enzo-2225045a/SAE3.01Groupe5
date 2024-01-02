@@ -44,8 +44,8 @@ $actions = [
 
 if (isset($_GET['action']) ) {
 
-    if($_GET['action'] == 'signUp' && isset($_POST['pseudo'])&& isset($_POST['email'])
-            && isset($_POST['password'])&& isset($_POST['password1'])  ) {
+    if($_GET['action'] == 'signUp' && !empty($_POST['pseudo'])&& !empty($_POST['email'])
+            && !empty($_POST['password'])&& !empty($_POST['password1'])) {
 
         $pseudo = htmlspecialchars($_POST['pseudo']);
         $email = htmlspecialchars($_POST['email']);
@@ -68,8 +68,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     View::display('Home', $path);
 
 }elseif ('adminPages'== $url) {
-
-    if( '' != $url2  && file_exists('view/' . $url . '/' . $url2 . '.php')){
+    if( !empty($url2)  && file_exists('view/' . $url . '/' . $url2 . '.php')){
         $method = "show".ucfirst($url2);
         if(method_exists($controller,$method)) {
             switch ($url2) {
@@ -82,7 +81,6 @@ if ('' == $url || '/' == $url || 'home' == $url) {
                 case 'questions':
                     $controller->$method($questionsRepo);
                     break;
-
             }
         }
     }else {
