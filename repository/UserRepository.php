@@ -58,7 +58,7 @@ class UserRepository extends AbstractRepository
         if ($statement->rowCount() === 0) {
             throw new CannotCreateException("Le USER de pseudo : " . $pseudo . " ne peut pas être créer");
         }
-        //Exception imposible mais a prévoire car on ne peut insérer qu'un User
+        //exception imposible mais a prévoire car on ne peut insérer qu'un User
         if ($statement->rowCount() > 1) {
             throw new MoreThanOneException("Problème présent dans la BD");
         }
@@ -78,7 +78,7 @@ class UserRepository extends AbstractRepository
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun USER trouvé');
         }
-        //Exception imposible mais a prévoire car on ne peut insérer qu'un User
+        //exception imposible mais a prévoire car on ne peut insérer qu'un User
         if ($statement->rowCount() > 1) {
             throw new MoreThanOneException("Problème présent dans la BD");
         }

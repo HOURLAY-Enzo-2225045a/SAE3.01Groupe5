@@ -1,10 +1,14 @@
 <?php
 
+namespace App\Controls;
+
 use App\Exception\CannotCreateException;
 use App\Exception\EmptyFieldException;
 use App\Exception\MoreThanOneException;
 use App\Exception\NotFoundException;
 use App\Exception\PasswordVerificationException;
+use View;
+
 class Controller
 {
 
@@ -39,6 +43,7 @@ class Controller
         catch (EmptyFieldException | CannotCreateException | PasswordVerificationException |MoreThanOneException | NotFoundException $ERROR){
             //on fais un retour d'erreur
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
         }
     }
     public function getScoreById($id,$userRepo) : void{
@@ -48,8 +53,8 @@ class Controller
         }
 
         catch (NotFoundException | MoreThanOneException $ERROR){
-
-            file_put_contents('Log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
         }
     }
 
@@ -61,6 +66,7 @@ class Controller
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
         }
     }
 
@@ -72,6 +78,7 @@ class Controller
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
         }
     }
 
@@ -83,6 +90,7 @@ class Controller
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
         }
     }
 }

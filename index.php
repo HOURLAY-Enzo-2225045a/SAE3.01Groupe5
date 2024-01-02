@@ -1,18 +1,21 @@
 <?php
+
+use App\Controls\Controller;
 use App\Repository\QuestionsRepository;
 use App\Repository\SpartiatesRepository;
 use App\Repository\UserRepository;
 
 include_once './view/View.php';
-include_once './Controls/Controller.php';
-include_once './Repository/Connexion.php';
-include_once './Repository/AbstractRepository.php';
-include_once './Repository/UserRepository.php';
-include_once './Repository/SpartiatesRepository.php';
-include_once './Repository/QuestionsRepository.php';
-include_once './Model/Entity.php';
-include_once './Model/Question.php';
-include_once './Model/User.php';
+include_once './controls/Controller.php';
+include_once './repository/Connexion.php';
+include_once './repository/AbstractRepository.php';
+include_once './repository/UserRepository.php';
+include_once './repository/SpartiatesRepository.php';
+include_once './repository/QuestionsRepository.php';
+include_once './model/Entity.php';
+include_once './model/Question.php';
+include_once './model/User.php';
+include_once './exception/NotFoundException.php';
 
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';
