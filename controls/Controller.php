@@ -45,10 +45,10 @@ class Controller
         }
     }
 
-    public function showAdmin($userRepo): void
+    public function showUsers($userRepo): void
     {
         try{
-            $path = 'view/adminPages/admin.php';
+            $path = 'view/adminPages/users.php';
             View::display('Admin', $path, $userRepo->userRanking());
         }
         catch (NotFoundException $ERROR){
@@ -91,7 +91,7 @@ class Controller
         }
     }
 
-    public function createQuestion($text, $level, $questionsRepo)
+    public function createQuestion($text, $level, $questionsRepo): void
     {
         try{
             $questionsRepo->createQuestion($text, $level);
@@ -101,4 +101,80 @@ class Controller
             echo $ERROR->getMessage();
         }
     }
+
+    public function deleteUserById($id, $userRepo): void
+    {
+        try{
+            $userRepo->deleteUserById($id);
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function deleteQuestionById($id, $questionsRepo): void
+    {
+        try{
+            $questionsRepo->deleteQuestionById($id);
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+    public function deleteSpartiateById($id, $spartiateRepo): void
+    {
+        try{
+            $spartiateRepo->deleteSpartiateById($id);
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function changeSpartiateStarById($id, $spartiatesRepo)
+    {
+        try{
+            if($spartiatesRepo->isStarredById($id) === 1)
+                $spartiatesRepo->changeSpartiateStarById($id, 0);
+            else
+                $spartiatesRepo->changeSpartiateStarById($id, 1);
+
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function showUpdateForm($url, $url2, $repo)
+    {
+        $path='view/forms/'.$url.'.php';
+        View::display('MISE A JOUR', $path, $repo->getById($url2));
+    }
+
+    public function updateQuestionById($id,$text,$level, $questionsRepo)
+    {
+        try{
+            $questionsRepo->updateQuestionById($id, $text, $level);
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function updateSpartiateById($id, $lastName, $name, $spartiatesRepo)
+    {
+        try{
+            $spartiatesRepo->updateSpartiateById($id, $lastName, $name);
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
 }

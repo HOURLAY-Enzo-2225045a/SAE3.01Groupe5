@@ -15,7 +15,7 @@
     <a href="https://marseillehockeyclub.com" target="_blank"><img class="w-2/5 md:w-1/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" src="/assets/images/logo.png" alt="lg-logo"></a>
     <img class="w-1/5 absolute bottom-0 right-0" src="/assets/images/headerLines.png" alt="headerLines">
 </header>
-<div class="px-5 min-h-[40vh] translate-y-5">
+<div class="px-5 min-h-[40vh]">
     %content%
 </div>
 <footer class="bg-cover bg-top h-[30vh] w-full relative" style="background-image: url('/assets/images/footer.png')">

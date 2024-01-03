@@ -15,7 +15,7 @@ class Question extends Entity
     /**
      * @return mixed
      */
-    public function getQuestionId()
+    public function getQuestion_id()
     {
         return $this->question_id;
     }
@@ -23,7 +23,7 @@ class Question extends Entity
     /**
      * @param mixed $question_id
      */
-    public function setQuestionId($question_id): void
+    public function setQuestion_id($question_id): void
     {
         $this->question_id = $question_id;
     }

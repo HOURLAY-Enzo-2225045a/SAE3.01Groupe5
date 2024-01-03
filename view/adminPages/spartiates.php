@@ -3,7 +3,7 @@
 </h1>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='button' onclick="window.location.href='/adminPages'">Admin</button>
+    <button class='button' onclick="window.location.href='/adminPages/users'">Utilisateurs</button>
     <button class='button' onclick="window.location.href='/adminPages/questions'">Questions</button>
 </div>
 
@@ -20,8 +20,21 @@
             <img src="https://i.imgur.com/7z9J8ZC.jpg" alt="Marek CILIAK" class="w-32 h-32 rounded-full">
             <div class="flex flex-row items-center justify-between w-full mt-2">
                 <p class="text-lg font-medium text-gray-800 mr-5"><?= $spartiate->getLastname()?> <?= $spartiate->getName()?></p>
-                <img class="w-14 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 mr-1" src="/assets/images/emptyStar.svg" alt="">
-                <button class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400">modifier</button>
+                <div class="flex flex-row space-x-2">
+                    <a href="/adminPages/spartiates?action=changeStar&id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-blue-500 hover:bg-blue-700 rounded">
+                        <?php if($spartiate->isStarred()){?>
+                            <img class="p-1" src="/assets/images/fullStar.svg" alt="starred">
+                        <?php }else{ ?>
+                            <img class="p-1" src="/assets/images/emptyStar.svg" alt="no starred">
+                        <?php } ?>
+                    </a>
+                    <a href="/updateSpartiate/<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-blue-500 hover:bg-blue-700 rounded">
+                        <img class="p-1" src="/assets/images/edit.svg" alt="Edit">
+                    </a>
+                    <a href="/adminPages/spartiates?action=deleteSpartiate&id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded">
+                        <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
+                    </a>
+                </div>
             </div>
         </div>
         <?php } ?>

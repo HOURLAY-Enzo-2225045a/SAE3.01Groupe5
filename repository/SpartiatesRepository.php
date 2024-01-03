@@ -18,6 +18,24 @@ class SpartiatesRepository extends AbstractRepository
         parent::__construct();
     }
 
+    public function getById($id): Spartiate
+    {
+        $query = 'SELECT * FROM SPARTIATE WHERE SPART_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiate avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun SPARTIATE trouvé');
+        }
+        //exception imposible mais a prévoire car on ne peut insérer qu'un spartiate du meme ID
+        if ($statement->rowCount() > 1) {
+            throw new MoreThanOneException("Problème présent dans la BD");
+        }
+        $spartiate = $statement->fetch();
+        return new Spartiate($spartiate);
+    }
+
     public function getAll() :  array{
         $query = 'SELECT * FROM SPARTIATE';
         $statement = $this->connexion->prepare($query);
@@ -44,5 +62,56 @@ class SpartiatesRepository extends AbstractRepository
         $statement->execute([
             ':lastName' => $lastname,
             ':name'=> $name]);
+    }
+    public function deleteSpartiateById($id): void
+    {
+        //On supprime un spartiate avec son id
+        $query = 'DELETE FROM SPARTIATE WHERE SPART_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun SPARTIATE trouvé');
+        }
+    }
+    public function isStarredById($id): int
+    {
+        //On select le score d'un utilisateur par rapport a son id
+        $query = 'SELECT STAR FROM SPARTIATE WHERE SPART_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun USER trouvé');
+        }
+        //exception imposible mais a prévoire car on ne peut insérer qu'un User
+        if ($statement->rowCount() > 1) {
+            throw new MoreThanOneException("Problème présent dans la BD");
+        }
+        $user = $statement->fetch();
+        return $user["STAR"];
+    }
+    public function changeSpartiateStarById($id, $starred)
+    {
+        $query = "UPDATE SPARTIATE SET STAR = :starred WHERE SPART_ID = :id;";
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            ':starred' => $starred,
+            ':id'=> $id]);
+    }
+    public function updateSpartiateById($id, $lastName, $name){
+        $query = "UPDATE SPARTIATE SET LASTNAME = :lastName, NAME = :name WHERE SPART_ID = :id;";
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            ':lastName' => $lastName,
+            ':name'=> $name,
+            ':id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun SPARTIATE trouvé');
+        }
     }
 }

@@ -5,9 +5,9 @@
         <input type="text" name="text" id="text" required/>
         <label>Niveau :</label>
         <select id="level" name="level" required>
-            <option value="attaquant">Attaquant</option>
-            <option value="défenseur">Defenseur</option>
-            <option value="gardien">Gardien</option>
+            <option value="ATTAQUANT">Attaquant</option>
+            <option value="DEFENSEUR">Defenseur</option>
+            <option value="GUARDIEN">Gardien</option>
         </select>
         <input class="bg-blue-500 drop-shadow-xl text-lg py-4 px-8" type="submit" name="create" value="Créer">
     </form>

@@ -25,7 +25,7 @@ $url2 = $_GET['url2'] ?? '';
 // TODO: gerer les cookies
 ini_set('session.gc_maxlifetime', 1800);
 session_start();
-$_SESSION['admin'] = true;
+$_SESSION['users'] = true;
 
 putenv("DB_HOCKEY_DSN=mysql:host=mysql-jeuspartiates.alwaysdata.net;dbname=jeuspartiates_bd");
 putenv("DB_HOCKEY_USER=340307");
@@ -55,14 +55,12 @@ if (isset($_GET['action']) ) {
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $password1 = htmlspecialchars($_POST['password1']);
-
         $controller->getSignUp($password,$password1,$pseudo,$email,$userRepo);
     }
 
     if($_GET['action'] == 'spartiateCreation' && !empty($_POST['lastName'])&& !empty($_POST['name'])) {
         $lastName = htmlspecialchars($_POST['lastName']);
         $name = htmlspecialchars($_POST['name']);
-
         $controller->createSpartiate($lastName, $name, $spartiatesRepo);
         header("refresh:0;url=/adminPages/spartiates");
     }
@@ -70,19 +68,50 @@ if (isset($_GET['action']) ) {
     if($_GET['action'] == 'questionCreation' && !empty($_POST['text'])&& !empty($_POST['level'])) {
         $text = htmlspecialchars($_POST['text']);
         $level = htmlspecialchars($_POST['level']);
-
         $controller->createQuestion($text, $level, $questionsRepo);
         header("refresh:0;url=/adminPages/questions");
-
     }
+
+    if($_GET['action'] == 'deleteUser' && !empty($_GET['id'])) {
+        $controller->deleteUserById(htmlspecialchars($_GET['id']), $userRepo);
+        header("refresh:0;url=/adminPages/users");
+    }
+    if($_GET['action'] == 'deleteQuestion' && !empty($_GET['id'])) {
+        $controller->deleteQuestionById(htmlspecialchars($_GET['id']), $questionsRepo);
+        header("refresh:0;url=/adminPages/questions");
+    }
+    if($_GET['action'] == 'deleteSpartiate' && !empty($_GET['id'])) {
+        $controller->deleteSpartiateById(htmlspecialchars($_GET['id']), $spartiatesRepo);
+        header("refresh:0;url=/adminPages/spartiates");
+    }
+
+    if($_GET['action'] == 'questionUpdate' && !empty($_GET['id']) && !empty($_POST['text'])&& !empty($_POST['level'])) {
+        $text = htmlspecialchars($_POST['text']);
+        $level = htmlspecialchars($_POST['level']);
+        $controller->updateQuestionById(htmlspecialchars($_GET['id']),$text,$level, $questionsRepo);
+        header("refresh:0;url=/adminPages/questions");
+    }
+    if($_GET['action'] == 'spartiateUpdate' && !empty($_GET['id']) && !empty($_POST['lastName'])&& !empty($_POST['name'])) {
+        $lastName = htmlspecialchars($_POST['lastName']);
+        $name = htmlspecialchars($_POST['name']);
+        $controller->updateSpartiateById(htmlspecialchars($_GET['id']),$lastName,$name, $spartiatesRepo);
+        header("refresh:0;url=/adminPages/spartiates");
+    }
+
+
+
+    if($_GET['action'] == 'changeStar' && !empty($_GET['id'])) {
+        $controller->changeSpartiateStarById(htmlspecialchars($_GET['id']), $spartiatesRepo);
+        header("refresh:0;url=/adminPages/spartiates");
+    }
+
 }
 
 if ('' == $url || '/' == $url || 'home' == $url) {
-
     if ('home' != $url || !empty($url2)) {
         header('refresh:0;url=/home');
         return;
-//    if(isset($_SESSION['admin']) && $_SESSION['admin'])
+//    if(isset($_SESSION['users']) && $_SESSION['users'])
 //        $path = 'view/homeAdmin.php';
     }else
         $path = 'view/home.php';
@@ -93,7 +122,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
         $method = "show".ucfirst($url2);
         if(method_exists($controller,$method)) {
             switch ($url2) {
-                case 'admin':
+                case 'users':
                     $controller->$method($userRepo);
                     break;
                 case 'spartiates':
@@ -105,7 +134,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
             }
         }
     }else {
-        header('refresh:0;url=/adminPages/admin');
+        header('refresh:0;url=/adminPages/users');
         return;
     }
 
@@ -116,13 +145,19 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     $path = 'view/' . $url . '.php';
     View::display($pages[$url], $path);
 
-}elseif (isset($forms[$url])) {
+}elseif (('updateQuestion' == $url || 'updateSpartiate' == $url && !empty($url2))) {
+    if('updateQuestion' == $url)
+        $controller->showUpdateForm($url,$url2, $questionsRepo);
+    else
+        $controller->showUpdateForm($url,$url2, $spartiatesRepo);
 
+
+}elseif (isset($forms[$url])) {
     if(!empty($url2))
         header('refresh:0;url=/'.$url);
+
     $path = 'view/forms/' . $url . '.php';
     View::display($forms[$url], $path);
-
 }else {
     echo "zebi ca marche pas";
 }

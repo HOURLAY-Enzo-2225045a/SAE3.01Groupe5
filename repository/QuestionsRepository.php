@@ -13,6 +13,23 @@ class QuestionsRepository extends AbstractRepository
     {
         parent::__construct();
     }
+    public function getById($id): Question
+    {
+        $query = 'SELECT * FROM QUESTION WHERE QUESTION_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucune question avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucune QUESTION trouvée');
+        }
+        //exception imposible mais a prévoire car on ne peut insérer qu'une question du meme ID
+        if ($statement->rowCount() > 1) {
+            throw new MoreThanOneException("Problème présent dans la BD");
+        }
+        $question = $statement->fetch();
+        return new Question($question);
+    }
 
     public function getAll() :  array{
         $query = 'SELECT * FROM QUESTION';
@@ -41,5 +58,30 @@ class QuestionsRepository extends AbstractRepository
         $statement->execute([
             ':text' => $text,
             ':level'=> $level]);
+    }
+    public function deleteQuestionById($id): void
+    {
+        //On supprime un spartiate avec son id
+        $query = 'DELETE FROM QUESTION WHERE QUESTION_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun SPARTIATE trouvé');
+        }
+    }
+    public function updateQuestionById($id, $text, $level){
+        $query = "UPDATE QUESTION SET INTITULE = :text, NIVEAU = :level WHERE QUESTION_ID = :id;";
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            ':text' => $text,
+            ':level'=> $level,
+            ':id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun SPARTIATE trouvé');
+        }
     }
 }

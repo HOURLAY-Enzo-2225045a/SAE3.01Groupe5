@@ -86,15 +86,32 @@ class UserRepository extends AbstractRepository
 
         return new User($user);
     }
+    public function getById($id): User
+    {
+        $query = 'SELECT * FROM USER WHERE USER_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun USER trouvé');
+        }
+        //exception imposible mais a prévoire car on ne peut insérer qu'un User
+        if ($statement->rowCount() > 1) {
+            throw new MoreThanOneException("Problème présent dans la BD");
+        }
+        $user = $statement->fetch();
+        return new User($user);
+    }
 
     public function userRanking() :  array{
         $query = 'SELECT * FROM USER ORDER BY USER.SCORE DESC';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
 
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
-        }
+//        if ($statement->rowCount() === 0) {
+//            throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
+//        }
         //on créer un tableau de Usercontenant toutes les données
         $arraySQL = $statement->fetchAll();
         $arrayUser = array();
@@ -106,5 +123,18 @@ class UserRepository extends AbstractRepository
         }
 
         return $arrayUser;
+    }
+
+    public function deleteUserById($id): void
+    {
+        //On supprime un user avec son id
+        $query = 'DELETE FROM USER WHERE USER_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute(['id' => $id]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun USER trouvé');
+        }
     }
 }

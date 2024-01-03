@@ -1,5 +1,5 @@
 <h1 class="titlePage">
-    <span class="text-black">La</span> page admin
+    <span class="text-black">La</span> page users
 </h1>
 
 <div class="w-full flex flex-row justify-center items-center">
@@ -9,8 +9,9 @@
 </div>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='button' onclick="window.location.href='/adminPages/spartiates'">Sportifs</button>
-    <button class='button' onclick="window.location.href='/adminPages/questions'">Questions</button>
+    <button class='button bg-blue-500' onclick="window.location.href='/adminPages/spartiates'">Sportifs</button>
+    <button class='button bg-blue-500' onclick="window.location.href='/adminPages/questions'">Questions</button>
+
 </div>
 
 <div class="container mx-auto px-4 py-8">
@@ -25,20 +26,29 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($data as $user){ ?>
+        <?php
+        $i = 1;
+        foreach ($data as $user){ ?>
             <tr class="bg-white">
-                <td class="px-4 py-2 border-t border-b text-center font-bold">1</td>
+                <td class="px-4 py-2 border-t border-b text-center font-bold"><?= $i ?></td>
                 <td class="px-4 py-2 border-t border-b text-center"><?= $user->getPseudo()?></td>
-                <td class="px-4 py-2 border-t border-b text-center"><?= $user->getUser_id()?></td>
-                <td class="px-4 py-2 border bg-[var(--color-bg)] text-center">
-                    <button class="bg-red-500 hover:bg-red-700 text-white rounded p-1">supprimer</button>
+                <td class="px-4 py-2 border-t border-b text-center"><?= $user->getScore()?></td>
+                <td class="p-2 border bg-[var(--color-bg)] text-center">
+                    <a href="/adminPages/users?action=deleteUser&id=<?= $user->getUser_id() ?>" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded">
+                        <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
+                    </a>
                 </td>
             </tr>
-        <?php } ?>
+
+            <?php $i++;
+        } ?>
 
         </tbody>
     </table>
 </div>
+
+
+
 
 
 

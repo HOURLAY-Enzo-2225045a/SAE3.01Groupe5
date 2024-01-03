@@ -12,11 +12,28 @@ class Spartiate extends Entity
     private $lastName;
     private $name;
     private $number;
+    private $star;
 
     /**
      * @return mixed
      */
-    public function getSpartId()
+    public function isStarred()
+    {
+        return $this->star;
+    }
+
+    /**
+     * @param mixed $star
+     */
+    public function setStar($star): void
+    {
+        $this->star = $star;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSpart_id()
     {
         return $this->spart_id;
     }
@@ -24,7 +41,7 @@ class Spartiate extends Entity
     /**
      * @param mixed $spart_id
      */
-    public function setSpartId($spart_id): void
+    public function setSpart_id($spart_id): void
     {
         $this->spart_id = $spart_id;
     }
@@ -32,7 +49,7 @@ class Spartiate extends Entity
     /**
      * @return mixed
      */
-    public function getLastName()
+    public function getLastname()
     {
         return $this->lastName;
     }
@@ -40,7 +57,7 @@ class Spartiate extends Entity
     /**
      * @param mixed $lastName
      */
-    public function setLastName($lastName): void
+    public function setLastname($lastName): void
     {
         $this->lastName = $lastName;
     }
