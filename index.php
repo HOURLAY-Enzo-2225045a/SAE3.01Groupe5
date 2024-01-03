@@ -15,6 +15,7 @@ include_once './repository/QuestionsRepository.php';
 include_once './model/Entity.php';
 include_once './model/Question.php';
 include_once './model/User.php';
+include_once './model/Spartiate.php';
 include_once './exception/NotFoundException.php';
 
 // chemin de l'URL demandée au navigateur
@@ -36,23 +37,43 @@ $questionsRepo = new QuestionsRepository();
 $controller = new Controller();
 
 //listes des mots dans l'url permettant d'accéder à une page
-$actions = [
+$pages = [
     'play' => 'Jeu',
     'rules' => 'Regles',
+];
+$forms = [
     'signUp' => 'Connexion',
+    'newQuestion' => 'Nouvelle Question',
+    'newSpartiate' => 'Nouveau Spartiate',
 ];
 
 if (isset($_GET['action']) ) {
 
     if($_GET['action'] == 'signUp' && !empty($_POST['pseudo'])&& !empty($_POST['email'])
             && !empty($_POST['password'])&& !empty($_POST['password1'])) {
-
         $pseudo = htmlspecialchars($_POST['pseudo']);
         $email = htmlspecialchars($_POST['email']);
         $password = htmlspecialchars($_POST['password']);
         $password1 = htmlspecialchars($_POST['password1']);
 
         $controller->getSignUp($password,$password1,$pseudo,$email,$userRepo);
+    }
+
+    if($_GET['action'] == 'spartiateCreation' && !empty($_POST['lastName'])&& !empty($_POST['name'])) {
+        $lastName = htmlspecialchars($_POST['lastName']);
+        $name = htmlspecialchars($_POST['name']);
+
+        $controller->createSpartiate($lastName, $name, $spartiatesRepo);
+        header("refresh:0;url=/adminPages/spartiates");
+    }
+
+    if($_GET['action'] == 'questionCreation' && !empty($_POST['text'])&& !empty($_POST['level'])) {
+        $text = htmlspecialchars($_POST['text']);
+        $level = htmlspecialchars($_POST['level']);
+
+        $controller->createQuestion($text, $level, $questionsRepo);
+        header("refresh:0;url=/adminPages/questions");
+
     }
 }
 
@@ -88,12 +109,19 @@ if ('' == $url || '/' == $url || 'home' == $url) {
         return;
     }
 
-}elseif (isset($actions[$url])) {
+}elseif (isset($pages[$url])) {
 
     if(!empty($url2))
         header('refresh:0;url=/'.$url);
     $path = 'view/' . $url . '.php';
-    View::display($actions[$url], $path);
+    View::display($pages[$url], $path);
+
+}elseif (isset($forms[$url])) {
+
+    if(!empty($url2))
+        header('refresh:0;url=/'.$url);
+    $path = 'view/forms/' . $url . '.php';
+    View::display($forms[$url], $path);
 
 }else {
     echo "zebi ca marche pas";

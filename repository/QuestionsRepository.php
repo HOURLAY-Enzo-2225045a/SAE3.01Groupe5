@@ -19,9 +19,9 @@ class QuestionsRepository extends AbstractRepository
         $statement = $this->connexion->prepare($query);
         $statement->execute();
 
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucune question n\'a été trouvée ');
-        }
+//        if ($statement->rowCount() === 0) {
+//            throw new NotFoundException('Aucune question n\'a été trouvée ');
+//        }
 
         //on créer un tableau de questions contenant toutes les données
         $arraySQL = $statement->fetchAll();
@@ -33,5 +33,13 @@ class QuestionsRepository extends AbstractRepository
             $arrayQuestions[] = $question;
         }
         return $arrayQuestions;
+    }
+
+    public function createQuestion($text, $level) :  void{
+        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU) VALUES (NULL, :text, :level);";
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            ':text' => $text,
+            ':level'=> $level]);
     }
 }

@@ -8,7 +8,7 @@
 </div>
 
 <div class="flex flex-col items-center justify-center">
-    <button class="button bg-blue-500">Ajouter une question</button>
+    <button class="button bg-blue-500" onclick="window.location.href='/newQuestion'">Ajouter une question</button>
     <div class="flex flex-row items-center justify-between w-full px-4 py-2 border-b border-gray-200">
         <input type="text" placeholder="Rechercher" class="w-full px-4 py-2 mr-2 text-gray-700 bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500">
         <button class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400">Rechercher</button>

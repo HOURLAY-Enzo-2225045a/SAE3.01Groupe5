@@ -80,4 +80,25 @@ class Controller
             echo $ERROR->getMessage();
         }
     }
+
+    public function createSpartiate($lastName, $name, $spartiateRepo) : void{
+        try{
+            $spartiateRepo->createSpartiate($lastName, $name);
+        }
+        catch (CannotCreateException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function createQuestion($text, $level, $questionsRepo)
+    {
+        try{
+            $questionsRepo->createQuestion($text, $level);
+        }
+        catch (CannotCreateException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
 }
