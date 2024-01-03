@@ -61,14 +61,14 @@ class QuestionsRepository extends AbstractRepository
     }
     public function deleteQuestionById($id): void
     {
-        //On supprime un spartiate avec son id
+        //On supprime un question avec son id
         $query = 'DELETE FROM QUESTION WHERE QUESTION_ID = :id';
         $statement = $this->connexion->prepare($query);
         $statement->execute(['id' => $id]);
 
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun question avec cette id
         if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun SPARTIATE trouvé');
+            throw new NotFoundException('Aucun question trouvé');
         }
     }
     public function updateQuestionById($id, $text, $level){
@@ -79,9 +79,9 @@ class QuestionsRepository extends AbstractRepository
             ':level'=> $level,
             ':id' => $id]);
 
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun question avec cette id
         if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun SPARTIATE trouvé');
+            throw new NotFoundException('Aucune question trouvé');
         }
     }
 }
