@@ -79,9 +79,5 @@ class QuestionsRepository extends AbstractRepository
             ':level'=> $level,
             ':id' => $id]);
 
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun question avec cette id
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucune question trouvé');
-        }
     }
 }

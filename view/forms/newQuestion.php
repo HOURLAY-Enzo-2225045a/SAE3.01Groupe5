@@ -1,5 +1,5 @@
 <div class="flex items-center justify-center w-[50%] translate-x-1/2">
-    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" action = "/adminPages/questions?action=questionCreation" method="post">
+    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" action = "/adminPages/questions?action=createQuestion" method="post">
         <h1 id="login"> Nouvelle question </h1>
         <label>Question :</label>
         <input type="text" name="text" id="text" required/>

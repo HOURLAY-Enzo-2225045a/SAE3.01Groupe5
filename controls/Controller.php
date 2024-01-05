@@ -102,7 +102,7 @@ class Controller
         }
     }
 
-    public function deleteUserById($id, $userRepo): void
+    public function deleteUser($id, $userRepo): void
     {
         try{
             $userRepo->deleteUserById($id);
@@ -113,7 +113,7 @@ class Controller
         }
     }
 
-    public function deleteQuestionById($id, $questionsRepo): void
+    public function deleteQuestion($id, $questionsRepo): void
     {
         try{
             $questionsRepo->deleteQuestionById($id);
@@ -123,7 +123,7 @@ class Controller
             echo $ERROR->getMessage();
         }
     }
-    public function deleteSpartiateById($id, $spartiateRepo): void
+    public function deleteSpartiate($id, $spartiateRepo): void
     {
         try{
             $spartiateRepo->deleteSpartiateById($id);
@@ -134,7 +134,7 @@ class Controller
         }
     }
 
-    public function changeSpartiateStarById($id, $spartiatesRepo)
+    public function changeStar($id, $spartiatesRepo)
     {
         try{
             if($spartiatesRepo->isStarredById($id) === 1)
@@ -155,7 +155,7 @@ class Controller
         View::display('MISE A JOUR', $path, $repo->getById($url2));
     }
 
-    public function updateQuestionById($id,$text,$level, $questionsRepo)
+    public function updateQuestion($id,$text,$level, $questionsRepo)
     {
         try{
             $questionsRepo->updateQuestionById($id, $text, $level);
@@ -166,7 +166,7 @@ class Controller
         }
     }
 
-    public function updateSpartiateById($id, $lastName, $name, $spartiatesRepo)
+    public function updateSpartiate($id, $lastName, $name, $spartiatesRepo)
     {
         try{
             $spartiatesRepo->updateSpartiateById($id, $lastName, $name);

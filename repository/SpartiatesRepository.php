@@ -109,9 +109,5 @@ class SpartiatesRepository extends AbstractRepository
             ':name'=> $name,
             ':id' => $id]);
 
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun spartiates avec cette id
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun SPARTIATE trouvé');
-        }
     }
 }

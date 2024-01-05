@@ -9,8 +9,8 @@
 </div>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='button bg-blue-500' onclick="window.location.href='/adminPages/spartiates'">Sportifs</button>
-    <button class='button bg-blue-500' onclick="window.location.href='/adminPages/questions'">Questions</button>
+    <button class='blueButton' onclick="window.location.href='/adminPages/spartiates'">Sportifs</button>
+    <button class='blueButton' onclick="window.location.href='/adminPages/questions'">Questions</button>
 
 </div>
 

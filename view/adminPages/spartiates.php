@@ -8,7 +8,7 @@
 </div>
 
 <div class="flex flex-col items-center justify-center">
-    <button class="button bg-blue-500" onclick="window.location.href='/newSpartiate'">Nouveau Joueur</button>
+    <button class="blueButton" onclick="window.location.href='/newSpartiate'">Nouveau Joueur</button>
     <div class="flex flex-row items-center justify-between w-full px-4 py-2 border-b border-gray-200">
         <input type="text" placeholder="Rechercher" class="w-full px-4 py-2 mr-2 text-gray-700 bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500">
         <button class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400">Rechercher</button>
@@ -21,14 +21,10 @@
             <div class="flex flex-row items-center justify-between w-full mt-2">
                 <p class="text-lg font-medium text-gray-800 mr-5"><?= $spartiate->getLastname()?> <?= $spartiate->getName()?></p>
                 <div class="flex flex-row space-x-2">
-                    <a href="/adminPages/spartiates?action=changeStar&id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-blue-500 hover:bg-blue-700 rounded">
-                        <?php if($spartiate->isStarred()){?>
-                            <img class="p-1" src="/assets/images/fullStar.svg" alt="starred">
-                        <?php }else{ ?>
-                            <img class="p-1" src="/assets/images/emptyStar.svg" alt="no starred">
-                        <?php } ?>
-                    </a>
-                    <a href="/updateSpartiate/<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-blue-500 hover:bg-blue-700 rounded">
+                    <div class="inline-block w-8 h-8 bg-blue-500 hover:bg-blue-700 rounded cursor-pointer">
+                        <img class="p-1 star" data-spartiate-id="<?= $spartiate->getSpart_id() ?>" data-filled="<?= $spartiate->isStarred() ?>" src="<?php echo $spartiate->isStarred() ? '/assets/images/fullStar.svg' : '/assets/images/emptyStar.svg'; ?>" alt="etoile du match">
+                    </div>
+                    <a href="/updateSpartiate&id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-blue-500 hover:bg-blue-700 rounded">
                         <img class="p-1" src="/assets/images/edit.svg" alt="Edit">
                     </a>
                     <a href="/adminPages/spartiates?action=deleteSpartiate&id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded">

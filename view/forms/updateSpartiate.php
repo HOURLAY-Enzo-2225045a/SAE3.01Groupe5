@@ -1,5 +1,5 @@
 <div class="flex items-center justify-center w-[50%] translate-x-1/2">
-    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" action = "/adminPages/spartiates?action=spartiateUpdate&id=<?= $data->getSpart_id()?>" method="post">
+    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" action = "/adminPages/spartiates?action=updateSpartiate&id=<?= $data->getSpart_id()?>" method="post">
         <h1 id="login">  Mise a jour question Spartiate </h1>
         <label>Nom :</label>
         <input name="lastName" id="lastName" type="text" value="<?= $data->getLastname()?>" required/>

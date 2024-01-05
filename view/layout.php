@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/dist/bundle.js"></script>
+
+    <script src="/dist/jquery.min.js"></script>
+    <script src="/assets/index.js"></script>
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh]">
 <header class="bg-cover bg-bottom bg-no-repeat h-[30vh] w-full relative" style="background-image: url('/assets/images/header.png')">
