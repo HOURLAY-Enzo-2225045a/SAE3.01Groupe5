@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Exception\NotFoundException;
 use App\Model\Question;
 use App\Model\User;
+use PDO;
 
 class QuestionsRepository extends AbstractRepository
 {
@@ -78,6 +79,19 @@ class QuestionsRepository extends AbstractRepository
             ':text' => $text,
             ':level'=> $level,
             ':id' => $id]);
-
     }
+
+    public function search($searchTerm)
+    {
+        $query = "SELECT * FROM QUESTION WHERE INTITULE LIKE :searchTerm LIMIT 5";
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([':searchTerm' => "%$searchTerm%"]);
+
+        $questions = [];
+        while ($data = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $questions[] = new Question($data);
+        }
+        return $questions;
+    }
+
 }

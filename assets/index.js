@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    $(".star").click(function(){
+    $(document).on("click", ".star", function(){
+        console.log("click");
         // Toggle l'état rempli/vide de l'étoile
         var filled = !$(this).data("filled");
         $(this).data("filled", filled);
@@ -20,6 +21,60 @@ $(document).ready(function(){
             success: function (response) {
             }
         });
+    });
+
+    $("#searchQuestion").on('input', function() {
+        // recupere ce qui est ecrit dans la barre de recherche
+        var searchTerm = $(this).val();
+
+        if (searchTerm.length > 0){
+            // envoie la requete ajax
+            $.ajax({
+                type: "POST",
+                url: "/index.php",
+                data: {
+                    action: "searchQuestion",
+                    searchTerm: searchTerm
+                },
+                success: function (result) {
+                    // affiche le resultat de la recherche
+                    if (result === "")
+                        result = "Aucun résultat";
+                    $('.result').hide()
+                    $('.searchedResult').show().html(result);
+                }
+            });
+        }else{
+            $('.searchedResult').hide()
+            $('.result').show()
+        }
+    });
+
+    $("#searchSpartiate").on('input', function() {
+        // recupere ce qui est ecrit dans la barre de recherche
+        var searchTerm = $(this).val();
+
+        if (searchTerm.length > 0){
+            // envoie la requete ajax
+            $.ajax({
+                type: "POST",
+                url: "/index.php",
+                data: {
+                    action: "searchSpartiate",
+                    searchTerm: searchTerm
+                },
+                success: function (result) {
+                    // affiche le resultat de la recherche
+                    if (result === "")
+                        result = "Aucun résultat";
+                    $('.result').hide()
+                    $('.searchedResult').show().html(result);
+                }
+            });
+        }else{
+            $('.searchedResult').hide()
+            $('.result').show()
+        }
     });
 });
 

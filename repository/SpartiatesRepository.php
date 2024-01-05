@@ -9,6 +9,7 @@ use App\Exception\NotFoundException;
 use App\Exception\PasswordVerificationException;
 use App\Model\Spartiate;
 use App\Model\User;
+use PDO;
 
 class SpartiatesRepository extends AbstractRepository
 {
@@ -109,5 +110,17 @@ class SpartiatesRepository extends AbstractRepository
             ':name'=> $name,
             ':id' => $id]);
 
+    }
+    public function search($searchTerm)
+    {
+        $query = "SELECT * FROM SPARTIATE WHERE LASTNAME LIKE :searchTerm OR NAME LIKE :searchTerm";
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([':searchTerm' => "%$searchTerm%"]);
+
+        $spartiates = [];
+        while ($data = $statement->fetch(PDO::FETCH_ASSOC)) {
+            $spartiates[] = new Spartiate($data);
+        }
+        return $spartiates;
     }
 }

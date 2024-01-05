@@ -63,6 +63,8 @@ if (isset($_GET['action']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strto
         'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level'],     'repo' => $questionsRepo,   'redirect' => '/adminPages/questions'],
         'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'repo' => $spartiatesRepo,  'redirect' => '/adminPages/spartiates'],
         'changeStar' => [     'fields' => ['spartiateId'],                          'repo' => $spartiatesRepo,],
+        'searchQuestion' => [ 'fields' => ['searchTerm'],                           'repo' => $questionsRepo,],
+        'searchSpartiate' => ['fields' => ['searchTerm'],                           'repo' => $spartiatesRepo,],
     ];
 
     if (isset($actionsMapping[$action])) {
@@ -93,6 +95,7 @@ if (isset($_GET['action']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strto
         if (isset($mapping['redirect'])) {
             header("refresh:0;url={$mapping['redirect']}");
         }
+        return;
     } else {
         // Gérer les actions non valides
         die("Action non valide");

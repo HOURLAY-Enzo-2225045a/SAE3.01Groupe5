@@ -7,29 +7,34 @@
 <!---->
 
 <div class="w-full flex flex-col justify-center items-center">
-    <h1 >Les règles du jeu %username% </h1>
+    <h1 class="titlePage">
+        <span class="text-black">Les</span> règles du jeu
+    </h1>
     <button class="button" onclick="window.location.href='/home'">Accueil</button>
 </div>
 
-<div class="max-w-2xl m-auto">
-    <div id="default-carousel" class="relative mb-4 mt-4" data-carousel="static">
+<!--<div class="max-w-2xl m-auto">-->
+    <div id="default-carousel" class="relative" data-carousel="static">
         <!-- Carousel wrapper -->
         <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96 w-4/5 left-[10%]">
             <!-- Item 1 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    Voila la premiere regle du jeu
                     <?php echo file_get_contents('view/rules/equipments.php') ?>
                 </span>
             </div>
             <!-- Item 2 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    Voila la deuxieme regle du jeu
                     <?php echo file_get_contents('view/rules/game.php') ?>
                 </span>
             </div>
             <!-- Item 3 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    et la 3eme regle du jeu
                     <?php echo file_get_contents('view/rules/offSide.php') ?>
                 </span>
             </div>
@@ -62,4 +67,3 @@
         </span>
         </button>
     </div>
-</div>
