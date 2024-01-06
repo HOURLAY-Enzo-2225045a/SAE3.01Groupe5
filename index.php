@@ -20,7 +20,6 @@ include_once './exception/NotFoundException.php';
 
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';
-$url2 = $_GET['url2'] ?? '';
 
 // TODO: gerer les cookies
 ini_set('session.gc_maxlifetime', 1800);
@@ -55,13 +54,13 @@ if (isset($_GET['action']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strto
     $actionsMapping = [
 //        'signUp' => ['fields' => ['pseudo', 'email', 'password', 'password1'], 'repo' => $userRepo],
         'signUp' => [         'fields' => ['pseudo', 'email', 'password', 'password1'], 'repo' => $userRepo],
-        'createSpartiate' => ['fields' => ['lastName', 'name'],                     'repo' => $spartiatesRepo,  'redirect' => '/adminPages/spartiates'],
-        'createQuestion' => [ 'fields' => ['text', 'level'],                        'repo' => $questionsRepo,   'redirect' => '/adminPages/questions'],
-        'deleteUser' => [     'idField' => 'id',                                    'repo' => $userRepo,        'redirect' => '/adminPages/users'],
-        'deleteQuestion' => [ 'idField' => 'id',                                    'repo' => $questionsRepo,   'redirect' => '/adminPages/questions'],
-        'deleteSpartiate' => ['idField' => 'id',                                    'repo' => $spartiatesRepo,  'redirect' => '/adminPages/spartiates'],
-        'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level'],     'repo' => $questionsRepo,   'redirect' => '/adminPages/questions'],
-        'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'repo' => $spartiatesRepo,  'redirect' => '/adminPages/spartiates'],
+        'createSpartiate' => ['fields' => ['lastName', 'name'],                     'repo' => $spartiatesRepo,  'redirect' => '/spartiates'],
+        'createQuestion' => [ 'fields' => ['text', 'level'],                        'repo' => $questionsRepo,   'redirect' => '/questions'],
+        'deleteUser' => [     'idField' => 'id',                                    'repo' => $userRepo,        'redirect' => '/users'],
+        'deleteQuestion' => [ 'idField' => 'id',                                    'repo' => $questionsRepo,   'redirect' => '/questions'],
+        'deleteSpartiate' => ['idField' => 'id',                                    'repo' => $spartiatesRepo,  'redirect' => '/spartiates'],
+        'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level'],     'repo' => $questionsRepo,   'redirect' => '/questions'],
+        'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'repo' => $spartiatesRepo,  'redirect' => '/spartiates'],
         'changeStar' => [     'fields' => ['spartiateId'],                          'repo' => $spartiatesRepo,],
         'searchQuestion' => [ 'fields' => ['searchTerm'],                           'repo' => $questionsRepo,],
         'searchSpartiate' => ['fields' => ['searchTerm'],                           'repo' => $spartiatesRepo,],
@@ -110,29 +109,26 @@ if ('' == $url || '/' == $url || 'home' == $url) {
         $path = 'view/home.php';
     View::display('Home', $path);
 
-}elseif ('adminPages'== $url) {
-    if( !empty($url2)  && file_exists('view/' . $url . '/' . $url2 . '.php')){
-        $method = "show".ucfirst($url2);
-        if(method_exists($controller,$method)) {
-            switch ($url2) {
-                case 'users':
-                    $controller->$method($userRepo);
-                    break;
-                case 'spartiates':
-                    $controller->$method($spartiatesRepo);
-                    break;
-                case 'questions':
-                    $controller->$method($questionsRepo);
-                    break;
-            }
+}elseif (file_exists('view/adminPages/' . $url . '.php')) {
+    $method = "show".ucfirst($url);
+    if(method_exists($controller,$method)) {
+        switch ($url) {
+            case 'users':
+                $controller->$method($userRepo);
+                break;
+            case 'spartiates':
+                $controller->$method($spartiatesRepo);
+                break;
+            case 'questions':
+                $controller->$method($questionsRepo);
+                break;
         }
     }else {
-        header('refresh:0;url=/adminPages/users');
+        header('refresh:0;url=/view/404.php');
         return;
     }
 
 }elseif (isset($pages[$url])) {
-
     if(!empty($url2))
         header('refresh:0;url=/'.$url);
     $path = 'view/' . $url . '.php';
@@ -144,11 +140,9 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     else
         $controller->showUpdateForm($url,htmlspecialchars($_GET['id']), $spartiatesRepo);
 
-
 }elseif (isset($forms[$url])) {
     if(!empty($url2))
         header('refresh:0;url=/'.$url);
-
     $path = 'view/forms/' . $url . '.php';
     View::display($forms[$url], $path);
 }else {
