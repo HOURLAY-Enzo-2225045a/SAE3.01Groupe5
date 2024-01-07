@@ -7,6 +7,7 @@ use App\Exception\EmptyFieldException;
 use App\Exception\MoreThanOneException;
 use App\Exception\NotFoundException;
 use App\Exception\PasswordVerificationException;
+use App\Model\User;
 use View;
 
 class Controller
@@ -44,7 +45,33 @@ class Controller
             echo $ERROR->getMessage();
         }
     }
-
+    public function logIn($pseudo,$password,$userRepo){
+        //on recupère les information rentrées dans le formulaire
+        try{
+            $user = $userRepo->logIn($pseudo,$password);
+            if( !empty($user) && $user->getAdmin() == 1){
+                $_SESSION['admin'] = true;
+                return true;
+            }else {
+                return false;
+            }
+        }
+        catch (MoreThanOneException $ERROR){
+            //on fais un retour d'erreur
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+    public function checkSessionCode($code, $codesRepo){
+        try{
+            return $codesRepo->checkSessionCode($code);
+        }
+        catch (MoreThanOneException $ERROR){
+            //on fais un retour d'erreur
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
     public function showUsers($userRepo): void
     {
         try{
@@ -123,6 +150,7 @@ class Controller
             echo $ERROR->getMessage();
         }
     }
+
     public function deleteSpartiate($id, $spartiateRepo): void
     {
         try{
@@ -197,6 +225,7 @@ class Controller
             </div>';
         }
     }
+
     public function searchSpartiate($searchTerm, $repo)
     {
         $questions = $repo->search($searchTerm);

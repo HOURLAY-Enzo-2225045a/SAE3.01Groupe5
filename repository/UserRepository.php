@@ -11,13 +11,12 @@ use App\Model\User;
 
 class UserRepository extends AbstractRepository
 {
-
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function login(string $pseudo, string $password): User
+    public function logIn($pseudo, $password): ?User
     {
         //on select tout les Users avec le même pseudo et password
         $query = 'SELECT * FROM USER WHERE PSEUDO = :pseudo and PASSWORD = :password';
@@ -26,15 +25,13 @@ class UserRepository extends AbstractRepository
 
         //Si la fonction ne rend rien cela veut dire qu'il n'y a pas de User correspondant
         if ($statement->rowCount() === 0) {
-            throw new NotFoundException("L'utilisateur de pseudo : " . $pseudo . " n'a pas été trouvé");
+            return null;
         }
         if ($statement->rowCount() > 1) {
             throw new MoreThanOneException("Problème présent dans la BD");
         }
-
         $user = $statement->fetch();
-
-        return new User(($user));
+        return new User($user);
     }
 
     public function signUp(string $password, string $password1, string $pseudo, string $email): User

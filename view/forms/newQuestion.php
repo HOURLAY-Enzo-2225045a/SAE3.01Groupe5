@@ -1,11 +1,11 @@
 <a href="/home" class="absolute left-5 top-5 w-10 h-10">
-    <img class="p-1" src="/assets/images/home.svg" alt="Delete">
+    <img class="p-1" src="/assets/images/home.svg" alt="homepage">
 </a>
 <div class="flex items-center justify-center w-[50%] translate-x-1/2">
     <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" action = "/questions?action=createQuestion" method="post">
-        <h1 id="login"> Nouvelle question </h1>
-        <label for="text">Question :</label>
-        <textarea type="text" name="text" id="text" required></textarea>
+        <h1> Nouvelle question </h1>
+        <label>Question :</label>
+        <textarea type="text" name="text" required></textarea>
         <label for="level">Niveau :</label>
         <select id="level" name="level" required>
             <option value="ATTAQUANT">Attaquant</option>
