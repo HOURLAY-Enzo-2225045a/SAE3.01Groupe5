@@ -5,8 +5,8 @@
     <img class="p-1" src="/assets/images/home.svg" alt="Delete">
 </a>
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='button' onclick="window.location.href='/users'">Utilisateurs</button>
-    <button class='button' onclick="window.location.href='/spartiates'">Sportifs</button>
+    <a class="blueButton" href='/users'><span>Utilisateurs</span></a>
+    <a class="blueButton" href='/spartiates'><span>Sportifs</span></a>
 </div>
 
 <div class="flex flex-col items-center justify-center">

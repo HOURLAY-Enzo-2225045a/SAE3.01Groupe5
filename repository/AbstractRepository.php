@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace Repository;
 use PDO;
 
 abstract class AbstractRepository

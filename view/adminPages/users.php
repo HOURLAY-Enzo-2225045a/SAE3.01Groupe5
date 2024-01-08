@@ -5,15 +5,14 @@
     <img class="p-1" src="/assets/images/home.svg" alt="Delete">
 </a>
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='button' onclick="window.location.href=''">Demarrer</button>
-    <button class='button' onclick="window.location.href=''">Arreter</button>
-    <button class='button' onclick="window.location.href=''">Reinitialiser</button>
+    <a class="button" href=''><span>Demarrer</span></a>
+    <a class="button" href=''><span>Arreter</span></a>
+    <a class="button" href=''><span>Reinitialiser</span></a>
 </div>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='blueButton' onclick="window.location.href='/spartiates'">Sportifs</button>
-    <button class='blueButton' onclick="window.location.href='/questions'">Questions</button>
-
+    <a class="blueButton" href='/spartiates'><span>Sportifs</span></a>
+    <a class="blueButton" href='/questions'><span>Questions</span></a>
 </div>
 
 <div class="container mx-auto px-4 py-8">
@@ -41,7 +40,6 @@
                     </a>
                 </td>
             </tr>
-
             <?php $i++;
         } ?>
 

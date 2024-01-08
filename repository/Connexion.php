@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Repository;
-
+namespace Repository;
 use PDO;
 
 class Connexion

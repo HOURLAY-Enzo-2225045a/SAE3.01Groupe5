@@ -1,5 +1,5 @@
 <?php
-namespace App\Exception;
+namespace Exception;
 
 class EmptyFieldException extends \RuntimeException
 {

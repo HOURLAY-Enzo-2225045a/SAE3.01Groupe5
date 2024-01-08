@@ -10,7 +10,7 @@
     <h1 class="titlePage">
         <span class="text-black">Les</span> règles du jeu
     </h1>
-    <button class="button" onclick="window.location.href='/home'">Accueil</button>
+    <a class="button" href="/home"><span>Accueil</span></a>
 </div>
 
 <!--<div class="max-w-2xl m-auto">-->
@@ -44,7 +44,6 @@
                     <?php echo file_get_contents('view/rules/surface.php') ?>
                 </span>
             </div>
-            <!--            <img src="https://libertinade.com/wp-content/uploads/2021/11/photos-gros-seins.jpg" class="block absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" alt="...">-->
         </div>
         <!-- Slider indicators -->
         <div class="flex absolute bottom-5 left-1/2 z-30 space-x-3 -translate-x-1/2">

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace Exception;
 
 class PasswordVerificationException extends \RuntimeException
 {

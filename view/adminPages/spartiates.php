@@ -4,9 +4,10 @@
 <a href="/home" class="absolute left-5 top-5 w-10 h-10">
     <img class="p-1" src="/assets/images/home.svg" alt="Delete">
 </a>
+
 <div class="w-full flex flex-row justify-center items-center">
-    <button class='button' onclick="window.location.href='/users'">Utilisateurs</button>
-    <button class='button' onclick="window.location.href='/questions'">Questions</button>
+    <a class="blueButton" href='/users'><span>Utilisateurs</span></a>
+    <a class="blueButton" href='/questions'><span>Questions</span></a>
 </div>
 
 <div class="flex flex-col items-center justify-center">

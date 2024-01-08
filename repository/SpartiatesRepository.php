@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Repository;
-
+namespace Repository;
 use App\Exception\CannotCreateException;
 use App\Exception\EmptyFieldException;
 use App\Exception\MoreThanOneException;

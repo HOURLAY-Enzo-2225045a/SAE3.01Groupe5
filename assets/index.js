@@ -97,6 +97,11 @@ $(document).ready(function(){
 //     });
 // }
 
+function modifyURL(url) {
+    let stateObj = { id: "100" };
+    window.history.replaceState(stateObj,
+        "Page 3", url);
+}
 
 
 

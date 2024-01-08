@@ -1,5 +1,5 @@
-<div class="relative w-full flex flex-col justify-center items-center">
-    <button class="button" onclick="window.location.href='<?php echo !empty($_SESSION['code'])? '/play' : '/sessionCode'?>'">JOUER</button>
-    <button class="button" onclick="window.location.href='/rules'">LES REGLES</button>
-    <button class="blueButton" onclick="window.location.href='/users'">ADMIN</button>
+<div class="relative w-full flex flex-col justify-center items-center h-[40vh]">
+    <a class="button" href="<?php echo !empty($_SESSION['code'])? '/play' : '/sessionCode'?>"><span>JOUER</span></a>
+    <a class="button" href='/rules'><span>LES REGLES</span></a>
+    <a class="blueButton" href='/users'><span>ADMIN</span></a>
 </div>

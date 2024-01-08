@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Repository;
-
+namespace Repository;
 use App\Exception\NotFoundException;
 use App\Model\Question;
 use App\Model\User;

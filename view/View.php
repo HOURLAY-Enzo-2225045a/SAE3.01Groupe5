@@ -1,4 +1,7 @@
 <?php
+
+namespace View;
+
 abstract class View
 {
     public function __construct()
@@ -8,7 +11,7 @@ abstract class View
     public static function display($title, $path, $data = null)
     {
         if(!file_exists($path))
-            $path = 'view/404.php';
+            header('refresh:0;url=/404');
         extract(array('data' => $data));
         ob_start();
         require $path;
