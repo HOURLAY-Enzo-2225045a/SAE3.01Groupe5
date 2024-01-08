@@ -96,8 +96,10 @@ class Cage {
     }
 }
 
+//initialisation de la réponse
 let response = Math.floor(Math.random() * 3);
 
+// les objets qui représente la cage
 let cageLeft = new Cage(new Rectangle(0, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
 let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
 let cageRight = new Cage(new Rectangle(canvas.width-300, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
@@ -118,8 +120,9 @@ window.addEventListener("resize",() => {
  * Permets de détecter les mouvements de la souris
  * et de faire que le ballon suit la souris si la souris est clicker
  * @param {*} e
+ * @deprecated remplacer la balle qui suit la souris par une flèche qui indique la direction de la balle
  */
-window.addEventListener("mousemove", (e) => {
+window.addEventListener("mousemove", () => {
     // if(mouseIsDown){
     //     ball.x = e.pageX;
     //     ball.y = e.pageY;
@@ -160,8 +163,8 @@ window.addEventListener("mouseup", (e) => {
  * @param {*} pos : pos est un objet de type : {x:Number, y:Number}
  */
 function isInsideBall(circle, pos) {
-    var dx = Math.abs(circle.x - pos.x);
-    var dy = Math.abs(circle.y - pos.y);
+    let dx = Math.abs(circle.x - pos.x);
+    let dy = Math.abs(circle.y - pos.y);
     return (dx < circle.r && dy < circle.r);
 }
 
@@ -211,8 +214,8 @@ function drawCage(cage) {
  * @param {*} rect
  */
 function RectCircleColliding(circle,rect){
-    var distX = Math.abs(circle.x - rect.x-rect.width/2);
-    var distY = Math.abs(circle.y - rect.y-rect.height/2);
+    let distX = Math.abs(circle.x - rect.x-rect.width/2);
+    let distY = Math.abs(circle.y - rect.y-rect.height/2);
 
     if (distX > (rect.width/2 + circle.r)) { return false; }
     if (distY > (rect.height/2 + circle.r)) { return false; }
@@ -220,8 +223,8 @@ function RectCircleColliding(circle,rect){
     if (distX <= (rect.width/2)) { return true; }
     if (distY <= (rect.height/2)) { return true; }
 
-    var dx=distX-rect.width/2;
-    var dy=distY-rect.height/2;
+    let dx=distX-rect.width/2;
+    let dy=distY-rect.height/2;
     return (dx*dx+dy*dy<=(circle.r*circle.r));
 }
 
@@ -285,7 +288,7 @@ function bounceManager(cage){
  * @param {*} v : vitesse en pixel
  */
 function moveObject(ac, ne, v){
-    var   s = {x:1, y:1}        // sens
+    let   s = {x:1, y:1}        // sens
         , move = {x:1, y:1} // pixel de déplacement
         , delta = 0     // delta -> pythagore
         , dist = {}     // distance entre start et end
@@ -318,7 +321,7 @@ function moveObject(ac, ne, v){
 
     // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
     return (dist.x <= v && dist.y <= v)? true: false;
-};
+}
 
 /**
  * Fonction principale qui permet de dessiner le canvas
@@ -338,7 +341,7 @@ function draw() {
         }
     }
     collisionManager();
-};
+}
 
 /**
  * Fonction qui va appeler la fonction draw() toutes les 10ms
