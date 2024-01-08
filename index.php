@@ -40,16 +40,17 @@ $controller = new Controller();
 
 //listes des mots dans l'url permettant d'accéder à une page
 $pages = [
-    'play' => 'Play',
+    'play' => 'Jeu de hockey',
     'rules' => 'Regles',
 ];
 $forms = [
-    'code' =>           ['Code', 'admin'],
-    'admin' =>          ['Connexion', 'admin'],
-    'newQuestion' =>    ['Nouvelle Question'],
-    'newSpartiate' =>   ['Nouveau Spartiate'],
+    'sessionCode' =>    'entrer le code',
+    'admin' =>          'Connexion',
 ];
-
+$adminForms = [
+    'newQuestion' =>    'Nouvelle Question',
+    'newSpartiate' =>   'Nouveau Spartiate',
+];
 
 // Gestion de la connexion
 if(isset($_GET['action']) && $_GET['action'] == 'logIn' && isset($_POST['pseudo']) && isset($_POST['password'])){
@@ -61,9 +62,17 @@ if(isset($_GET['action']) && $_GET['action'] == 'logIn' && isset($_POST['pseudo'
     }else
         $error = 'identifiant ou mot de passe incorrect';
 }
+if(isset($_GET['action']) && $_GET['action'] == 'checkSessionCode' && isset($_POST['code'])){
+    $code = htmlspecialchars($_POST['code']);
+    if($controller->checkSessionCode($code,$codesRepo)) {
+        $_SESSION['code'] = $code;
+        header('refresh:0;url=/play');
+    }else
+        $error = 'code incorrect';
+}
 
 // Gestion des actions dans l'url et envoyées en AJAX
-if (((isset($_GET['action']) && $_GET['action'] != 'logIn') || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) && !empty($_SESSION['admin'])) {
+if (((isset($_GET['action']) && $_GET['action'] != 'logIn' && $_GET['action'] != 'checkSessionCode') || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')) && !empty($_SESSION['admin'])) {
     $action = $_GET['action'] ?? $_POST['action'];
     $postData = $_POST;
     $actionsMapping = [
@@ -113,23 +122,29 @@ if (((isset($_GET['action']) && $_GET['action'] != 'logIn') || (isset($_SERVER['
         die("Action non valide");
     }
 }
-
 if ('' == $url || '/' == $url || 'home' == $url) {
     $path = 'view/home.php';
     View::display('Home', $path);
 
 }elseif (isset($pages[$url])) {
+    if($url == 'play' && !isset($_SESSION['code']))
+        header('refresh:0;url=/sessionCode');
     $path = 'view/' . $url . '.php';
     if (!isset($error)) $error = '';
     View::display($pages[$url], $path, $error);
 
-}elseif (isset($forms[$url]) ) {
+}elseif (isset($forms[$url])) {
     $path = 'view/forms/' . $url . '.php';
     if (!isset($error)) $error = '';
-    View::display($forms[$url][0], $path, $error);
+    View::display($forms[$url], $path, $error);
 
 }elseif(empty($_SESSION['admin'])) {
     header('refresh:0;url=/admin');
+}
+elseif (isset($adminForms[$url])) {
+    $path = 'view/forms/' . $url . '.php';
+    if (!isset($error)) $error = '';
+    View::display($adminForms[$url], $path, $error);
 }
 elseif (file_exists('view/adminPages/' . $url . '.php')) {
     $method = "show".ucfirst($url);

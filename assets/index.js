@@ -80,22 +80,22 @@ $(document).ready(function(){
 
 });
 
-function checkSessionCode() {
-    var code = $('#code').val();
-
-    // Requête AJAX
-    $.ajax({
-        type: 'POST',
-        url: 'check_code.php',
-        data: {
-            action: "checkCode",
-            code: code
-        },
-        success: function(response) {
-            console.log(response);
-        },
-    });
-}
+// function checkSessionCode() {
+//     var code = $('#code').val();
+//
+//     // Requête AJAX
+//     $.ajax({
+//         type: 'POST',
+//         url: '/index.php',
+//         data: {
+//             action: "checkCode",
+//             code: code
+//         },
+//         success: function(response) {
+//             console.log(response);
+//         },
+//     });
+// }
 
 
 
