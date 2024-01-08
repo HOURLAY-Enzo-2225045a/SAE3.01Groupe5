@@ -2,18 +2,18 @@
 
 namespace Controls;
 
-use App\Exception\MoreThanOneException;
+use Exception\MoreThanOneException;
 
-class codesController
+class CodesController
 {
     /**
      * @var mixed
      */
     private $repository;
 
-    public function __construct($repository)
+    public function __construct()
     {
-        $this->repository = $repository;
+        $this->repository = new \Repository\CodesRepository();
     }
 
     public function checkSessionCode($code){

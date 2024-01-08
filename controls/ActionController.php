@@ -1,16 +1,10 @@
 <?php
 namespace Controls;
-
 require 'vendor/autoload.php';
-$usersRepo = new \Repository\UsersRepository();
-$spartiatesRepo = new \Repository\SpartiatesRepository();
-$questionsRepo = new \Repository\QuestionsRepository();
-$codesRepo = new \Repository\CodesRepository();
-$questionsController = new \Controls\questionsController($questionsRepo);
-$spartiatesController = new \Controls\spartiatesController($spartiatesRepo);
-$usersController = new \Controls\usersController($usersRepo);
-$codesController = new \Controls\codesController($codesRepo);
-
+$questionsController = new \Controls\QuestionsController();
+$spartiatesController = new \Controls\SpartiatesController();
+$usersController = new \Controls\UsersController();
+$codesController = new \Controls\CodesController();
 
 // Gestion de la connexion
 if(isset($_GET['action']) && $_GET['action'] == 'logIn' && isset($_POST['pseudo']) && isset($_POST['password'])){
@@ -70,7 +64,7 @@ if (((isset($_GET['action']) && $_GET['action'] != 'logIn' && $_GET['action'] !=
         }
 
         // Appeler la fonction appropriée avec les paramètres
-        if (!isset($mapping['repo']))
+        if (!isset($mapping['controller']))
             die("pas de controlleur associé a l'action");
         else
             call_user_func_array([$mapping['controller'], $action], $params);

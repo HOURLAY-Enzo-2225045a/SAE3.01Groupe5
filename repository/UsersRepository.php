@@ -1,12 +1,12 @@
 <?php
 
 namespace Repository;
-use \Exception\CannotCreateException;
-use \Exception\EmptyFieldException;
-use \Exception\MoreThanOneException;
-use \Exception\NotFoundException;
-use \Exception\PasswordVerificationException;
-use \Model\User;
+use Exception\CannotCreateException;
+use Exception\EmptyFieldException;
+use Exception\MoreThanOneException;
+use Exception\NotFoundException;
+use Exception\PasswordVerificationException;
+use Model\User;
 
 class UsersRepository extends AbstractRepository
 {

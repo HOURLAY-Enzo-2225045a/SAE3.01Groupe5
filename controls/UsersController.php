@@ -2,19 +2,20 @@
 
 namespace Controls;
 
-use App\Exception\MoreThanOneException;
-use App\Exception\NotFoundException;
+use Exception\MoreThanOneException;
+use Exception\NotFoundException;
+use View\View;
 
-class usersController
+class UsersController
 {
     /**
      * @var mixed
      */
     private $repository;
 
-    public function __construct($repository)
+    public function __construct()
     {
-        $this->repository = $repository;
+        $this->repository = new \Repository\UsersRepository();
     }
 
     public function logIn($pseudo,$password){

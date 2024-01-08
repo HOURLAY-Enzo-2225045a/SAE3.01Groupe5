@@ -6,8 +6,8 @@
 </a>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <a class="blueButton" href='/users'><span>Utilisateurs</span></a>
-    <a class="blueButton" href='/questions'><span>Questions</span></a>
+    <a class="button" href='/users'><span>Utilisateurs</span></a>
+    <a class="button" href='/questions'><span>Questions</span></a>
 </div>
 
 <div class="flex flex-col items-center justify-center">
@@ -26,7 +26,7 @@
                     <div class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded cursor-pointer">
                         <img class="p-1 star" data-spartiate-id="<?= $spartiate->getSpart_id() ?>" data-filled="<?= $spartiate->isStarred() ?>" src="<?php echo $spartiate->isStarred() ? '/assets/images/fullStar.svg' : '/assets/images/emptyStar.svg'; ?>" alt="etoile du match">
                     </div>
-                    <a href="/updateSpartiate&id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded">
+                    <a href="/updateSpartiate?id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded">
                         <img class="p-1" src="/assets/images/edit.svg" alt="Edit">
                     </a>
                     <button id="deleteButton" data-modal-target="deleteModalSpartiate" data-modal-toggle="deleteModalSpartiate" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
@@ -54,7 +54,7 @@
                 <button data-modal-toggle="deleteModalSpartiate" type="button" class="py-2 px-3 text-sm font-medium rounded-lg border focus:ring-4 focus:outline-none focus:ring-primary-300 focus:z-10 bg-gray-700 text-gray-300 border-gray-500 hover:text-white hover:bg-gray-600 focus:ring-gray-600">
                     Non, annuler
                 </button>
-                <a href="/questions?action=deleteSpartiate&id=<?= $spartiate->getSpart_id() ?>" class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-500 hover:bg-red-600 focus:ring-red-900 cursor-pointer">
+                <a href="/questions?action=deleteSpartiate?id=<?= $spartiate->getSpart_id() ?>" class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-500 hover:bg-red-600 focus:ring-red-900 cursor-pointer">
                     Oui, supprimer
                 </a>
             </div>

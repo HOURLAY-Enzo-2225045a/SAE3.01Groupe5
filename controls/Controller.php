@@ -2,12 +2,12 @@
 
 namespace Controls;
 
-use App\Exception\CannotCreateException;
-use App\Exception\EmptyFieldException;
-use App\Exception\MoreThanOneException;
-use App\Exception\NotFoundException;
-use App\Exception\PasswordVerificationException;
-use App\Model\User;
+use Exception\CannotCreateException;
+use Exception\EmptyFieldException;
+use Exception\MoreThanOneException;
+use Exception\NotFoundException;
+use Exception\PasswordVerificationException;
+use Model\User;
 use View;
 
 class Controller
@@ -16,11 +16,11 @@ class Controller
     /**
      * @var mixed
      */
-    private $repository;
+    private $repositories;
 
-    public function __construct($repository)
+    public function __construct($repositories)
     {
-        $this->repository = $repository;
+        $this->$repositories = $repositories;
     }
 
 }

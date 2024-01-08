@@ -2,12 +2,8 @@
 
 namespace Repository;
 
-use App\Exception\CannotCreateException;
-use App\Exception\EmptyFieldException;
-use App\Exception\MoreThanOneException;
-use App\Exception\NotFoundException;
-use App\Exception\PasswordVerificationException;
-use App\Model\User;
+use Exception\MoreThanOneException;
+
 
 class CodesRepository extends AbstractRepository
 {

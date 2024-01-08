@@ -1,5 +1,4 @@
 <?php
-
 use View\View;
 require 'vendor/autoload.php';
 
@@ -7,6 +6,7 @@ require 'vendor/autoload.php';
 $url = $_GET['url'] ?? '';
 ini_set('session.gc_lifetime', 5);
 session_start();
+
 if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1800) {
     session_unset();
     session_destroy();
@@ -14,10 +14,12 @@ if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1
 }else {
     $_SESSION['last_activity'] = time();
 }
-
+$questionsController = new \Controls\QuestionsController();
+$spartiatesController = new \Controls\SpartiatesController();
+$usersController = new \Controls\UsersController();
+$codesController = new \Controls\CodesController();
 // Gestion des actions
-require 'controls/actionController.php';
-
+require 'controls/ActionController.php';
 
 //listes des mots dans l'url permettant d'accéder à une page
 $pages = [
@@ -33,9 +35,9 @@ $adminForms = [
     'newSpartiate' =>   'Nouveau Spartiate',
 ];
 $adminPages = [
-    'questions' =>      'Questions',
-    'spartiates' =>     'Spartiates',
-    'users' =>          'Utilisateurs',
+    'questions' =>      ['Questions' , $questionsController],
+    'spartiates' =>     ['Spartiates' , $spartiatesController],
+    'users' =>          ['Utilisateurs' , $usersController]
 ];
 if ('' == $url || '/' == $url || 'home' == $url) {
 
@@ -67,13 +69,12 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     View::display($adminForms[$url], $path, $error);
 
 }elseif (isset($adminPages[$url])) {
-
     $method = "show".ucfirst($url);
-    $controller = $url.'Controller';
-    if(method_exists($controller,$method)) {
-        $controller->$method();
-    }else {
-        header('refresh:0;url=/404');
+    if(method_exists($adminPages[$url][1],$method)) {
+        $adminPages[$url][1]->$method();
+    }
+    else {
+//        header('refresh:0;url=/404');
     }
 
 }elseif ('updateQuestion' == $url || 'updateSpartiate' == $url && !empty($_GET['id'])) {

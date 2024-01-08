@@ -2,23 +2,23 @@
 
 namespace Controls;
 
-use App\Exception\CannotCreateException;
-use App\Exception\NotFoundException;
-use View;
+use Exception\CannotCreateException;
+use Exception\NotFoundException;
+use View\View;
 
-class spartiatesController
+class SpartiatesController
 {
     /**
      * @var mixed
      */
     private $repository;
 
-    public function __construct($repository)
+    public function __construct()
     {
-        $this->repository = $repository;
+        $this->repository = new \Repository\SpartiatesRepository();
     }
 
-    public function showSpartiate(): void
+    public function showSpartiates(): void
     {
         try{
             $path = 'view/adminPages/spartiates.php';

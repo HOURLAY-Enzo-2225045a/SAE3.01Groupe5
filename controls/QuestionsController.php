@@ -2,25 +2,25 @@
 
 namespace Controls;
 
-use App\Exception\CannotCreateException;
-use App\Exception\MoreThanOneException;
-use App\Exception\NotFoundException;
-use View;
+use Exception\CannotCreateException;
+use Exception\MoreThanOneException;
+use Exception\NotFoundException;
+use View\View;
 
-class questionsController
+class QuestionsController
 {
     /**
      * @var mixed
      */
     private $repository;
 
-    public function __construct($repository)
+    public function __construct()
     {
-        $this->repository = $repository;
+        $this->repository = new \Repository\QuestionsRepository();
     }
 
 
-    public function showQuestion(): void
+    public function showQuestions(): void
     {
         try{
             $path = 'view/adminPages/questions.php';

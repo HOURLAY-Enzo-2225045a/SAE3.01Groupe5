@@ -2,12 +2,12 @@
     <img class="p-1" src="/assets/images/home.svg" alt="homepage">
 </a>
 <div class="flex items-center justify-center w-[50%] translate-x-1/2">
-    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" action = "/questions?action=createQuestion" method="post">
-        <h1> Nouvelle question </h1>
+    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5 w-full" action = "/questions?action=createQuestion" method="post">
+        <h1 class = "text-2xl"> Nouvelle question </h1>
         <label>Question :</label>
-        <textarea type="text" name="text" required></textarea>
+        <textarea class="w-full rounded-xl" type="text" name="text" required></textarea>
         <label for="level">Niveau :</label>
-        <select id="level" name="level" required>
+        <select class="w-1/2 text-left p-3 rounded-xl" id="level" name="level" required>
             <option value="ATTAQUANT">Attaquant</option>
             <option value="DEFENSEUR">Defenseur</option>
             <option value="GUARDIEN">Gardien</option>

@@ -1,9 +1,8 @@
 <?php
 
 namespace Repository;
-use App\Exception\NotFoundException;
-use App\Model\Question;
-use App\Model\User;
+use Exception\NotFoundException;
+use Model\Question;
 use PDO;
 
 class QuestionsRepository extends AbstractRepository
