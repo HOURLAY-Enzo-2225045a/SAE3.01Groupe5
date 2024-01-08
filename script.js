@@ -122,11 +122,11 @@ window.addEventListener("resize",() => {
  * @param {*} e
  * @deprecated remplacer la balle qui suit la souris par une flèche qui indique la direction de la balle
  */
-window.addEventListener("mousemove", () => {
-    // if(mouseIsDown){
-    //     ball.x = e.pageX;
-    //     ball.y = e.pageY;
-    // }
+window.addEventListener("mousemove", (e) => {
+     if(mouseIsDown){
+         newX = (lastX+((lastX-e.pageX)));
+         newY = lastY-((e.pageY-lastY));
+    }
 });
 
 /**
@@ -323,6 +323,25 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v)? true: false;
 }
 
+function Norm(xA,yA,xB,yB) {
+    return Math.sqrt(Math.pow(xB-xA,2)+Math.pow(yB-yA,2));
+}
+function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
+    if (ArrowLength === undefined) {ArrowLength=10;}
+    if (ArrowWidth === undefined) {ArrowWidth=8;}
+    ctx.lineCap="round";
+// Calculs des coordonnées des points C, D et E
+    AB=Norm(xA,yA,xB,yB);
+    xC=xB+ArrowLength*(xA-xB)/AB;yC=yB+ArrowLength*(yA-yB)/AB;
+    xD=xC+ArrowWidth*(-(yB-yA))/AB;yD=yC+ArrowWidth*((xB-xA))/AB;
+    xE=xC-ArrowWidth*(-(yB-yA))/AB;yE=yC-ArrowWidth*((xB-xA))/AB;
+    // et on trace le segment [AB], et sa flèche:
+    ctx.beginPath();
+    ctx.moveTo(xA,yA);ctx.lineTo(xB,yB);
+    ctx.moveTo(xD,yD);ctx.lineTo(xB,yB);ctx.lineTo(xE,yE);
+    ctx.stroke();
+}
+
 /**
  * Fonction principale qui permet de dessiner le canvas
  * et de faire fonctionner le jeu
@@ -332,9 +351,15 @@ function draw() {
     drawCage(cageLeft);
     drawCage(cageMid);
     drawCage(cageRight);
-    drawBall({x:newX, y:newY, r:ball.r},"orange");
+    //drawBall({x:newX, y:newY, r:ball.r},"orange");
     drawBall(ball,"#0095DD");
-    if(newX != lastX || newY != lastY){
+    if(mouseIsDown){
+        ctx.strokeStyle="black";
+        ctx.lineWidth=4;
+        drawArrow(ball.x,ball.y,newX,newY);
+        console.log("Arrow")
+    }
+    if((newX != lastX || newY != lastY) && !mouseIsDown){
         if(moveObject(ball, {x:newX, y:newY}, ball.v)){
             lastX = newX;
             lastY = newY;
