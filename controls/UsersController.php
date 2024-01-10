@@ -23,7 +23,6 @@ class UsersController
         try{
             $user = $this->repository->logIn($pseudo,$password);
             if( !empty($user) && $user->getAdmin() == 1){
-                $_SESSION['admin'] = true;
                 return true;
             }else {
                 return false;

@@ -77,31 +77,32 @@ $(document).ready(function(){
         }
     });
 
+    $(".verificationForm").submit(function(e){
+        e.preventDefault(); //empêcher une action par défaut
+        // Récupérer l'URL du formulaire et la méthode
+        var form_url = $(this).attr("action");
+        var form_method = $(this).attr("method");
+
+        // Encoder les éléments du formulaire et ajouter la variable action
+        var form_data = $(this).serialize()
+
+        // Effectuer la requête AJAX
+        $.ajax({
+            url: form_url,
+            type: form_method,
+            data: form_data
+        }).done(function(response){
+            if(response.success) {
+                // Si l'authentification est réussie, changer l'URL et recharger la page
+                // window.location.href = response.url;
+            } else {
+                // Si l'authentification échoue, afficher l'erreur
+                $("#res").html(response.error);
+            }
+        });
+    });
 
 });
-
-// function checkSessionCode() {
-//     var code = $('#code').val();
-//
-//     // Requête AJAX
-//     $.ajax({
-//         type: 'POST',
-//         url: '/index.php',
-//         data: {
-//             action: "checkCode",
-//             code: code
-//         },
-//         success: function(response) {
-//             console.log(response);
-//         },
-//     });
-// }
-
-function modifyURL(url) {
-    let stateObj = { id: "100" };
-    window.history.replaceState(stateObj,
-        "Page 3", url);
-}
 
 
 

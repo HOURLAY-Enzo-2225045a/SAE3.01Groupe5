@@ -5,7 +5,9 @@ require 'vendor/autoload.php';
 // chemin de l'URL demandée au navigateur
 $url = $_GET['url'] ?? '';
 ini_set('session.gc_lifetime', 5);
-session_start();
+
+if(!isset($_SESSION))
+    session_start();
 
 if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1800) {
     session_unset();
@@ -14,12 +16,14 @@ if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1
 }else {
     $_SESSION['last_activity'] = time();
 }
+
 $questionsController = new \Controls\QuestionsController();
 $spartiatesController = new \Controls\SpartiatesController();
 $usersController = new \Controls\UsersController();
 $codesController = new \Controls\CodesController();
+
 // Gestion des actions
-require 'controls/ActionController.php';
+require 'controls/actionController.php';
 
 //listes des mots dans l'url permettant d'accéder à une page
 $pages = [
