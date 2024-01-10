@@ -18,7 +18,12 @@ class CodesController
 
     public function checkSessionCode($code){
         try{
-            return $this->repository->checkSessionCode($code);
+            if($this->repository->checkSessionCode($code)){
+                $_SESSION['code'] = $code;
+                return true;
+            }else {
+                return false;
+            }
         }
         catch (MoreThanOneException $ERROR){
             //on fais un retour d'erreur

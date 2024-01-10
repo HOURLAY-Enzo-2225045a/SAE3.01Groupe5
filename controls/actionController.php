@@ -5,6 +5,10 @@ namespace Controls;
 require __DIR__ . '/../vendor/autoload.php';
 
 // Utiliser un tableau pour stocker les instances des contrôleurs
+$questionsController = new \Controls\QuestionsController();
+$spartiatesController = new \Controls\SpartiatesController();
+$usersController = new \Controls\UsersController();
+$codesController = new \Controls\CodesController();
 $controllers = [
     'questions' => new QuestionsController(),
     'spartiates' => new SpartiatesController(),
@@ -16,33 +20,28 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-// Fonction pour vérifier si la requête est une requête AJAX
-function isAjaxRequest()
-{
-    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action']);
-}
-
 // Fonction pour traiter les actions
-function handleAction($action, $postData, $controllers)
+function handleAction($postData, $questionsController, $spartiatesController, $usersController, $codesController)
 {
+    $action = $_POST['action'];
     $actionsMapping = [
-        'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $controllers['users'], 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Erreur lors de la création de Spartiate'], 'adminOnly' => false],
-        'checkCode' => ['fields' => ['code'], 'controller' => $controllers['code'], 'success' => ['success' => true, 'url' => 'play'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false],
-        'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $controllers['spartiates'],  'redirect' => '/spartiates', 'adminOnly' => true],
-        'createQuestion' => [ 'fields' => ['text', 'level'],                        'controller' => $controllers['question'],   'redirect' => '/questions', 'adminOnly' => true ],
-        'deleteUser' => [     'idField' => 'id',                                    'controller' => $controllers['users'],        'redirect' => '/users', 'adminOnly' => true     ],
-        'deleteQuestion' => [ 'idField' => 'id',                                    'controller' => $controllers['question'],   'redirect' => '/questions', 'adminOnly' => true ],
-        'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $controllers['spartiates'],  'redirect' => '/spartiates', 'adminOnly' => true],
-        'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level'],     'controller' => $controllers['question'],   'redirect' => '/questions', 'adminOnly' => true ],
-        'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $controllers['spartiates'],  'redirect' => '/spartiates', 'adminOnly' => true],
-        'changeStar' => [     'fields' => ['spartiateId'],                          'controller' => $controllers['spartiates'] , 'adminOnly' => true                             ],
-        'searchQuestion' => [ 'fields' => ['searchTerm'],                           'controller' => $controllers['question']   , 'adminOnly' => true                            ],
-        'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $controllers['spartiates'], 'adminOnly' => true                             ],
+        'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Erreur lors de la création de Spartiate'], 'adminOnly' => false],
+        'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => 'play'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false],
+        'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+        'createQuestion' => [ 'fields' => ['text', 'level'],                        'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+        'deleteUser' => [     'idField' => 'id',                                    'controller' => $usersController,        'redirect' => '/users', 'adminOnly' => true     ],
+        'deleteQuestion' => [ 'idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+        'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+        'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+        'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+        'changeStar' => [     'fields' => ['spartiateId'],                          'controller' => $spartiatesController , 'adminOnly' => true                             ],
+        'searchQuestion' => [ 'fields' => ['searchTerm'],                           'controller' => $questionsController   , 'adminOnly' => true                            ],
+        'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                             ],
         ];
 
+    var_dump($_FILES);
     if (isset($actionsMapping[$action])) {
         $mapping = $actionsMapping[$action];
-        echo 'test';
         // Vérifier si l'action nécessite des privilèges administratifs
         if ($mapping['adminOnly'] && empty($_SESSION['admin'])) {
             echo json_encode(['success' => false, 'error' => 'Vous n\'avez pas les droits administratifs nécessaires.']);
@@ -61,7 +60,7 @@ function handleAction($action, $postData, $controllers)
         // Récupérer les paramètres de l'action
         $params = [];
         if (isset($mapping['idField'])) {
-            $id = htmlspecialchars($_GET[$mapping['idField']]);
+            $id = htmlspecialchars($_POST[$mapping['idField']]);
             $params[] = $id;
         }
         foreach ($mapping['fields'] ?? [] as $field) {
@@ -74,31 +73,29 @@ function handleAction($action, $postData, $controllers)
         elseif(!$mapping['adminOnly']){
             // Appeler la fonction appropriée avec les paramètres
             header('Content-Type: application/json');
+
             if (call_user_func_array([$mapping['controller'], $action], $params)) {
                 echo json_encode($mapping['success']);
             } else {
                 echo json_encode($mapping['error']);
             }
         }else{
+            $controllers = $mapping['controller'];
             // Appeler la fonction appropriée avec les paramètres
-           call_user_func_array([$mapping['controller'], $action], $params);
+           call_user_func_array([$controllers, $action], $params);
 
         }
-
         // Redirection
         if (isset($mapping['redirect'])) {
-            header("refresh:0;url={$mapping['redirect']}");
+            echo $mapping['redirect'];
         }
     } else {
         // Gérer les actions non valides
-        echo json_encode(['error' => 'Action non valide']);
+        echo 'Action non valide';
     }
 }
 
-if (isAjaxRequest()) {
-    // Utilisation de la fonction factorisée
-    handleAction($_POST['action'], $_POST, $controllers);
-} elseif (isAjaxRequest() && !empty($_SESSION['admin'])) {
-    // Utilisation de la fonction factorisée
-    handleAction($_POST['action'], $_POST, $controllers);
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
+    // Utilisation de la fonction si la requete ajax est detectée
+    handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController);
 }

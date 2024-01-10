@@ -1,4 +1,2 @@
-<div class="h-[40vh] w-full flex flex-col justify-center items-center">
-    <h1 class="text-9xl">LE JEUUU</h1>
-    <a class="button" href='/home'><span>Accueil</span></a>
-</div>
+<canvas class="bg-blue-500" id="monCanvas" width="400" height="200"></canvas>
+<h2>TEST</h2>
