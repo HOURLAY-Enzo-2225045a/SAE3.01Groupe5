@@ -20,10 +20,10 @@ let ball = {
     r: 25, // rayon de la balle
     v: 30 // vitesse de la balle en pixel
 };
-let lastX = ball.x; // position x de la balle avant interaction (drag & drop)
-let lastY = ball.y; // position y de la balle avant interaction (drag & drop)
-let newX = lastX; // nouvelle position x de la balle après interaction (drag & drop)
-let newY = lastY; // nouvelle position y de la balle après interaction (drag & drop)
+//let lastX = ball.x; // position x de la balle avant interaction (drag & drop)
+//let lastY = ball.y; // position y de la balle avant interaction (drag & drop)
+let newX= ball.x; // nouvelle position x de la balle après interaction (drag & drop)
+let newY= ball.y; // nouvelle position y de la balle après interaction (drag & drop)
 
 /*
 ANCIENNE VERSION <--------------------------------------
@@ -124,8 +124,8 @@ window.addEventListener("resize",() => {
  */
 window.addEventListener("mousemove", (e) => {
      if(mouseIsDown){
-         newX = (lastX+((lastX-e.pageX)));
-         newY = lastY-((e.pageY-lastY));
+         newX = (ball.x+((ball.x-e.pageX)));
+         newY = ball.y-((e.pageY-ball.y));
     }
 });
 
@@ -150,8 +150,8 @@ window.addEventListener("mousedown", (e) => {
  */
 window.addEventListener("mouseup", (e) => {
     if(mouseIsDown){
-        newX = (lastX+((lastX-e.pageX)));
-        newY = lastY-((e.pageY-lastY));
+        newX = (ball.x+((ball.x-e.pageX)));
+        newY = ball.y-((e.pageY-ball.y));
     }
     mouseIsDown = false;
 });
@@ -358,13 +358,15 @@ function draw() {
         ctx.lineWidth=4;
         drawArrow(ball.x,ball.y,newX,newY);
         console.log("Arrow")
-    }
-    if((newX != lastX || newY != lastY) && !mouseIsDown){
-        if(moveObject(ball, {x:newX, y:newY}, ball.v)){
-            lastX = newX;
-            lastY = newY;
+    } else {
+        if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
+            if(moveObject(ball, {x:newX, y:newY}, ball.v)){
+                lastX = newX;
+                lastY = newY;
+            }
         }
     }
+
     collisionManager();
 }
 
