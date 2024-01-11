@@ -106,7 +106,10 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
     }
 }
 
-if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action']) && $_POST['action'] != 'getRandomQuestion') {
     // Utilisation de la fonction si la requete ajax est detectée
     handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController,$_FILES);
+} elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action']) && $_POST['action'] == 'getRandomQuestion') {
+    // Utilisation de la fonction si la requete ajax est detectée
+    $questionsController->getRandomQuestion();
 }

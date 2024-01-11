@@ -35,6 +35,7 @@ class QuestionsRepository extends AbstractRepository
     {
         $query = 'SELECT * FROM QUESTION ORDER BY RAND() LIMIT 1;';
         $statement = $this->connexion->prepare($query);
+        $statement->execute();
 
         //exception imposible mais a prévoire car on ne peut insérer qu'une question du meme ID
         if ($statement->rowCount() > 1) {

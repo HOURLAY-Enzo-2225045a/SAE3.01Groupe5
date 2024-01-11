@@ -13,54 +13,59 @@ let canvas = document.getElementById("myCanvas"); // récupération du canvas
 canvas.width = document.documentElement.clientWidth; // on adapte la taille du canvas à la taille de la page
 canvas.height = document.documentElement.clientHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
+
+// Créer un canvas hors écran pour dessiner les éléments statiques une fois
+let staticCanvas = document.createElement('canvas');
+staticCanvas.width = canvas.width;
+staticCanvas.height = canvas.height;
+var staticContext = staticCanvas.getContext('2d');
+
+// Dessiner les cages et le texte sur le canvas hors écran
+staticContext.beginPath();
+staticContext.fillStyle = 'black';
+staticContext.fillRect(0, 50, 20, 100);  // Côté gauche
+staticContext.fillRect(canvas.width - 20, 50, 20, 100);  // Côté droit
+
+staticContext.font = '16px Arial';
+staticContext.fillStyle = 'black';
+staticContext.fillText('Cage gauche', 10, 30);
+staticContext.fillText('Cage droite', canvas.width - 100, 30);
+staticContext.closePath();
+
+function getQuestion() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "getRandomQuestion",
+        },
+        dataType : 'json',
+        success: function (response) {
+            staticContext.clearRect(0, 0, canvas.width, canvas.height);
+            // Dessiner les cages et le texte sur le canvas hors écran
+            staticContext.beginPath();
+            staticContext.fillStyle = 'black';
+            staticContext.fillRect(0, 50, 20, 100);  // Côté gauche
+
+            staticContext.font = '16px Arial';
+            staticContext.fillStyle = 'black';
+            staticContext.fillText(response.intitule, 10, 30);
+            staticContext.closePath();
+
+        }
+    });
+}
+
 // objet qui représente la balle
 let ball = {
     x: Math.trunc(canvas.width/2), // position x de la balle
     y: Math.trunc(canvas.height/2), // position y de la balle
     r: 25, // rayon de la balle
-    v: 20 // vitesse de la balle en pixel
+    v: 10 // vitesse de la balle en pixel
 };
-//let lastX = ball.x; // position x de la balle avant interaction (drag & drop)
-//let lastY = ball.y; // position y de la balle avant interaction (drag & drop)
+
 let newX= ball.x; // nouvelle position x de la balle après interaction (drag & drop)
 let newY= ball.y; // nouvelle position y de la balle après interaction (drag & drop)
-
-/*
-ANCIENNE VERSION <--------------------------------------
-// objet qui représente les parties de la cage
-let fond = {
-    x: Math.trunc(canvas.width/2)-150, // position x du fond de la cage
-    y: Math.trunc(canvas.height/2)-300, // position y du fond de la cage
-    width: 300, // largeur du fond de la cage
-    height: 20, // hauteur du fond de la cage
-};
-let poteauGauche = {
-    x: fond.x,
-    y: fond.y,
-    width: fond.height,
-    height: 150,
-};
-let poteauDroite = {
-    x: fond.x+fond.width-poteauGauche.width,
-    y: fond.y,
-    width: poteauGauche.width,
-    height: poteauGauche.height,
-};
-let interieurCage = {
-    x: fond.x+fond.height,
-    y: fond.y+fond.height,
-    width: fond.width-poteauGauche.width*2 ,
-    height: poteauGauche.height-fond.height,
-    color: "red"
-};
-// objet qui représente la cage
-let cage = {
-    poteauGauche: poteauGauche,
-    poteauDroite: poteauDroite,
-    fond: fond,
-    interieurCage: interieurCage,
-};*/
-
 
 /**
  * Classe qui représente un rectangle
@@ -187,26 +192,26 @@ function drawBall(circle,color) {
  * @param {object} rect prend en paramètre un objet de type : {x:Number, y:Number, width:Number, height:Number}
  * @param {string} color prend un string de la couleur
  */
-function drawRectangle(rect,color){
-    ctx.beginPath();
-    ctx.rect(rect.x, rect.y, rect.width, rect.height);
-    ctx.fillStyle = color;
-    ctx.fill();
-    ctx.closePath();
+function drawRectangle(rect,color,context){
+    context.beginPath();
+    context.rect(rect.x, rect.y, rect.width, rect.height);
+    context.fillStyle = color;
+    context.fill();
+    context.closePath();
 }
 
 /**
  * Permet de dessiner la cage sur le canvas
  */
-function drawCage(cage) {
+function drawCage(cage,context) {
     // poteau gauche
-    drawRectangle(cage.poteauGauche, cage.poteauGauche.color);
+    drawRectangle(cage.poteauGauche, cage.poteauGauche.color,context);
     //poteau droit
-    drawRectangle(cage.poteauDroite, cage.poteauDroite.color);
+    drawRectangle(cage.poteauDroite, cage.poteauDroite.color,context);
     // fonde la cage
-    drawRectangle(cage.fond, cage.fond.color);
+    drawRectangle(cage.fond, cage.fond.color,context);
     // intérieur de la cage <-------------------------------------- A ENLEVER PLUS TARD!!!
-    drawRectangle(cage.interieurCage, cage.interieurCage.color);
+    drawRectangle(cage.interieurCage, cage.interieurCage.color,context);
 }
 
 /**
@@ -341,14 +346,14 @@ function bounceManager(cage){
 // a: actuel {x, y}; n: arrivé {x, y}; v vitesse pixel
 /**
  * Permet de faire bouger un objet vers une position donnée
- * @param {*} ac : actuel {x, y} représente la position actuel de l'objet
+ * @param {*} ac : actuel {x, y} représente la position actuelle de l'objet
  * @param {*} ne : arrivé {x, y} représente la position où l'objet doit aller
  * @param {*} v : vitesse en pixel
  */
 function moveObject(ac, ne, v){
     let   s = {x:1, y:1}        // sens
         , move = {x:1, y:1} // pixel de déplacement
-        , delta = 0     // delta -> pythagore
+        , delta// delta -> pythagore
         , dist = {}     // distance entre start et end
     ;
 
@@ -356,7 +361,7 @@ function moveObject(ac, ne, v){
     dist.x = Math.abs(ac.x-ne.x);
     dist.y = Math.abs(ac.y-ne.y);
 
-    // racine carré de A² + B² (pythagore) -> donne l'hypoténuse
+    // racine carrée de A² + B² (pythagore) → donne l'hypoténuse
     delta = Math.sqrt((dist.x*dist.x)+(dist.y*dist.y));
 
     // ralentissement en fonction de la distance restante
@@ -373,7 +378,7 @@ function moveObject(ac, ne, v){
     s.x = (ac.x > ne.x)? -1: 1;
     s.y = (ac.y > ne.y)? -1: 1;
 
-    // rajoute à nos coordonnées actuel le déplacement dans le bon sens
+    // rajoute à nos coordonnées actuelles le déplacement dans le bon sens
     ac.x += move.x*s.x;
     ac.y += move.y*s.y;
 
@@ -381,15 +386,20 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v);
 }
 
+
+
+
+
 /**
  * Fonction principale qui permet de dessiner le canvas
  * et de faire fonctionner le jeu
  */
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawCage(cageLeft);
-    drawCage(cageMid);
-    drawCage(cageRight);
+    drawCage(cageLeft,staticContext);
+    // drawCage(cageMid);
+    // drawCage(cageRight);
+    ctx.drawImage(staticCanvas, 0, 0);
     //drawBall({x:newX, y:newY, r:ball.r},"orange");
     drawBall(ball,"#0095DD");
     if(mouseIsDown){
@@ -400,12 +410,12 @@ function draw() {
     } else {
         if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
             if(moveObject(ball, {x:newX, y:newY}, ball.v)){
-                lastX = newX;
-                lastY = newY;
+                getQuestion();
+                newX = ball.x;
+                newY = ball.y
             }
         }
     }
-
     collisionManager();
 }
 

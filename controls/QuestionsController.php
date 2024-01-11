@@ -37,7 +37,8 @@ class QuestionsController
     {
         try{
             $question = $this->repository->getRandomQuestion();
-            echo array('intitule' => $question->getIntitule());
+            $temp = array('intitule' => $question->getIntitule(), 'faux1'=> $question->getNiveau(), 'faux2' => $question->getFaux2());
+            echo json_encode($temp);
         }
         catch (MoreThanOneException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
