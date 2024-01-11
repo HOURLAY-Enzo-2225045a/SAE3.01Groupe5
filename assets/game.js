@@ -261,8 +261,9 @@ function drawText(txt, x, y, color){
 }
 
 function drawAnswer(){
-    drawText("Réponse : "+response,canvas.width/2,canvas.height/2,"black");
-
+    drawText("TMPTEXT",cageMid.fond.x,cageMid.fond.y,"black");
+    drawText("TMPTEXT",cageLeft.fond.x,cageLeft.fond.y,"black");
+    drawText("TMPTEXT",cageRight.fond.x,cageRight.fond.y,"black");
 }
 
 /**
