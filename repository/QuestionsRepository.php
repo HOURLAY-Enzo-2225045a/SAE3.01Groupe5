@@ -2,6 +2,7 @@
 
 namespace Repository;
 use Exception\NotFoundException;
+use Exception\MoreThanOneException;
 use Model\Question;
 use PDO;
 
@@ -51,12 +52,15 @@ class QuestionsRepository extends AbstractRepository
         return $arrayQuestions;
     }
 
-    public function createQuestion($text, $level) :  void{
-        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU) VALUES (NULL, :text, :level);";
+    public function createQuestion($text, $level, $vrai, $faux1, $faux2) :  void{
+        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU) VALUES (NULL, :text, :level, :vrai, :faux1, :faux2);";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':text' => $text,
-            ':level'=> $level]);
+            ':level'=> $level,
+            ':vrai' => $vrai,
+            ':faux1' => $faux1,
+            ':faux2' => $faux2]);
     }
     public function deleteQuestionById($id): void
     {
@@ -70,12 +74,15 @@ class QuestionsRepository extends AbstractRepository
             throw new NotFoundException('Aucun question trouvé');
         }
     }
-    public function updateQuestionById($id, $text, $level){
-        $query = "UPDATE QUESTION SET INTITULE = :text, NIVEAU = :level WHERE QUESTION_ID = :id;";
+    public function updateQuestionById($id, $text, $level, $vrai, $faux1, $faux2){
+        $query = "UPDATE QUESTION SET INTITULE = :text, NIVEAU = :level, VRAI = :vrai, FAUX1 = :faux1, FAUX2 = :faux2  WHERE QUESTION_ID = :id;";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':text' => $text,
             ':level'=> $level,
+            ':vrai' => $vrai,
+            ':faux1' => $faux1,
+            ':faux2' => $faux2,
             ':id' => $id]);
     }
 

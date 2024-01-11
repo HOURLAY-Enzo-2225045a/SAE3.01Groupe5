@@ -32,10 +32,10 @@ class QuestionsController
         }
     }
 
-    public function createQuestion($text, $level): void
+    public function createQuestion($text, $level, $vrai, $faux1, $faux2): void
     {
         try{
-            $this->repository->createQuestion($text, $level);
+            $this->repository->createQuestion($text, $level, $vrai, $faux1, $faux2);
         }
         catch (CannotCreateException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
@@ -54,10 +54,10 @@ class QuestionsController
         }
     }
 
-    public function updateQuestion($id,$text,$level)
+    public function updateQuestion($id,$text,$level, $vrai, $faux1, $faux2)
     {
         try{
-            $this->repository->updateQuestionById($id, $text, $level);
+            $this->repository->updateQuestionById($id, $text, $level, $vrai, $faux1, $faux2);
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
