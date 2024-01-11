@@ -25,7 +25,7 @@
                         <a href="/updateQuestion&id=<?= $question->getQuestion_id() ?>" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded cursor-pointer">
                             <img class="p-1" src="/assets/images/edit.svg" alt="Delete">
                         </a>
-                        <button id="deleteButtonQuestion" data-modal-target="deleteModalQuestion" data-modal-toggle="deleteModalQuestion" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
+                        <button id="callActionButton" data-id="<?= $question->getQuestion_id() ?>" data-modal-target="deleteModalQuestion" data-modal-toggle="deleteModalQuestion" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
                             <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
                         </button>
                     </div>
@@ -50,9 +50,9 @@
                 <button data-modal-toggle="deleteModalQuestion" type="button" class="py-2 px-3 text-sm font-medium rounded-lg border focus:ring-4 focus:outline-none focus:ring-primary-300 focus:z-10 bg-gray-700 text-gray-300 border-gray-500 hover:text-white hover:bg-gray-600 focus:ring-gray-600">
                     Non, annuler
                 </button>
-                <a href="/questions?action=deleteQuestion&id=<?= $question->getQuestion_id() ?>" class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-500 hover:bg-red-600 focus:ring-red-900 cursor-pointer">
+                <button data-action="deleteQuestion" id="actionButton" class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-red-500 hover:bg-red-600 focus:ring-red-900 cursor-pointer">
                     Oui, supprimer
-                </a>
+                </button>
             </div>
         </div>
     </div>

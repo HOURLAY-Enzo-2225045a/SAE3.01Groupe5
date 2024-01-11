@@ -5,13 +5,12 @@
 <!--<p>Le terrain de jeu, appelé patinoire, mesure entre 56 et 60 mètres de long, et entre 26 à 30 mètres de large.</p>-->
 <!--<p>Il est entouré par des balustrades.</p>-->
 <!---->
-
-<div class="w-full flex flex-col justify-center items-center">
-    <h1 class="titlePage">
-        <span class="text-black">Les</span> règles du jeu
-    </h1>
-    <a class="button" href="/home"><span>Accueil</span></a>
-</div>
+<a href="/home" class="absolute left-5 top-5 w-10 h-10">
+    <img class="p-1" src="/assets/images/home.svg" alt="homepage">
+</a>
+<h1 class="titlePage">
+    <span class="text-black">Les</span> règles du jeu
+</h1>
 
 <!--<div class="max-w-2xl m-auto">-->
     <div id="default-carousel" class="relative" data-carousel="static">
