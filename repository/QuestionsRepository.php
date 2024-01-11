@@ -30,6 +30,19 @@ class QuestionsRepository extends AbstractRepository
         return new Question($question);
     }
 
+    public function getRandomQuestion(): Question
+    {
+        $query = 'SELECT * FROM QUESTION ORDER BY RAND() LIMIT 1;';
+        $statement = $this->connexion->prepare($query);
+
+        //exception imposible mais a prévoire car on ne peut insérer qu'une question du meme ID
+        if ($statement->rowCount() > 1) {
+            throw new MoreThanOneException("Problème présent dans la BD");
+        }
+        $question = $statement->fetch();
+        return new Question($question);
+    }
+
     public function getAll() :  array{
         $query = 'SELECT * FROM QUESTION';
         $statement = $this->connexion->prepare($query);
