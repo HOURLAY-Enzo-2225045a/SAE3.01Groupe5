@@ -5,6 +5,7 @@ namespace Controls;
 use Exception\CannotCreateException;
 use Exception\MoreThanOneException;
 use Exception\NotFoundException;
+use Random\RandomException;
 use View\View;
 
 class QuestionsController
@@ -90,6 +91,19 @@ class QuestionsController
     {
         $path='view/forms/'.$url.'.php';
         View::display('MISE A JOUR', $path, $this->repository->getById($id));
+    }
+
+    public function questionShowdown(){
+        try {
+            $listeQuestion =  $this->repository->getAll();
+            foreach ($listeQuestion as $question){
+                $trouver = rand(0,sizeof($listeQuestion));
+                
+            }
+
+        }catch (RandomException $exception){
+
+        }
     }
 
 
