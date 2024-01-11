@@ -32,6 +32,7 @@ $pages = [
 ];
 $forms = [
     'sessionCode' =>    'entrer le code',
+    'pseudo' =>          'entrer le pseudo',
     'admin' =>          'Connexion',
 ];
 $adminForms = [
@@ -50,27 +51,26 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 
 }elseif (isset($pages[$url])) {
 
-    if($url == 'play' && !isset($_SESSION['code']))
-        header('refresh:0;url=/sessionCode');
     $path = 'view/' . $url . '.php';
-    if (!isset($error)) $error = '';
-    View::display($pages[$url], $path, $error);
+    if($url!="play" || $codesController->checkSessionCode($_SESSION['code']) && isset($_SESSION['pseudo']))
+        View::display($pages[$url], $path);
+    elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code'])))
+        header('refresh:0;url=/sessionCode');
+    elseif($url == 'play' && !isset($_SESSION['pseudo']))
+        header('refresh:0;url=/pseudo');
 
 }elseif (isset($forms[$url])) {
 
     $path = 'view/forms/' . $url . '.php';
-    if (!isset($error)) $error = '';
-    View::display($forms[$url], $path, $error);
+    View::display($forms[$url], $path);
 
 }elseif(empty($_SESSION['admin'])) {
 
     header('refresh:0;url=/admin');
 
 }elseif (isset($adminForms[$url])) {
-
     $path = 'view/forms/' . $url . '.php';
-    if (!isset($error)) $error = '';
-    View::display($adminForms[$url], $path, $error);
+    View::display($adminForms[$url], $path);
 
 }elseif (isset($adminPages[$url])) {
     $method = "show".ucfirst($url);

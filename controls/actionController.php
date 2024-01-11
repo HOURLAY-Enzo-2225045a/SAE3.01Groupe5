@@ -19,26 +19,29 @@ $controllers = [
 if (!isset($_SESSION)) {
     session_start();
 }
+$actionsMapping = [
+    'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false],
+    'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => 'pseudo'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false],
+    'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+    'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'deleteUser' => [     'idField' => 'id',                                    'controller' => $usersController,        'redirect' => '/users', 'adminOnly' => true     ],
+    'deleteQuestion' => [ 'idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+    'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+    'changeStar' => [     'fields' => ['spartiateId'],                          'controller' => $spartiatesController , 'adminOnly' => true                             ],
+    'searchQuestion' => [ 'fields' => ['searchTerm'],                           'controller' => $questionsController   , 'adminOnly' => true                            ],
+    'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                             ],
+    'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                             ],
+    'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                             ],
+    'addSessionPlayer' => [                                                     'controller' => $codesController, 'adminOnly' => true                             ],
+
+];
 
 // Fonction pour traiter les actions
-function handleAction($postData, $questionsController, $spartiatesController, $usersController, $codesController, $files)
+function handleAction($postData, $questionsController, $spartiatesController, $usersController, $codesController, $files, $actionsMapping)
 {
     $action = $_POST['action'];
-    $actionsMapping = [
-        'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false],
-        'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => 'play'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false],
-        'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
-        'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
-        'deleteUser' => [     'idField' => 'id',                                    'controller' => $usersController,        'redirect' => '/users', 'adminOnly' => true     ],
-        'deleteQuestion' => [ 'idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
-        'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
-        'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
-        'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
-        'changeStar' => [     'fields' => ['spartiateId'],                          'controller' => $spartiatesController , 'adminOnly' => true                             ],
-        'searchQuestion' => [ 'fields' => ['searchTerm'],                           'controller' => $questionsController   , 'adminOnly' => true                            ],
-        'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                             ],
-        ];
-
     if (isset($actionsMapping[$action])) {
         $mapping = $actionsMapping[$action];
         // Vérifier si l'action nécessite des privilèges administratifs
@@ -106,6 +109,11 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
 }
 
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
+    if (isset($actionsMapping[$_POST['action']])) {
     // Utilisation de la fonction si la requete ajax est detectée
-    handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController,$_FILES);
+    handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController, $_FILES, $actionsMapping);
+    }elseif($_POST['action'] == 'deconnect'){
+        $_SESSION['admin'] = false;
+        echo '/home';
+    }
 }

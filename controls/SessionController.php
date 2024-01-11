@@ -4,7 +4,7 @@ namespace Controls;
 
 use Exception\MoreThanOneException;
 
-class CodesController
+class SessionController
 {
     /**
      * @var mixed

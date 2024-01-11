@@ -139,9 +139,34 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on("click", "#deconnect", function(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "deconnect",
+            },
+        }).done(function(response){
+            window.location.href = response;
+        });
+    });
+
     $(document).on("click", "#callActionButton", function(){
         let buttonConfirmDelete = $('#actionButton');
         buttonConfirmDelete.data('id', $(this).data("id"));
+    });
+
+    $(document).on("click", ".sessionAction", function(){
+        let action = $(this).data("action");
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: action,
+            },
+        }).done(function(response){
+            $('#code').html(response);
+        });
     });
 });
 

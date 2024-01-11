@@ -1,9 +1,12 @@
+<a href="/home" class="absolute left-5 top-5 w-10 h-10">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
+</a>
+<a class="absolute right-5 top-5 w-10 h-10">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/deconnect.svg" id="deconnect" alt="deconnect">
+</a>
 <h1 class="titlePage">
     <span class="text-black">Les</span> Spartiates
 </h1>
-<a href="/home" class="absolute left-5 top-5 w-10 h-10">
-    <img class="p-1" src="/assets/images/home.svg" alt="Delete">
-</a>
 
 <div class="w-full flex flex-row justify-center items-center">
     <a class="button" href='/users'><span>Utilisateurs</span></a>
