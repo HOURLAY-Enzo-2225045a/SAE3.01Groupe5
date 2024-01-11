@@ -43,7 +43,6 @@ $adminForms = [
 $adminPages = [
     'questions' =>      ['Questions' , $questionsController],
     'spartiates' =>     ['Spartiates' , $spartiatesController],
-    'users' =>          ['Utilisateurs' , $sessionController],
 ];
 
 if ('' == $url || '/' == $url || 'home' == $url) {
@@ -82,6 +81,10 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     else {
         header('refresh:0;url=/404');
     }
+}elseif ('users' == $url) {
+    $path = 'view/adminPages/users.php';
+    View::display('Admin', $path);
+
 }elseif ('updateQuestion' == $url || 'updateSpartiate' == $url && !empty($_GET['id'])) {
     if('updateQuestion' == $url)
         $questionsController->showUpdateForm($url,htmlspecialchars($_GET['id']));

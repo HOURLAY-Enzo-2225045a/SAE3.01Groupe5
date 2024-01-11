@@ -30,6 +30,7 @@ $actionsMapping = [
     'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                                   ],
     'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                                   ],
     'addSessionPlayer' => ['fields' => ['pseudo'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
+    'showRanking' => ['controller' => $sessionController, 'adminOnly' => true ],
 
 ];
 

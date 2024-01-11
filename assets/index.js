@@ -170,5 +170,22 @@ $(document).ready(function(){
     });
 });
 
+function updateRanking() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "showRanking",
+        },
+    }).done(function(response){
+        $('#ranking').html(response);
+    });
+}
+
+if (window.location.pathname === "/users") {
+    updateRanking()
+    setInterval(updateRanking, 1000);
+}
+
 
 
