@@ -81,7 +81,6 @@ $(document).ready(function(){
 
         // Récupérer l'URL du formulaire et la méthode
         let form_method = $(this).attr("method");
-
         // Encoder les éléments du formulaire et ajouter la letiable action
         let form_data = $(this).serialize()
 
@@ -92,6 +91,7 @@ $(document).ready(function(){
             data: form_data
         }).done(function(response){
             if(response.success) {
+                console.log(response);
                 // Si l'authentification est réussie, changer l'URL et recharger la page
                 window.location.href = response.url;
             } else {

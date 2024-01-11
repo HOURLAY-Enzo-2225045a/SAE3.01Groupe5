@@ -108,9 +108,5 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
 
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
     // Utilisation de la fonction si la requete ajax est detectée
-    $fp = fopen("../assets/logs/debug.log", "w+");
-    fwrite($fp, json_encode($_POST));
-    fwrite($fp, json_encode($_FILES));
-    fclose($fp);
     handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController,$_FILES);
 }
