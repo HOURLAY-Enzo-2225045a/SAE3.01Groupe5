@@ -46,6 +46,13 @@ class QuestionsController
         }
     }
 
+    public function updateScore($id, $score): void
+    {
+        //TODO : Ajouter 100? au score avec une requete
+        //TODO : Aller chercher le nouveau score avec une requete
+        //TODO : echo le nouveau score
+    }
+
     public function createQuestion($text, $level, $vrai, $faux1, $faux2): void
     {
         try{

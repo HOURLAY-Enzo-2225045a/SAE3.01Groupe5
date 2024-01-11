@@ -301,6 +301,19 @@ function collisionManager(){
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
         cageLeft.interieurCage.color = (response == 0)? "green": "orange";
         console.log("Score !");
+        // TODO : faire la requete AJAX d'update du score
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "addScore",
+                score: 100,
+            },
+            dataType : 'json',
+            success: function (response) {
+                drawText(100,ball.x,ball.y,"black") // echo le nouv score dans response
+            }
+        });
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
         cageMid.interieurCage.color = (response == 1)? "green": "orange";
         console.log("Score !");
