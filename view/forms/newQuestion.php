@@ -18,10 +18,10 @@
         <label>Bonne réponse :
             <textarea class="w-full rounded-xl" type="text" name="true" required></textarea>
         </label>
-        <label>Bonne réponse :
+        <label>Mauvaise réponse 1 :
             <textarea class="w-full rounded-xl" type="text" name="false1" required></textarea>
         </label>
-        <label>Bonne réponse :
+        <label>Mauvaise réponse 2 :
             <textarea class="w-full rounded-xl" type="text" name="false2" required></textarea>
         </label>
         <input class="bg-blue-500 rounded-xl text-lg py-4 px-8" type="submit" name="create" value="Créer">

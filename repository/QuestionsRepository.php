@@ -52,7 +52,7 @@ class QuestionsRepository extends AbstractRepository
     }
 
     public function createQuestion($text, $level, $true, $false1, $false2) :  void{
-        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU, TRUE, FALSE1, FALSE2) VALUES (NULL, :text, :level, :true, :false1, :false2);";
+        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU, RESPONSE, FALSE1, FALSE2) VALUES (NULL, :text, :level, :true, :false1, :false2);";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':text' => $text,

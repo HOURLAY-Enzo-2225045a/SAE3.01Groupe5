@@ -33,104 +33,33 @@ class UsersRepository extends AbstractRepository
         return new User($user);
     }
 
-    public function signUp(string $password, string $password1, string $pseudo, string $email): User
-    {
-
-        if ($password === "" || $password1 === "" || $pseudo === "" || $email === "") {
-            throw new EmptyFieldException("Un champ de saisie est vide");
-        }
-
-        //On vérifie si les confirmations de password sont bon
-        if ($password != $password1) {
-            throw new PasswordVerificationException("Mot de passe différent");
-        }
-
-        //on insert dans la BD le nouvel utilisateur
-        $query = 'INSERT INTO USER (PASSWORD, PSEUDO, MAIL, SCORE) VALUES (:password, :pseudo, :email,0)';
-        $statement = $this->connexion->prepare($query);
-        $statement->execute(['password' => $password, 'pseudo' => $pseudo, 'email' => $email]);
-
-        //Si la requête ne nous rend rien on dit que l'on peut pas insérer
-        if ($statement->rowCount() === 0) {
-            throw new CannotCreateException("Le USER de pseudo : " . $pseudo . " ne peut pas être créer");
-        }
-        //exception imposible mais a prévoire car on ne peut insérer qu'un User
-        if ($statement->rowCount() > 1) {
-            throw new MoreThanOneException("Problème présent dans la BD");
-        }
-
-        return $this->login($pseudo, $password);
-    }
-
-    public function getScoreByID(int $id): User
-    {
-        //On select le score d'un utilisateur par rapport a son id
-        $query = 'SELECT SCORE FROM USER WHERE USER.USER_ID = :id';
-        $statement = $this->connexion->prepare(
-            $query);
-        $statement->execute(['id' => $id]);
-
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun USER trouvé');
-        }
-        //exception imposible mais a prévoire car on ne peut insérer qu'un User
-        if ($statement->rowCount() > 1) {
-            throw new MoreThanOneException("Problème présent dans la BD");
-        }
-        $user = $statement->fetch();
-
-        return new User($user);
-    }
-    public function getById($id): User
-    {
-        $query = 'SELECT * FROM USER WHERE USER_ID = :id';
-        $statement = $this->connexion->prepare($query);
-        $statement->execute(['id' => $id]);
-
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun USER trouvé');
-        }
-        //exception imposible mais a prévoire car on ne peut insérer qu'un User
-        if ($statement->rowCount() > 1) {
-            throw new MoreThanOneException("Problème présent dans la BD");
-        }
-        $user = $statement->fetch();
-        return new User($user);
-    }
-
-    public function userRanking() :  array{
-        $query = 'SELECT * FROM USER  WHERE ADMIN = 0 ORDER BY USER.SCORE DESC';
-        $statement = $this->connexion->prepare($query);
-        $statement->execute();
-
-//        if ($statement->rowCount() === 0) {
-//            throw new NotFoundException('Aucun untilisateur n\'a été trouvé ');
+//    public function signUp(string $password, string $password1, string $pseudo, string $email): User
+//    {
+//
+//        if ($password === "" || $password1 === "" || $pseudo === "" || $email === "") {
+//            throw new EmptyFieldException("Un champ de saisie est vide");
 //        }
-        //on créer un tableau de Usercontenant toutes les données
-        $arraySQL = $statement->fetchAll();
-        $arrayUser = array();
+//
+//        //On vérifie si les confirmations de password sont bon
+//        if ($password != $password1) {
+//            throw new PasswordVerificationException("Mot de passe différent");
+//        }
+//
+//        //on insert dans la BD le nouvel utilisateur
+//        $query = 'INSERT INTO USER (PASSWORD, PSEUDO, MAIL, SCORE) VALUES (:password, :pseudo, :email,0)';
+//        $statement = $this->connexion->prepare($query);
+//        $statement->execute(['password' => $password, 'pseudo' => $pseudo, 'email' => $email]);
+//
+//        //Si la requête ne nous rend rien on dit que l'on peut pas insérer
+//        if ($statement->rowCount() === 0) {
+//            throw new CannotCreateException("Le USER de pseudo : " . $pseudo . " ne peut pas être créer");
+//        }
+//        //exception imposible mais a prévoire car on ne peut insérer qu'un User
+//        if ($statement->rowCount() > 1) {
+//            throw new MoreThanOneException("Problème présent dans la BD");
+//        }
+//
+//        return $this->login($pseudo, $password);
+//    }
 
-        /* on récupére le résultat de la requête SQL et on le met dans un tableau d'User'*/
-        for ($i = 0; $i < sizeof($arraySQL); $i++) {
-            $user = new User($arraySQL[$i]);
-            $arrayUser[] = $user;
-        }
-
-        return $arrayUser;
-    }
-
-    public function deleteUserById($id): void
-    {
-        //On supprime un user avec son id
-        $query = 'DELETE FROM USER WHERE USER_ID = :id';
-        $statement = $this->connexion->prepare($query);
-        $statement->execute(['id' => $id]);
-
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun USER trouvé');
-        }
-    }
 }

@@ -18,10 +18,10 @@
         <label>Bonne réponse :
             <textarea class="w-full rounded-xl" type="text" name="true" required><?=$data->getTrue()?></textarea>
         </label>
-        <label>Bonne réponse :
+        <label>Mauvaise réponse 1 :
             <textarea class="w-full rounded-xl" type="text" name="false1" required><?=$data->getFalse1()?></textarea>
         </label>
-        <label>Bonne réponse :
+        <label>Mauvaise réponse 2 :
             <textarea class="w-full rounded-xl" type="text" name="false2" required><?=$data->getFalse2()?></textarea>
         </label>
         <input class="bg-blue-500 rounded-xl text-lg py-4 px-8" type="submit" name="update" value="Mettre a jour">

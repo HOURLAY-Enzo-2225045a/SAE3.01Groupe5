@@ -3,7 +3,7 @@
 </a>
 <div class="h-[40vh] w-full flex flex-col justify-center items-center space-y-5">
     <form class="flex flex-col" id="form" method="post">
-        <input type="hidden" name="action" value="addPseudo">
+        <input type="hidden" name="action" value="addSessionPlayer">
         <label for="code">Entrez votre pseudo :<br>
             <input class="rounded-xl" type="text" id="pseudo" name="pseudo" required>
         </label>

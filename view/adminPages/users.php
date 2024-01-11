@@ -7,7 +7,7 @@
 <h1 class="titlePage">
     <span class="text-black">La</span> page users
 </h1>
-<div class="w-full flex justify-center items-center text-4xl"><h2 class="bg-customBlue p-5 rounded-xl" id="code"></h2></div>
+<div class="w-full flex justify-center items-center text-4xl"><h2 class="bg-customBlue p-5 rounded-xl" id="code"><?php echo isset($data[0]) ? $data[0]->getCode() : 'Aucun joueur'?></h2></div>
 <div class="w-full flex flex-row justify-center items-center">
     <a class="button cursor-pointer sessionAction" data-action="start"><span>Demarrer</span></a>
     <a class="button cursor-pointer sessionAction" data-action="stop"><span>Arreter</span></a>
@@ -33,13 +33,13 @@
         <tbody>
         <?php
         $i = 1;
-        foreach ($data as $user){ ?>
+        foreach ($data as $sessionUser){ ?>
             <tr class="bg-white">
                 <td class="px-4 py-2 border-t border-b text-center font-bold"><?= $i ?></td>
-                <td class="px-4 py-2 border-t border-b text-center"><?= $user->getPseudo()?></td>
-                <td class="px-4 py-2 border-t border-b text-center"><?= $user->getScore()?></td>
+                <td class="px-4 py-2 border-t border-b text-center"><?= $sessionUser->getPseudo()?></td>
+                <td class="px-4 py-2 border-t border-b text-center"><?= $sessionUser->getScore()?></td>
                 <td class="p-2 border bg-[var(--color-bg)] text-center">
-                    <button id="callActionButton" data-id="<?= $user->getUser_id() ?>" data-modal-target="deleteModalUser" data-modal-toggle="deleteModalUser" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
+                    <button id="callActionButton" data-id="<?= $sessionUser->getSession_user_id() ?>" data-modal-target="deleteModalUser" data-modal-toggle="deleteModalUser" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
                         <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
                     </button>
                 </td>

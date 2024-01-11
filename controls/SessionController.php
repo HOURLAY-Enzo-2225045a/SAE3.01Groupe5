@@ -3,6 +3,8 @@
 namespace Controls;
 
 use Exception\MoreThanOneException;
+use Exception\NotFoundException;
+use View\View;
 
 class SessionController
 {
@@ -13,36 +15,30 @@ class SessionController
 
     public function __construct()
     {
-        $this->repository = new \Repository\CodesRepository();
+        $this->repository = new \Repository\SessionRepository();
     }
 
-    public function checkSessionCode($code){
+    public function addSessionPlayer($pseudo){
+        $this->repository->addSessionPlayer($pseudo, $_SESSION['code']);
+        $_SESSION['pseudo'] = $pseudo;
+    }
+
+    public function showUsers(): void
+    {
+        $path = 'view/adminPages/users.php';
+        View::display('Admin', $path, $this->repository->getRanking());
+    }
+
+    public function deleteUser($id): void
+    {
         try{
-            if($this->repository->checkSessionCode($code)){
-                $_SESSION['code'] = $code;
-                return true;
-            }else {
-                return false;
-            }
+            $this->repository->deleteUserById($id);
         }
-        catch (MoreThanOneException $ERROR){
-            //on fais un retour d'erreur
+        catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
             echo $ERROR->getMessage();
         }
     }
 
-    public function start(){
-        $randomCode = rand(10000, 99999);
-        if($this->repository->isSessionCode()){
-            $this->repository->stop();
-        }
-        $this->repository->start($randomCode);
-        echo $randomCode;
-    }
-    public function stop(){
-        $this->repository->stop();
-        echo 'Pas de session en cours';
-    }
 
 }

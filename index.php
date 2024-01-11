@@ -21,6 +21,7 @@ $questionsController = new \Controls\QuestionsController();
 $spartiatesController = new \Controls\SpartiatesController();
 $usersController = new \Controls\UsersController();
 $codesController = new \Controls\CodesController();
+$sessionController = new \Controls\SessionController();
 
 // Gestion des actions
 require 'controls/actionController.php';
@@ -42,8 +43,9 @@ $adminForms = [
 $adminPages = [
     'questions' =>      ['Questions' , $questionsController],
     'spartiates' =>     ['Spartiates' , $spartiatesController],
-    'users' =>          ['Utilisateurs' , $usersController]
+    'users' =>          ['Utilisateurs' , $sessionController],
 ];
+
 if ('' == $url || '/' == $url || 'home' == $url) {
 
     $path = 'view/home.php';
@@ -52,11 +54,12 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 }elseif (isset($pages[$url])) {
 
     $path = 'view/' . $url . '.php';
-    if($url!="play" || $codesController->checkSessionCode($_SESSION['code']) && isset($_SESSION['pseudo']))
+    if ($url != "play" || ($codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
         View::display($pages[$url], $path);
-    elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code'])))
+    }elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))){
+        $_SESSION['pseudo'] = null;
         header('refresh:0;url=/sessionCode');
-    elseif($url == 'play' && !isset($_SESSION['pseudo']))
+    }elseif($url == 'play' && empty($_SESSION['pseudo']))
         header('refresh:0;url=/pseudo');
 
 }elseif (isset($forms[$url])) {
@@ -65,7 +68,6 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     View::display($forms[$url], $path);
 
 }elseif(empty($_SESSION['admin'])) {
-
     header('refresh:0;url=/admin');
 
 }elseif (isset($adminForms[$url])) {

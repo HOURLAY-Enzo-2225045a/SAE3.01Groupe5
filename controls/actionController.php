@@ -9,38 +9,35 @@ $questionsController = new \Controls\QuestionsController();
 $spartiatesController = new \Controls\SpartiatesController();
 $usersController = new \Controls\UsersController();
 $codesController = new \Controls\CodesController();
-$controllers = [
-    'questions' => new QuestionsController(),
-    'spartiates' => new SpartiatesController(),
-    'users' => new UsersController(),
-    'codes' => new CodesController(),
-];
+$sessionController = new \Controls\SessionController();
 
 if (!isset($_SESSION)) {
     session_start();
 }
 $actionsMapping = [
-    'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false],
-    'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => 'pseudo'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false],
+    'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false, 'needResponse' => true],
+    'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => 'pseudo'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false, 'needResponse' => true],
     'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
-    'deleteUser' => [     'idField' => 'id',                                    'controller' => $usersController,        'redirect' => '/users', 'adminOnly' => true     ],
+    'deleteUser' => [     'idField' => 'id',                                    'controller' => $sessionController,        'redirect' => '/users', 'adminOnly' => true     ],
     'deleteQuestion' => [ 'idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'changeStar' => [     'fields' => ['spartiateId'],                          'controller' => $spartiatesController , 'adminOnly' => true                             ],
     'searchQuestion' => [ 'fields' => ['searchTerm'],                           'controller' => $questionsController   , 'adminOnly' => true                            ],
-    'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                             ],
-    'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                             ],
-    'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                             ],
-    'addSessionPlayer' => [                                                     'controller' => $codesController, 'adminOnly' => true                             ],
+    'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                              ],
+    'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                                   ],
+    'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                                   ],
+    'addSessionPlayer' => ['fields' => ['pseudo'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
 
 ];
 
 // Fonction pour traiter les actions
-function handleAction($postData, $questionsController, $spartiatesController, $usersController, $codesController, $files, $actionsMapping)
+function handleAction($actionsMapping)
 {
+    $postData = $_POST;
+    $files = $_FILES;
     $action = $_POST['action'];
     if (isset($actionsMapping[$action])) {
         $mapping = $actionsMapping[$action];
@@ -54,7 +51,7 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
         if (isset($mapping['fields'])) {
             foreach ($mapping['fields'] as $field) {
                 if (empty($postData[$field])) {
-                    echo json_encode(['success' => false, 'error' => "Champ $field manquant"]);
+                    echo "Champ $field manquant";
                     return;
                 }
             }
@@ -73,7 +70,7 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
         if (!isset($mapping['controller']))
             echo json_encode('Action non valide');
 
-        elseif(!$mapping['adminOnly']){
+        elseif(!empty($mapping['needResponse'])){
             // Appeler la fonction appropriée avec les paramètres
             header('Content-Type: application/json');
 
@@ -89,7 +86,7 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
         }
 
         if(isset($files["fileToUpload"])){
-            $target_dir = "../assets/fileSave/";
+            $target_dir = "../assets/spartImage/";
             $imageFileType = strtolower(pathinfo(basename($files["fileToUpload"]["name"]),PATHINFO_EXTENSION));
             $target_file = $target_dir . strtolower($postData['lastName']) . "_" . strtolower($postData['name'] . "." . $imageFileType);
 
@@ -111,7 +108,7 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
     if (isset($actionsMapping[$_POST['action']])) {
     // Utilisation de la fonction si la requete ajax est detectée
-    handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController, $_FILES, $actionsMapping);
+    handleAction($actionsMapping);
     }elseif($_POST['action'] == 'deconnect'){
         $_SESSION['admin'] = false;
         echo '/home';
