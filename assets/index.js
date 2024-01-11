@@ -1,6 +1,5 @@
 $(document).ready(function(){
     $(document).on("click", ".star", function(){
-        console.log("click");
         // Toggle l'état rempli/vide de l'étoile
         let filled = !$(this).data("filled");
         $(this).data("filled", filled);
@@ -79,8 +78,8 @@ $(document).ready(function(){
 
     $("#verificationForm").submit(function(e){
         e.preventDefault(); //empêcher une action par défaut
+
         // Récupérer l'URL du formulaire et la méthode
-        let form_url = $(this).attr("action");
         let form_method = $(this).attr("method");
 
         // Encoder les éléments du formulaire et ajouter la letiable action
@@ -88,7 +87,7 @@ $(document).ready(function(){
 
         // Effectuer la requête AJAX
         $.ajax({
-            url: form_url,
+            url: "/controls/actionController.php",
             type: form_method,
             data: form_data
         }).done(function(response){
@@ -102,28 +101,50 @@ $(document).ready(function(){
         });
     });
 
-    $("#form:not(.test)").submit(function(e){
-        e.preventDefault(); //empêcher une action par défaut
+    $("#form").submit(function(e){
+        // e.preventDefault(); //empêcher une action par défaut
+
         // Récupérer l'URL du formulaire et la méthode
-        let form_url = $(this).attr("action");
         let form_method = $(this).attr("method");
 
         // Encoder les éléments du formulaire et ajouter la letiable action
-        let form_data = $(this).serialize()
+        // let form_data = $(this).serialize()
+        let form_data = new FormData(this);
 
         // Effectuer la requête AJAX
         $.ajax({
-            url: form_url,
+            url: "/controls/actionController.php",
             type: form_method,
-            data: form_data
+            data: form_data,
+            contentType: false,
+            processData: false
         }).done(function(response){
             window.location.href = response;
         });
     });
 
+    $(document).on("click", "#actionButton", function(){
+        let action = $(this).data("action");
+        let id = $(this).data("id");
+        // Effectuer la requête AJAX
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: action,
+                id: id,
+            },
+        }).done(function(response){
+            console.log(response);
+            window.location.href = response;
+        });
+    });
+
+    $(document).on("click", "#callActionButton", function(){
+        let buttonConfirmDelete = $('#actionButton');
+        buttonConfirmDelete.data('id', $(this).data("id"));
+    });
 });
-
-
 
 
 

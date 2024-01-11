@@ -2,7 +2,7 @@
     <img class="p-1" src="/assets/images/home.svg" alt="homepage">
 </a>
 <div class="h-[40vh] w-full flex flex-col justify-center items-center space-y-5">
-    <form class="flex flex-col" id="verificationForm" action="/controls/actionController.php" method="post">
+    <form class="flex flex-col" id="verificationForm" method="post">
         <input type="hidden" name="action" value="checkSessionCode">
         <label for="code">Entrez le code :</label>
         <input class="rounded-xl" type="text" id="code" name="code" required>

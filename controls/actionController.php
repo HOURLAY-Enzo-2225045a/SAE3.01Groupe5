@@ -21,11 +21,11 @@ if (!isset($_SESSION)) {
 }
 
 // Fonction pour traiter les actions
-function handleAction($postData, $questionsController, $spartiatesController, $usersController, $codesController)
+function handleAction($postData, $questionsController, $spartiatesController, $usersController, $codesController, $files)
 {
     $action = $_POST['action'];
     $actionsMapping = [
-        'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Erreur lors de la création de Spartiate'], 'adminOnly' => false],
+        'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => 'users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false],
         'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => 'play'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false],
         'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
         'createQuestion' => [ 'fields' => ['text', 'level'],                        'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
@@ -39,7 +39,6 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
         'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                             ],
         ];
 
-    var_dump($_FILES);
     if (isset($actionsMapping[$action])) {
         $mapping = $actionsMapping[$action];
         // Vérifier si l'action nécessite des privilèges administratifs
@@ -57,6 +56,7 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
                 }
             }
         }
+
         // Récupérer les paramètres de l'action
         $params = [];
         if (isset($mapping['idField'])) {
@@ -68,7 +68,7 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
         }
         //je verifie si mon controller existe
         if (!isset($mapping['controller']))
-            echo json_encode(['error' => 'Action non valide']);
+            echo json_encode('Action non valide');
 
         elseif(!$mapping['adminOnly']){
             // Appeler la fonction appropriée avec les paramètres
@@ -83,9 +83,20 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
             $controllers = $mapping['controller'];
             // Appeler la fonction appropriée avec les paramètres
            call_user_func_array([$controllers, $action], $params);
-
         }
-        // Redirection
+
+        if(isset($files["fileToUpload"])){
+            $target_dir = "../assets/fileSave/";
+            $imageFileType = strtolower(pathinfo(basename($files["fileToUpload"]["name"]),PATHINFO_EXTENSION));
+            $target_file = $target_dir . strtolower($postData['lastName']) . "_" . strtolower($postData['name'] . "." . $imageFileType);
+
+            // restreindre au extensions d'image
+            if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
+                move_uploaded_file(str_replace("\\\\", "\\", $files["fileToUpload"]["tmp_name"]), $target_file);
+            }
+        }
+
+////         Redirection
         if (isset($mapping['redirect'])) {
             echo $mapping['redirect'];
         }
@@ -97,5 +108,9 @@ function handleAction($postData, $questionsController, $spartiatesController, $u
 
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
     // Utilisation de la fonction si la requete ajax est detectée
-    handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController);
+    $fp = fopen("../assets/logs/debug.log", "w+");
+    fwrite($fp, json_encode($_POST));
+    fwrite($fp, json_encode($_FILES));
+    fclose($fp);
+    handleAction($_POST, $questionsController, $spartiatesController, $usersController, $codesController,$_FILES);
 }

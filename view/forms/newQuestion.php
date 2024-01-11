@@ -2,7 +2,7 @@
     <img class="p-1" src="/assets/images/home.svg" alt="homepage">
 </a>
 <div class="flex items-center justify-center w-[50%] translate-x-1/2">
-    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5 w-full" action="/controls/actionController.php" id="form" method="post">
+    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5 w-full" id="form" method="post">
         <input type="hidden" name="action" value="createQuestion">
         <h1 class = "text-2xl"> Nouvelle question </h1>
         <label>Question :</label>
