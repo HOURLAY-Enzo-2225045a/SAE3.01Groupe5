@@ -9,6 +9,6 @@
         </label>
         <label class="text-red-700"><?= $data?></label>
 <div class="text-red-700" id="res"></div>
-<input type="submit" value="Vérifier"/>
+<input type="submit" value="JOUER"/>
 </form>
 </div>

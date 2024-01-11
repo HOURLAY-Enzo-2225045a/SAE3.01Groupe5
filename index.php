@@ -54,7 +54,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 }elseif (isset($pages[$url])) {
 
     $path = 'view/' . $url . '.php';
-    if ($url != "play" || ($codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
+    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
         View::display($pages[$url], $path);
     }elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))){
         $_SESSION['pseudo'] = null;
