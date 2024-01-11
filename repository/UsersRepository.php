@@ -101,7 +101,7 @@ class UsersRepository extends AbstractRepository
     }
 
     public function userRanking() :  array{
-        $query = 'SELECT * FROM USER ORDER BY USER.SCORE DESC';
+        $query = 'SELECT * FROM USER  WHERE ADMIN = 0 ORDER BY USER.SCORE DESC';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
 

@@ -11,7 +11,7 @@
 </div>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <a class="blueButton" href='/Userss'><span>Sportifs</span></a>
+    <a class="blueButton" href='/spartiates'><span>Sportifs</span></a>
     <a class="blueButton" href='/questions'><span>Questions</span></a>
 </div>
 

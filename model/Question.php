@@ -11,6 +11,57 @@ class Question extends Entity
     private $question_id;
     private $intitule;
     private $niveau;
+    private $true;
+    private $false1;
+    private $false2;
+
+    /**
+     * @return mixed
+     */
+    public function getTrue()
+    {
+        return $this->true;
+    }
+
+    /**
+     * @param mixed $true
+     */
+    public function setTrue($true): void
+    {
+        $this->true = $true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFalse1()
+    {
+        return $this->false1;
+    }
+
+    /**
+     * @param mixed $false1
+     */
+    public function setFalse1($false1): void
+    {
+        $this->false1 = $false1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFalse2()
+    {
+        return $this->false2;
+    }
+
+    /**
+     * @param mixed $false2
+     */
+    public function setFalse2($false2): void
+    {
+        $this->false2 = $false2;
+    }
 
     /**
      * @return mixed

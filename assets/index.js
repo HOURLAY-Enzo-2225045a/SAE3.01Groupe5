@@ -102,8 +102,7 @@ $(document).ready(function(){
     });
 
     $("#form").submit(function(e){
-        // e.preventDefault(); //empêcher une action par défaut
-
+        e.preventDefault(); //empêcher une action par défaut
         // Récupérer l'URL du formulaire et la méthode
         let form_method = $(this).attr("method");
 
@@ -119,6 +118,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false
         }).done(function(response){
+            console.log(response);
             window.location.href = response;
         });
     });
@@ -135,7 +135,6 @@ $(document).ready(function(){
                 id: id,
             },
         }).done(function(response){
-            console.log(response);
             window.location.href = response;
         });
     });
