@@ -78,16 +78,13 @@ if ('' == $url || '/' == $url || 'home' == $url) {
         $adminPages[$url][1]->$method();
     }
     else {
-//        header('refresh:0;url=/404');
+        header('refresh:0;url=/404');
     }
-
 }elseif ('updateQuestion' == $url || 'updateSpartiate' == $url && !empty($_GET['id'])) {
-
     if('updateQuestion' == $url)
         $questionsController->showUpdateForm($url,htmlspecialchars($_GET['id']));
     else
         $spartiatesController->showUpdateForm($url,htmlspecialchars($_GET['id']));
-
 }else {
     View::display('Erreur', 'view/error.php');
 }

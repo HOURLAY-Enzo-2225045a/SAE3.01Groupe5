@@ -33,6 +33,18 @@ class QuestionsController
         }
     }
 
+    public function getRandomQuestion(): void
+    {
+        try{
+            $question = $this->repository->getRandomQuestion();
+            echo array('intitule' => $question->getIntitule());
+        }
+        catch (MoreThanOneException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
     public function createQuestion($text, $level, $vrai, $faux1, $faux2): void
     {
         try{
@@ -98,7 +110,7 @@ class QuestionsController
             $listeQuestion =  $this->repository->getAll();
             foreach ($listeQuestion as $question){
                 $trouver = rand(0,sizeof($listeQuestion));
-                
+
             }
 
         }catch (RandomException $exception){
