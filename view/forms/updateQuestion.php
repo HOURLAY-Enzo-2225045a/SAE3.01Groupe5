@@ -16,7 +16,7 @@
             <option value="gardien" <?php if($data->getNiveau() === "GARDIEN") echo'selected'?>>Gardien</option>
         </select>
         <label>Bonne réponse :
-            <textarea class="w-full rounded-xl" type="text" name="true" required><?=$data->getTrue()?></textarea>
+            <textarea class="w-full rounded-xl" type="text" name="true" required><?=$data->getResponse()?></textarea>
         </label>
         <label>Mauvaise réponse 1 :
             <textarea class="w-full rounded-xl" type="text" name="false1" required><?=$data->getFalse1()?></textarea>

@@ -8,11 +8,12 @@
 <a href="/home" class="absolute left-5 top-5 w-10 h-10">
     <img class="p-1" src="/assets/images/home.svg" alt="homepage">
 </a>
-<h1 class="titlePage">
-    <span class="text-black">Les</span> règles du jeu
-</h1>
+<div class="h-[40vh]">
+    <h1 class="titlePage">
+        <span class="text-black">Les</span> règles du jeu
+    </h1>
 
-<!--<div class="max-w-2xl m-auto">-->
+    <!--<div class="max-w-2xl m-auto">-->
     <div id="default-carousel" class="relative" data-carousel="static">
         <!-- Carousel wrapper -->
         <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96 w-4/5 left-[10%]">
@@ -65,3 +66,4 @@
         </span>
         </button>
     </div>
+</div>

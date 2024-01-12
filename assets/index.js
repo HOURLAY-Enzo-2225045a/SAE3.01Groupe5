@@ -184,7 +184,7 @@ function updateRanking() {
 
 if (window.location.pathname === "/users") {
     updateRanking()
-    setInterval(updateRanking, 1000);
+    setInterval(updateRanking, 3000);
 }
 
 

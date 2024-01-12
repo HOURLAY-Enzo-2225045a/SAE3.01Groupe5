@@ -83,7 +83,6 @@ class SpartiatesController
         foreach($questions as $spartiate) {
             echo '
                 <div class="flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md">
-                    <img src="https://i.imgur.com/7z9J8ZC.jpg" alt="joueur" class="w-32 h-32 rounded-full">
                     <div class="flex flex-row items-center justify-between w-full mt-2">
                         <p class="text-lg font-medium text-gray-800 mr-5">' . $spartiate->getLastname() . ' ' . $spartiate->getName() . '</p>
                         <div class="flex flex-row space-x-2">

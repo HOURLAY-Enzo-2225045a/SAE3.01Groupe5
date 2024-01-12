@@ -11,24 +11,24 @@ class Question extends Entity
     private $question_id;
     private $intitule;
     private $niveau;
-    private $true;
+    private $response;
     private $false1;
     private $false2;
 
     /**
      * @return mixed
      */
-    public function getTrue()
+    public function getResponse()
     {
-        return $this->true;
+        return $this->response;
     }
 
     /**
-     * @param mixed $true
+     * @param mixed $response
      */
-    public function setTrue($true): void
+    public function setResponse($response): void
     {
-        $this->true = $true;
+        $this->response = $response;
     }
 
     /**
