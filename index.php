@@ -62,9 +62,11 @@ if ('' == $url || '/' == $url || 'home' == $url) {
         header('refresh:0;url=/pseudo');
 
 }elseif (isset($forms[$url])) {
-
     $path = 'view/forms/' . $url . '.php';
-    View::display($forms[$url], $path);
+    if($url != "pseudo" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code'])))
+        View::display($forms[$url], $path);
+    elseif($url == 'pseudo')
+        header('refresh:0;url=/sessionCode');
 
 }elseif(empty($_SESSION['admin'])) {
     header('refresh:0;url=/admin');
