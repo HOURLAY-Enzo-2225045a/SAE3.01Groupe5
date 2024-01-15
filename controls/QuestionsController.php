@@ -37,7 +37,7 @@ class QuestionsController
     {
         try{
             $question = $this->repository->getRandomQuestion();
-            $temp = array('intitule' => $question->getIntitule(), 'faux1'=> $question->getNiveau(), 'faux2' => $question->getFaux2());
+            $temp = array('intitule' => $question->getIntitule(), 'vrai' => $question->getVrai(), 'faux1'=> $question->getFaux1(), 'faux2' => $question->getFaux2());
             echo json_encode($temp);
         }
         catch (MoreThanOneException $ERROR){
@@ -112,19 +112,7 @@ class QuestionsController
         $path='view/forms/'.$url.'.php';
         View::display('MISE A JOUR', $path, $this->repository->getById($id));
     }
-
-    public function questionShowdown(){
-        try {
-            $listeQuestion =  $this->repository->getAll();
-            foreach ($listeQuestion as $question){
-                $trouver = rand(0,sizeof($listeQuestion));
-
-            }
-
-        }catch (RandomException $exception){
-
-        }
-    }
+    
 
 
 
