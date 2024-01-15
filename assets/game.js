@@ -271,24 +271,27 @@ function collisionManager(){
     bounceManager(cageMid);
     bounceManager(cageRight);
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
-        cageLeft.interieurCage.color = (randCage == 0)? "green": "orange";
-        if(randCage == 0){
+        cageLeft.interieurCage.color = (randCage === 0)? "green": "orange";
+        if(randCage === 0){
             score+=100;
+            addScore();
             resetGame();
         }
         console.log("Score !");
         // TODO : faire la requete AJAX d'update du score
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
-        cageMid.interieurCage.color = (randCage == 1)? "green": "orange";
-        if(randCage == 1){
+        cageMid.interieurCage.color = (randCage === 1)? "green": "orange";
+        if(randCage === 1){
             score+=100;
+            addScore();
             resetGame();
         }
         console.log("Score !");
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
-        cageRight.interieurCage.color = (randCage == 2)? "green": "orange";
-        if(randCage == 2){
+        cageRight.interieurCage.color = (randCage === 2)? "green": "orange";
+        if(randCage === 2){
             score+=100;
+            addScore();
             resetGame();
         }
         console.log("Score !");
@@ -378,7 +381,7 @@ function resetStaticCanvas(){
     drawCage(cageRight,staticContext);
     randCage = Math.floor(Math.random() * 3);
     console.log(randCage);
-    getQuestion(); // récupère une question aléatoire et la dessine sur le canvas hors écran
+    getQuestion();// récupère une question aléatoire et la dessine sur le canvas hors écran
 }
 
 function resetGame(){
@@ -388,7 +391,6 @@ function resetGame(){
     newX = ball.x;
     newY = ball.y;
     resetStaticCanvas(); // reset cage and get new question
-    //reset cage color
     cageLeft.interieurCage.color = "red";
     cageMid.interieurCage.color = "red";
     cageRight.interieurCage.color = "red";
@@ -409,6 +411,18 @@ function getQuestion() {
         success: function (response) {
             drawAnswer(response.vrai,response.faux1,response.faux2,response.intitule,staticContext);
         }
+    });
+}
+
+function addScore(){
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "addScore",
+            score: 100,
+        },
+        dataType : 'json',
     });
 }
 
