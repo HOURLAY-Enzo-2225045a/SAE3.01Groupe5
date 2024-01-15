@@ -7,6 +7,7 @@
 
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
+let score = 0;
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
@@ -20,18 +21,10 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 var staticContext = staticCanvas.getContext('2d');
 
-// Dessiner les cages et le texte sur le canvas hors écran
-staticContext.beginPath();
-staticContext.fillStyle = 'black';
-staticContext.fillRect(0, 50, 20, 100);  // Côté gauche
-staticContext.fillRect(canvas.width - 20, 50, 20, 100);  // Côté droit
-
-staticContext.font = '16px Arial';
-staticContext.fillStyle = 'black';
-staticContext.fillText('Cage gauche', 10, 30);
-staticContext.fillText('Cage droite', canvas.width - 100, 30);
-staticContext.closePath();
-
+/**
+ * Fonction qui permet de récupérer une question aléatoire
+ * et de la dessiner sur le canvas hors écran
+ */
 function getQuestion() {
     $.ajax({
         type: "POST",
@@ -59,7 +52,7 @@ function getQuestion() {
 // objet qui représente la balle
 let ball = {
     x: Math.trunc(canvas.width/2), // position x de la balle
-    y: Math.trunc(canvas.height/2), // position y de la balle
+    y: Math.trunc(canvas.height*(7/10)), // position y de la balle
     r: 25, // rayon de la balle
     v: 10 // vitesse de la balle en pixel
 };
@@ -105,9 +98,9 @@ class Cage {
 let response = Math.floor(Math.random() * 3);
 
 // les objets qui représente la cage
-let cageLeft = new Cage(new Rectangle(0, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
+let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
 let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
-let cageRight = new Cage(new Rectangle(canvas.width-300, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
+let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
 
 /**
  * Permets de détecter le redimensionnement de la page
@@ -258,18 +251,25 @@ function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
  * @param {number} y : position y du texte
  * @param {string} color : couleur du texte
  */
-function drawText(txt, x, y, color){
-    ctx.font = "30px Arial";
-    ctx.fillStyle = color;
-    ctx.textAlign = "center";
-    ctx.fillText(txt,x,y);
+function drawText(txt, x, y, color,context){
+    context.font = "30px Arial";
+    context.fillStyle = color;
+    context.textAlign = "center";
+    context.fillText(txt,x,y);
 }
 
-function drawAnswer(){
-    drawText("TMPTEXT",cageMid.fond.x,cageMid.fond.y,"black");
-    drawText("TMPTEXT",cageLeft.fond.x,cageLeft.fond.y,"black");
-    drawText("TMPTEXT",cageRight.fond.x,cageRight.fond.y,"black");
+function drawAnswer(context){
+    drawText("A : "+response,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
+    drawText("B : "+response,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
+    drawText("C : "+response,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
+    drawText("Score : "+score.toString(),canvas.width*(9.5/10),70,"black",context);
 }
+
+/*
+let cageLeft = new Cage(new Rectangle(0, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
+let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
+let cageRight = new Cage(new Rectangle(canvas.width-300, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
+ */
 
 /**
  * Permet de détecter si un cercle et un rectangle donné en paramètre sont en collision
@@ -300,25 +300,31 @@ function collisionManager(){
     bounceManager(cageRight);
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
         cageLeft.interieurCage.color = (response == 0)? "green": "orange";
+        if(response == 0)
+            resetGame();
         console.log("Score !");
         // TODO : faire la requete AJAX d'update du score
-        $.ajax({
-            type: "POST",
-            url: "/controls/actionController.php",
-            data: {
-                action: "addScore",
-                score: 100,
-            },
-            dataType : 'json',
-            success: function (response) {
-                drawText(100,ball.x,ball.y,"black") // echo le nouv score dans response
-            }
-        });
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/controls/actionController.php",
+        //     data: {
+        //         action: "addScore",
+        //         score: 100,
+        //     },
+        //     dataType : 'json',
+        //     success: function (response) {
+        //         drawText(100,ball.x,ball.y,"black") // echo le nouv score dans response
+        //     }
+        // });
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
         cageMid.interieurCage.color = (response == 1)? "green": "orange";
+        if(response == 1)
+            resetGame();
         console.log("Score !");
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
         cageRight.interieurCage.color = (response == 2)? "green": "orange";
+        if(response == 2)
+            resetGame();
         console.log("Score !");
     }
 }
@@ -399,9 +405,26 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v);
 }
 
+function resetStaticCanvas(){
+    staticContext.clearRect(0, 0, canvas.width, canvas.height);
+    drawCage(cageLeft,staticContext);
+    drawCage(cageMid,staticContext);
+    drawCage(cageRight,staticContext);
+    drawAnswer(staticContext);
+}
 
-
-
+function resetGame(){
+    ball.x = Math.trunc(canvas.width/2);
+    ball.y = Math.trunc(canvas.height*(7/10));
+    newX = ball.x;
+    newY = ball.y;
+    ++score;
+    response = Math.floor(Math.random() * 3); // getQuestion();
+    resetStaticCanvas();
+    cageLeft.interieurCage.color = "red";
+    cageMid.interieurCage.color = "red";
+    cageRight.interieurCage.color = "red";
+}
 
 /**
  * Fonction principale qui permet de dessiner le canvas
@@ -409,11 +432,7 @@ function moveObject(ac, ne, v){
  */
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawCage(cageLeft,staticContext);
-    // drawCage(cageMid);
-    // drawCage(cageRight);
     ctx.drawImage(staticCanvas, 0, 0);
-    //drawBall({x:newX, y:newY, r:ball.r},"orange");
     drawBall(ball,"#0095DD");
     if(mouseIsDown){
         ctx.strokeStyle="black";
@@ -433,6 +452,8 @@ function draw() {
 }
 
 /**
- * Fonction qui va appeler la fonction draw() toutes les 10ms
+ * resetStaticCanvas() initialise le canvas hors écran et
+ * setInterval va appeler la fonction draw() toutes les 10ms
  */
+resetStaticCanvas();
 setInterval(draw, 10);
