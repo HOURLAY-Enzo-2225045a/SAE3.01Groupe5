@@ -98,9 +98,6 @@ class QuestionsController
                         <a href="/updateQuestion&id='.$question->getQuestion_id().'" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded cursor-pointer">
                             <img class="p-1" src="/assets/images/edit.svg" alt="Delete">
                         </a>
-                        <a href="/questions?action=deleteQuestion&id='.$question->getIntitule().'" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded cursor-pointer">
-                            <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
-                        </a>
                     </div>
                 </div>
             </div>';

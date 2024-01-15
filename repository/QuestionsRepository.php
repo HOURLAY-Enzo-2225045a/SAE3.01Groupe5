@@ -89,13 +89,16 @@ class QuestionsRepository extends AbstractRepository
             throw new NotFoundException('Aucun question trouvé');
         }
     }
-    public function updateQuestionById($id, $text, $level){
-        $query = "UPDATE QUESTION SET INTITULE = :text, NIVEAU = :level WHERE QUESTION_ID = :id;";
+    public function updateQuestionById($id, $text, $level, $true, $false1, $false2){
+        $query = "UPDATE QUESTION SET INTITULE = :text, NIVEAU = :level, RESPONSE= :true, FALSE1= :false1, FALSE2= :false2  WHERE QUESTION_ID = :id;";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':text' => $text,
             ':level'=> $level,
-            ':id' => $id]);
+            ':id' => $id,
+            ':true'=> $true,
+            ':false1'=> $false1,
+            ':false2'=> $false2]);
     }
 
     public function search($searchTerm)
