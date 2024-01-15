@@ -37,7 +37,7 @@ class QuestionsController
     {
         try{
             $question = $this->repository->getRandomQuestion();
-            $temp = array('intitule' => $question->getIntitule(), 'vrai' => $question->getVrai(), 'faux1'=> $question->getFaux1(), 'faux2' => $question->getFaux2());
+            $temp = array('intitule' => $question->getIntitule(), 'vrai' => $question->getResponse(), 'faux1'=> $question->getFalse1(), 'faux2' => $question->getFalse2());
             echo json_encode($temp);
         }
         catch (MoreThanOneException $ERROR){
