@@ -36,26 +36,6 @@ class UsersController
         }
     }
 
-    public function showUsers(): void
-    {
-        try{
-            $path = 'view/adminPages/users.php';
-            View::display('Admin', $path, $this->repository->userRanking());
-        }
-        catch (NotFoundException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
-        }
-    }
 
-    public function deleteUser($id): void
-    {
-        try{
-            $this->repository->deleteUserById($id);
-        }
-        catch (NotFoundException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
-        }
-    }
+
 }

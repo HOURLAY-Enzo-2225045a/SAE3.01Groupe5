@@ -30,6 +30,31 @@ class CodesRepository extends AbstractRepository
         }else {
             return true;
         }
+    }
 
+    public function isSessionCode(){
+        $query = 'SELECT * FROM CODES WHERE CODE_TYPE = "SESSION"';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute();
+        if ($statement->rowCount() === 0) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public function start($code){
+        $query = 'INSERT INTO CODES (CODE_TYPE, CODE)
+                    VALUES ("SESSION", :code)';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            'code' => $code,
+        ]);
+    }
+
+    public function stop(){
+        $query = 'DELETE FROM CODES WHERE CODE_TYPE = "SESSION"';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute();
     }
 }

@@ -4,8 +4,9 @@
 <div class="h-[40vh] w-full flex flex-col justify-center items-center space-y-5">
     <form class="flex flex-col" id="verificationForm" method="post">
         <input type="hidden" name="action" value="checkSessionCode">
-        <label for="code">Entrez le code :</label>
-        <input class="rounded-xl" type="text" id="code" name="code" required>
+        <label for="code">Entrez le code :<br>
+            <input class="rounded-xl" type="number" id="code" name="code" inputmode="numeric" pattern="[0-9]*" min="0" step="1" required>
+        </label>
         <label class="text-red-700"><?= $data?></label>
         <div class="text-red-700" id="res"></div>
         <input type="submit" value="Vérifier"/>

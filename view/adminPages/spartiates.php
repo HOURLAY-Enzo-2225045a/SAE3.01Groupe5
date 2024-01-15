@@ -1,9 +1,12 @@
+<a href="/home" class="absolute left-5 top-5 w-10 h-10">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
+</a>
+<a class="absolute right-5 top-5 w-10 h-10">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/deconnect.svg" id="deconnect" alt="deconnect">
+</a>
 <h1 class="titlePage">
     <span class="text-black">Les</span> Spartiates
 </h1>
-<a href="/home" class="absolute left-5 top-5 w-10 h-10">
-    <img class="p-1" src="/assets/images/home.svg" alt="Delete">
-</a>
 
 <div class="w-full flex flex-row justify-center items-center">
     <a class="button" href='/users'><span>Utilisateurs</span></a>
@@ -19,7 +22,16 @@
     <div class="result grid gap-4 p-4 grid-cols-3">
         <?php foreach($data as $spartiate){ ?>
         <div class="flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md">
-            <img src="https://i.imgur.com/7z9J8ZC.jpg" alt="joueur" class="w-32 h-32 rounded-full">
+            <?php
+            $extensions = ['jpg', 'jpeg', 'png', 'gif'];
+            foreach($extensions as $extension){
+                $imagePath = 'assets/spartImage/'.strtolower($spartiate->getLastname()).'_'.strtolower($spartiate->getName()).'.'.$extension;
+                if(file_exists($imagePath)){ // Si l'image existe, on l'affiche
+                    echo '<img class="w-32 h-32 rounded-full" src="' . $imagePath . '" alt="image du spartiate">';
+                    break;
+                }
+            }?>
+
             <div class="flex flex-row items-center justify-between w-full mt-2">
                 <p class="text-lg font-medium text-gray-800 mr-5"><?= $spartiate->getLastname()?> <?= $spartiate->getName()?></p>
                 <div class="flex flex-row space-x-2">

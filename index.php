@@ -21,6 +21,7 @@ $questionsController = new \Controls\QuestionsController();
 $spartiatesController = new \Controls\SpartiatesController();
 $usersController = new \Controls\UsersController();
 $codesController = new \Controls\CodesController();
+$sessionController = new \Controls\SessionController();
 
 // Gestion des actions
 require 'controls/actionController.php';
@@ -32,6 +33,7 @@ $pages = [
 ];
 $forms = [
     'sessionCode' =>    'entrer le code',
+    'pseudo' =>          'entrer le pseudo',
     'admin' =>          'Connexion',
 ];
 $adminForms = [
@@ -41,8 +43,8 @@ $adminForms = [
 $adminPages = [
     'questions' =>      ['Questions' , $questionsController],
     'spartiates' =>     ['Spartiates' , $spartiatesController],
-    'users' =>          ['Utilisateurs' , $usersController]
 ];
+
 if ('' == $url || '/' == $url || 'home' == $url) {
 
     $path = 'view/home.php';
@@ -50,27 +52,26 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 
 }elseif (isset($pages[$url])) {
 
-    if($url == 'play' && !isset($_SESSION['code']))
-        header('refresh:0;url=/sessionCode');
     $path = 'view/' . $url . '.php';
-    if (!isset($error)) $error = '';
-    View::display($pages[$url], $path, $error);
+    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
+        View::display($pages[$url], $path);
+    }elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))){
+        $_SESSION['pseudo'] = null;
+        header('refresh:0;url=/sessionCode');
+    }elseif($url == 'play' && empty($_SESSION['pseudo']))
+        header('refresh:0;url=/pseudo');
 
 }elseif (isset($forms[$url])) {
 
     $path = 'view/forms/' . $url . '.php';
-    if (!isset($error)) $error = '';
-    View::display($forms[$url], $path, $error);
+    View::display($forms[$url], $path);
 
 }elseif(empty($_SESSION['admin'])) {
-
     header('refresh:0;url=/admin');
 
 }elseif (isset($adminForms[$url])) {
-
     $path = 'view/forms/' . $url . '.php';
-    if (!isset($error)) $error = '';
-    View::display($adminForms[$url], $path, $error);
+    View::display($adminForms[$url], $path);
 
 }elseif (isset($adminPages[$url])) {
     $method = "show".ucfirst($url);
@@ -80,6 +81,10 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     else {
         header('refresh:0;url=/404');
     }
+}elseif ('users' == $url) {
+    $path = 'view/adminPages/users.php';
+    View::display('Admin', $path);
+
 }elseif ('updateQuestion' == $url || 'updateSpartiate' == $url && !empty($_GET['id'])) {
     if('updateQuestion' == $url)
         $questionsController->showUpdateForm($url,htmlspecialchars($_GET['id']));

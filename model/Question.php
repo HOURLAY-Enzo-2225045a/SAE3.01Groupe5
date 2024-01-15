@@ -11,9 +11,57 @@ class Question extends Entity
     private $question_id;
     private $intitule;
     private $niveau;
-    private $vrai;
-    private $faux1;
-    private $faux2;
+    private $response;
+    private $false1;
+    private $false2;
+
+    /**
+     * @return mixed
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param mixed $response
+     */
+    public function setResponse($response): void
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFalse1()
+    {
+        return $this->false1;
+    }
+
+    /**
+     * @param mixed $false1
+     */
+    public function setFalse1($false1): void
+    {
+        $this->false1 = $false1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFalse2()
+    {
+        return $this->false2;
+    }
+
+    /**
+     * @param mixed $false2
+     */
+    public function setFalse2($false2): void
+    {
+        $this->false2 = $false2;
+    }
 
     /**
      * @return mixed
@@ -63,52 +111,6 @@ class Question extends Entity
         $this->niveau = $niveau;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getVrai()
-    {
-        return $this->vrai;
-    }
 
-    /**
-     * @param mixed $vrai
-     */
-    public function setVrai($vrai): void
-    {
-        $this->niveau = $vrai;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFaux1()
-    {
-        return $this->faux1;
-    }
-
-    /**
-     * @param mixed $faux1
-     */
-    public function setFaux1($faux1): void
-    {
-        $this->niveau = $faux1;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFaux2()
-    {
-        return $this->faux2;
-    }
-
-    /**
-     * @param mixed $faux2
-     */
-    public function setFaux2($faux2): void
-    {
-        $this->niveau = $faux2;
-    }
 
 }

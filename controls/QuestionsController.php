@@ -53,10 +53,10 @@ class QuestionsController
         //TODO : echo le nouveau score
     }
 
-    public function createQuestion($text, $level, $vrai, $faux1, $faux2): void
+    public function createQuestion($text, $level, $true, $false1, $false2): void
     {
         try{
-            $this->repository->createQuestion($text, $level, $vrai, $faux1, $faux2);
+            $this->repository->createQuestion($text, $level, $true, $false1, $false2);
         }
         catch (CannotCreateException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
@@ -75,10 +75,10 @@ class QuestionsController
         }
     }
 
-    public function updateQuestion($id,$text,$level, $vrai, $faux1, $faux2)
+    public function updateQuestion($id,$text,$level, $true, $false1, $false2)
     {
         try{
-            $this->repository->updateQuestionById($id, $text, $level, $vrai, $faux1, $faux2);
+            $this->repository->updateQuestionById($id, $text, $level, $true, $false1, $false2);
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
@@ -112,7 +112,6 @@ class QuestionsController
         $path='view/forms/'.$url.'.php';
         View::display('MISE A JOUR', $path, $this->repository->getById($id));
     }
-    
 
 
 
