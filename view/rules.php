@@ -1,44 +1,39 @@
-<!--<p>Le hockey sur glace est un sport qui se pratique à 6 contre 6, avec 1 gardien et 5 joueurs par équipe.</p>-->
-<!--<p>L’objectif du jeu est de marquer un maximum de buts en envoyant un disque en caoutchouc appelé palet, dans le but adverse.</p>-->
-<!--<p>Pour manipuler le palet, les joueurs utilisent une crosse de hockey.</p>-->
-<!--<p>Le hockey sur glace est le seul sport où les joueurs peuvent se déplacer derrière les buts !</p>-->
-<!--<p>Le terrain de jeu, appelé patinoire, mesure entre 56 et 60 mètres de long, et entre 26 à 30 mètres de large.</p>-->
-<!--<p>Il est entouré par des balustrades.</p>-->
-<!---->
 <a href="/home" class="absolute left-5 top-5 w-10 h-10">
     <img class="p-1" src="/assets/images/home.svg" alt="homepage">
 </a>
 
-<h1 class=" absolute titlePage">
-    <span class="text-black">Les</span> règles du jeu
-</h1>
-<div class="h-[40vh] w-1/2 translate-x-1/2">
-    <!--<div class="max-w-2xl m-auto">-->
+<div class="m-10">
+    <h1 class="titlePage">
+        <span class="text-black">Les</span> règles du jeu
+    </h1>
+    <div class="w-full flex justify-center items-center my-5">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/hNQlOJoj2Vc?si=A2k1BD8d1LjhS9Wu" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
     <div id="default-carousel" class="relative" data-carousel="static">
         <!-- Carousel wrapper -->
-        <div class="overflow-hidden relative h-56 rounded-lg sm:h-64 xl:h-80 2xl:h-96 w-4/5 left-[10%]">
+        <div class="overflow-hidden relative h-[50vh] rounded-lg w-4/5 left-[10%]">
             <!-- Item 1 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    <?php echo file_get_contents('view/rules/equipments.php') ?>
-                </span>
-            </div>
-            <!-- Item 2 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
                     <?php echo file_get_contents('view/rules/game.php') ?>
                 </span>
             </div>
-            <!-- Item 3 -->
+            <!-- Item 2 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    <?php echo file_get_contents('view/rules/offSide.php') ?>
+                    <?php echo file_get_contents('view/rules/surface.php') ?>
                 </span>
             </div>
             <!-- Item 3 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    <?php echo file_get_contents('view/rules/surface.php') ?>
+                    <?php echo file_get_contents('view/rules/equipments.php') ?>
+                </span>
+            </div>
+            <!-- Item 3 -->
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <?php echo file_get_contents('view/rules/offside.php') ?>
                 </span>
             </div>
         </div>
