@@ -102,8 +102,7 @@ $(document).ready(function(){
     });
 
     $("#form").submit(function(e){
-        // e.preventDefault(); //empêcher une action par défaut
-
+        e.preventDefault(); //empêcher une action par défaut
         // Récupérer l'URL du formulaire et la méthode
         let form_method = $(this).attr("method");
 
@@ -119,6 +118,7 @@ $(document).ready(function(){
             contentType: false,
             processData: false
         }).done(function(response){
+            console.log(response);
             window.location.href = response;
         });
     });
@@ -135,7 +135,18 @@ $(document).ready(function(){
                 id: id,
             },
         }).done(function(response){
-            console.log(response);
+            window.location.href = response;
+        });
+    });
+
+    $(document).on("click", "#deconnect", function(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "deconnect",
+            },
+        }).done(function(response){
             window.location.href = response;
         });
     });
@@ -144,7 +155,37 @@ $(document).ready(function(){
         let buttonConfirmDelete = $('#actionButton');
         buttonConfirmDelete.data('id', $(this).data("id"));
     });
+
+    $(document).on("click", ".sessionAction", function(){
+        let action = $(this).data("action");
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: action,
+            },
+        }).done(function(response){
+            $('#code').html(response);
+        });
+    });
 });
+
+function updateRanking() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "showRanking",
+        },
+    }).done(function(response){
+        $('#ranking').html(response);
+    });
+}
+
+if (window.location.pathname === "/users") {
+    updateRanking()
+    setInterval(updateRanking, 3000);
+}
 
 
 

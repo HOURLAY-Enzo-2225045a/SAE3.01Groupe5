@@ -64,12 +64,16 @@ class QuestionsRepository extends AbstractRepository
         return $arrayQuestions;
     }
 
-    public function createQuestion($text, $level) :  void{
-        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU) VALUES (NULL, :text, :level);";
+    public function createQuestion($text, $level, $true, $false1, $false2) :  void{
+        $query = "INSERT INTO QUESTION (QUESTION_ID, INTITULE, NIVEAU, RESPONSE, FALSE1, FALSE2) VALUES (NULL, :text, :level, :true, :false1, :false2);";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':text' => $text,
-            ':level'=> $level]);
+            ':level'=> $level,
+            ':true'=> $true,
+            ':false1'=> $false1,
+            ':false2'=> $false2]);
+
     }
     public function deleteQuestionById($id): void
     {

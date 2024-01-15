@@ -3,6 +3,7 @@
 namespace Controls;
 
 use Exception\MoreThanOneException;
+use Repository\SessionRepository;
 
 class CodesController
 {
@@ -31,4 +32,22 @@ class CodesController
             echo $ERROR->getMessage();
         }
     }
+
+    public function start(){
+        $randomCode = rand(10000, 99999);
+        if($this->repository->isSessionCode()){
+            $this->repository->stop();
+            $sessionRepo = new \Repository\SessionRepository();
+            $sessionRepo->deleteSession();
+        }
+        $this->repository->start($randomCode);
+        echo $randomCode;
+    }
+    public function stop(){
+        $this->repository->stop();
+        $sessionRepo = new \Repository\SessionRepository();
+        $sessionRepo->deleteSession();
+        echo 'Pas de session en cours';
+    }
+
 }
