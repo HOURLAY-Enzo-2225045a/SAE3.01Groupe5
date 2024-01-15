@@ -18,35 +18,31 @@
     <div class="flex flex-row items-center justify-between w-full px-4 py-2 border-b border-gray-200">
         <input type="text" placeholder="Rechercher" id="searchSpartiate" class="w-full px-4 py-2 text-gray-700 bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-500">
     </div>
-    <div class="searchedResult grid gap-4 p-4 grid-cols-3" style="display: none;" ></div>
-    <div class="result grid gap-4 p-4 grid-cols-3">
+    <div class="searchedResult grid gap-4 p-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3" style="display: none;" ></div>
+    <div class="result grid gap-4 p-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <?php foreach($data as $spartiate){ ?>
-        <div class="flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md">
-            <?php
-            $extensions = ['jpg', 'jpeg', 'png', 'gif'];
-            foreach($extensions as $extension){
-                $imagePath = 'assets/spartImage/'.strtolower($spartiate->getLastname()).'_'.strtolower($spartiate->getName()).'.'.$extension;
-                if(file_exists($imagePath)){ // Si l'image existe, on l'affiche
-                    echo '<img class="w-32 h-32 rounded-full" src="' . $imagePath . '" alt="image du spartiate">';
-                    break;
+            <div class="flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md">
+                <?php
+                if($fileName = glob('assets/spartImage/'.strtolower($spartiate->getLastname()).'_'.strtolower($spartiate->getName()).'.*')){
+                    echo '<img class="w-24 h-32 rounded-3xl object-contain" src="' . $fileName[0] . '" alt="image du spartiate">';
                 }
-            }?>
+                ?>
 
-            <div class="flex flex-row items-center justify-between w-full mt-2">
-                <p class="text-lg font-medium text-gray-800 mr-5"><?= $spartiate->getLastname()?> <?= $spartiate->getName()?></p>
-                <div class="flex flex-row space-x-2">
-                    <div class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded cursor-pointer">
-                        <img class="p-1 star" data-spartiate-id="<?= $spartiate->getSpart_id() ?>" data-filled="<?= $spartiate->isStarred() ?>" src="<?php echo $spartiate->isStarred() ? '/assets/images/fullStar.svg' : '/assets/images/emptyStar.svg'; ?>" alt="etoile du match">
+                <div class="flex flex-row items-center justify-between w-full mt-2">
+                    <p class="text-lg font-medium text-gray-800 mr-5"><?= $spartiate->getLastname()?> <?= $spartiate->getName()?></p>
+                    <div class="flex flex-row space-x-2">
+                        <div class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded cursor-pointer">
+                            <img class="p-1 star" data-spartiate-id="<?= $spartiate->getSpart_id() ?>" data-filled="<?= $spartiate->isStarred() ?>" src="<?php echo $spartiate->isStarred() ? '/assets/images/fullStar.svg' : '/assets/images/emptyStar.svg'; ?>" alt="etoile du match">
+                        </div>
+                        <a href="/updateSpartiate?id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded">
+                            <img class="p-1" src="/assets/images/edit.svg" alt="Edit">
+                        </a>
+                        <button id="callActionButton" data-id="<?= $spartiate->getSpart_id() ?>" data-modal-target="deleteModalSpartiate" data-modal-toggle="deleteModalSpartiate" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
+                            <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
+                        </button>
                     </div>
-                    <a href="/updateSpartiate?id=<?= $spartiate->getSpart_id() ?>" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded">
-                        <img class="p-1" src="/assets/images/edit.svg" alt="Edit">
-                    </a>
-                    <button id="callActionButton" data-id="<?= $spartiate->getSpart_id() ?>" data-modal-target="deleteModalSpartiate" data-modal-toggle="deleteModalSpartiate" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
-                        <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
-                    </button>
                 </div>
             </div>
-        </div>
         <?php } ?>
     </div>
 </div>

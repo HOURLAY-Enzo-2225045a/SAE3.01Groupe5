@@ -11,6 +11,6 @@
     <br>
     Le gardien possède des protections suplémentaire ainsi qu’un crosse différente.
 </p>
-<p class="text-gray-600 mb-4">
+<p class="text-gray-600 mb-10">
     Il existe 3 type de protection pour le casque :
 </p>

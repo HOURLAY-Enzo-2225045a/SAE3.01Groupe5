@@ -6,4 +6,4 @@
 <p class="text-gray-600 mb-4">Pour manipuler le palet, les joueurs utilisent une <strong>crosse de hockey</strong>.</p>
 <p class="text-gray-600 mb-4">Le hockey sur glace est le seul sport où les joueurs peuvent se déplacer derrière les buts !</p>
 <p class="text-gray-600 mb-4">Le terrain de jeu, appelé patinoire, mesure entre 56 et 60 mètres de long, et entre 26 à 30 mètres de large.</p>
-<p class="text-gray-600 mb-4">Il est entouré par des balustrades.</p>
+<p class="text-gray-600 mb-10">Il est entouré par des balustrades.</p>
