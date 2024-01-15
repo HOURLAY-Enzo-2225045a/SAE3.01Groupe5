@@ -24,7 +24,7 @@ class UsersRepository extends AbstractRepository
 
         //Si la fonction ne rend rien cela veut dire qu'il n'y a pas de User correspondant
         if ($statement->rowCount() === 0) {
-            return null;
+            throw new NotFoundException('Aucun USER trouvé');
         }
         if ($statement->rowCount() > 1) {
             throw new MoreThanOneException("Problème présent dans la BD");

@@ -33,7 +33,7 @@
             <!-- Item 3 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
-                    <?php echo file_get_contents('view/rules/offside.php') ?>
+                    <?php echo file_get_contents('view/rules/offSide.php') ?>
                 </span>
             </div>
         </div>
