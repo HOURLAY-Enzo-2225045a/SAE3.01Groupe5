@@ -21,33 +21,7 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 var staticContext = staticCanvas.getContext('2d');
 
-/**
- * Fonction qui permet de récupérer une question aléatoire
- * et de la dessiner sur le canvas hors écran
- */
-function getQuestion() {
-    $.ajax({
-        type: "POST",
-        url: "/controls/actionController.php",
-        data: {
-            action: "getRandomQuestion",
-        },
-        dataType : 'json',
-        success: function (response) {
-            staticContext.clearRect(0, 0, canvas.width, canvas.height);
-            // Dessiner les cages et le texte sur le canvas hors écran
-            staticContext.beginPath();
-            staticContext.fillStyle = 'black';
-            staticContext.fillRect(0, 50, 20, 100);  // Côté gauche
 
-            staticContext.font = '16px Arial';
-            staticContext.fillStyle = 'black';
-            staticContext.fillText(response.intitule, 10, 30);
-            staticContext.closePath();
-
-        }
-    });
-}
 
 // objet qui représente la balle
 let ball = {
@@ -258,11 +232,12 @@ function drawText(txt, x, y, color,context){
     context.fillText(txt,x,y);
 }
 
-function drawAnswer(context){
-    drawText("A : "+response,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
-    drawText("B : "+response,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
-    drawText("C : "+response,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
+function drawAnswer(a,b,c,context){
+    drawText("A : "+a,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
+    drawText("B : "+b,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
+    drawText("C : "+c,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
     drawText("Score : "+score.toString(),canvas.width*(9.5/10),70,"black",context);
+    drawText("REPONSE:"+response.toString(),canvas.width*(1.5/10),70,"black",context);
 }
 
 /*
@@ -300,8 +275,10 @@ function collisionManager(){
     bounceManager(cageRight);
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
         cageLeft.interieurCage.color = (response == 0)? "green": "orange";
-        if(response == 0)
+        if(response == 0){
+            ++score;
             resetGame();
+        }
         console.log("Score !");
         // TODO : faire la requete AJAX d'update du score
         // $.ajax({
@@ -318,13 +295,17 @@ function collisionManager(){
         // });
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
         cageMid.interieurCage.color = (response == 1)? "green": "orange";
-        if(response == 1)
+        if(response == 1){
+            ++score;
             resetGame();
+        }
         console.log("Score !");
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
         cageRight.interieurCage.color = (response == 2)? "green": "orange";
-        if(response == 2)
+        if(response == 2){
+            ++score;
             resetGame();
+        }
         console.log("Score !");
     }
 }
@@ -410,7 +391,8 @@ function resetStaticCanvas(){
     drawCage(cageLeft,staticContext);
     drawCage(cageMid,staticContext);
     drawCage(cageRight,staticContext);
-    drawAnswer(staticContext);
+    getQuestion();
+    //drawAnswer("a","b","c",staticContext);
 }
 
 function resetGame(){
@@ -418,12 +400,41 @@ function resetGame(){
     ball.y = Math.trunc(canvas.height*(7/10));
     newX = ball.x;
     newY = ball.y;
-    ++score;
-    response = Math.floor(Math.random() * 3); // getQuestion();
+    response = Math.floor(Math.random() * 3);
+    //getQuestion();
     resetStaticCanvas();
     cageLeft.interieurCage.color = "red";
     cageMid.interieurCage.color = "red";
     cageRight.interieurCage.color = "red";
+}
+
+/**
+ * Fonction qui permet de récupérer une question aléatoire
+ * et de la dessiner sur le canvas hors écran
+ */
+function getQuestion() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "getRandomQuestion",
+        },
+        dataType : 'json',
+        success: function (response) {
+            //Dessiner les cages et le texte sur le canvas hors écran
+            // staticContext.beginPath();
+            // staticContext.fillStyle = 'black';
+            // staticContext.fillRect(0, 50, 20, 100);  // Côté gauche
+            //
+            // staticContext.font = '16px Arial';
+            // staticContext.fillStyle = 'black';
+            // staticContext.fillText(response.intitule, 10, 30);
+            // staticContext.closePath();
+            // console.log(response.vrai);
+            console.log(response);
+            drawAnswer(response.vrai,response.faux1,response.faux2,staticContext);
+        }
+    });
 }
 
 /**
@@ -442,7 +453,7 @@ function draw() {
     } else {
         if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
             if(moveObject(ball, {x:newX, y:newY}, ball.v)){
-                getQuestion();
+                // getQuestion();
                 newX = ball.x;
                 newY = ball.y
             }
