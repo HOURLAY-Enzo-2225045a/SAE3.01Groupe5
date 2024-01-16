@@ -35,21 +35,18 @@ class QuestionsController
 
     public function getRandomQuestion(): void
     {
-        try{
-            if(empty($_SESSION['randomQuestion'])){
-                $question = $this->repository->getRandomQuestion();
-                $_SESSION['randomQuestion'] = $question;
-            }
+
+        if(empty($_SESSION['randomQuestion'])){
+            $question = $this->repository->getRandomQuestion();
+            $_SESSION['randomQuestion'] = $question;
+        }
+        if(!empty($_SESSION['randomQuestion'])) {
             $temp = array('intitule' => $_SESSION['randomQuestion'][0]->getIntitule(),
                 'vrai' => $_SESSION['randomQuestion'][0]->getResponse(),
-                'faux1'=> $_SESSION['randomQuestion'][0]->getFalse1(),
+                'faux1' => $_SESSION['randomQuestion'][0]->getFalse1(),
                 'faux2' => $_SESSION['randomQuestion'][0]->getFalse2());
             $_SESSION['randomQuestion'] = array_slice($_SESSION['randomQuestion'], 1);
             echo json_encode($temp);
-        }
-        catch (MoreThanOneException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
         }
     }
 
@@ -97,9 +94,6 @@ class QuestionsController
                     <div class="flex flex-row space-x-2">
                         <a href="/updateQuestion&id='.$question->getQuestion_id().'" class="inline-block w-8 h-8 bg-customBlue hover:bg-blue-700 rounded cursor-pointer">
                             <img class="p-1" src="/assets/images/edit.svg" alt="Delete">
-                        </a>
-                        <a href="/questions?action=deleteQuestion&id='.$question->getIntitule().'" class="inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded cursor-pointer">
-                            <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
                         </a>
                     </div>
                 </div>

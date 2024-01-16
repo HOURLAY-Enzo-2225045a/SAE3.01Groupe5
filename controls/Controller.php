@@ -12,7 +12,6 @@ use View;
 
 class Controller
 {
-
     /**
      * @var mixed
      */

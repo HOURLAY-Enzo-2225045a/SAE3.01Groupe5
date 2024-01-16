@@ -7,7 +7,6 @@ use Exception\NotFoundException;
 use Model\SessionUser;
 use PDO;
 
-
 class SessionRepository extends AbstractRepository
 {
     public function __construct()

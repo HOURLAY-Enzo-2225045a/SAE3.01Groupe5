@@ -6,33 +6,33 @@
     <h1 class="titlePage">
         <span class="text-black">Les</span> règles du jeu
     </h1>
-    <div class="w-full flex justify-center items-center my-5">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/hNQlOJoj2Vc?si=A2k1BD8d1LjhS9Wu" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div class="w-full flex justify-center items-center py-10">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/hNQlOJoj2Vc?si=A2k1BD8d1LjhS9Wu" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
     <div id="default-carousel" class="relative" data-carousel="static">
         <!-- Carousel wrapper -->
         <div class="overflow-hidden relative h-[50vh] rounded-lg w-4/5 left-[10%]">
             <!-- Item 1 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+            <div class="overflow-auto hidden duration-700 ease-in-out" data-carousel-item>
+                <span class="w-full absolute top-0 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 text-center">
                     <?php echo file_get_contents('view/rules/game.php') ?>
                 </span>
             </div>
             <!-- Item 2 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+            <div class="overflow-auto hidden duration-700 ease-in-out" data-carousel-item>
+                <span class="w-full absolute top-0 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 text-center">
                     <?php echo file_get_contents('view/rules/surface.php') ?>
                 </span>
             </div>
             <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+            <div class="overflow-auto hidden duration-700 ease-in-out" data-carousel-item>
+                <span class="w-full absolute top-0 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 text-center">
                     <?php echo file_get_contents('view/rules/equipments.php') ?>
                 </span>
             </div>
-            <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <span class="w-full absolute top-1/2 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 -translate-y-1/2 text-center">
+            <!-- Item 4 -->
+            <div class="overflow-auto hidden duration-700 ease-in-out" data-carousel-item>
+                <span class="w-full absolute top-0 left-1/2 text-2xl font-semibold text-gray-800 -translate-x-1/2 text-center">
                     <?php echo file_get_contents('view/rules/offside.php') ?>
                 </span>
             </div>

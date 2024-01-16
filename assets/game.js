@@ -8,18 +8,22 @@
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
 let score = 0;
-console.log(document.documentElement.clientWidth,document.documentElement.clientHeight);
+let widthPercentage = 100;
+let heightPercentage = 80;
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
-canvas.width = document.documentElement.clientWidth; // on adapte la taille du canvas à la taille de la page
-canvas.height = document.documentElement.clientHeight;
+canvas.width = (widthPercentage / 100) * window.innerWidth; // on adapte la taille du canvas à la taille de la page
+canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
+// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
 staticCanvas.width = canvas.width;
+// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 staticCanvas.height = canvas.height;
+$("#question").text(canvas.width+" "+canvas.height);
 var staticContext = staticCanvas.getContext('2d');
 
 /**
@@ -80,11 +84,23 @@ let newY= ball.y; // nouvelle position y de la balle après interaction (drag & 
  * et d'adapter la taille du canvas
  * ainsi que de reset la position du ballon au millieu
  */
-window.addEventListener("resize",() => {
-    canvas.width = document.documentElement.clientWidth;
-    canvas.height = document.documentElement.clientHeight;
-    ball.x = Math.trunc(canvas.width/2);
-    ball.y = Math.trunc(canvas.height/2);
+function resizeCanvas() {
+    // Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
+    canvas.width = (widthPercentage / 100) * window.innerWidth;
+    // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
+    canvas.height = (heightPercentage / 100) * window.innerHeight;
+
+    staticCanvas.width = canvas.width;
+    staticCanvas.height = canvas.height;
+
+}
+// Gestion du redimensionnement de la fenêtre
+window.addEventListener("resize", resizeCanvas);
+
+// Gestion du changement d'orientation sur les appareils mobiles
+window.addEventListener("orientationchange", function () {
+    // Attendez quelques millisecondes pour permettre au navigateur de mettre à jour les dimensions
+    setTimeout(resizeCanvas, 200);
 });
 
 /**
@@ -97,9 +113,6 @@ window.addEventListener("mousemove", (e) => {
     if(mouseIsDown){
         newX = (ball.x+((ball.x-e.pageX)));
         newY = (ball.y-((e.pageY-ball.y)));
-    }
-    if(isInsideBall(ball,{x:e.pageX,y:e.pageY})){
-        console.log("inside ball",ball,e.pageX,e.pageY);
     }
 });
 window.addEventListener("touchmove", (e) => {
@@ -115,14 +128,15 @@ window.addEventListener("touchmove", (e) => {
  * l'action n'est pris en compte que si la souris est sur le ballon
  */
 window.addEventListener("mousedown", (e) => {
-    console.log("mousedown : ",e);
-    if(isInsideBall(ball,{x:e.pageX,y:e.pageY})){
+    if(e.pageX < ball.x + 50 && e.pageX > ball.x - 50 &&
+        e.pageY < ball.y + 50 && e.pageY > ball.y - 50){
         mouseIsDown = true;
     }
 });
 window.addEventListener("touchstart", (e) => {
     console.log("touchstart : ",e);
-    if(isInsideBall(ball,{x:e.targetTouches[0].pageX,y:e.targetTouches[0].pageY})){
+    if(e.targetTouches[0].pageX < ball.x + 50 && e.targetTouches[0].pageX > ball.x - 50 &&
+        e.targetTouches[0].pageY < ball.y + 50 && e.targetTouches[0].pageY > ball.y - 50){
         mouseIsDown = true;
     }
 });
@@ -255,15 +269,13 @@ function drawText(txt, x, y, color,context){
     context.fillText(txt,x,y);
 }
 
-function drawAnswer(a,b,c,intitule,context){
+function drawAnswer(a,b,c,context){
     repA = (randCage === 0)? a : b;
     repB = (randCage === 1)? a : b;
     repC = (randCage === 2)? a : b;
-    drawText("A : "+repA,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-cageLeft.fond.height,"black",context);
-    drawText("B : "+repB,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-cageMid.fond.height,"black",context);
-    drawText("C : "+repC,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-cageRight.fond.height,"black",context);
-    drawText("Score : "+score.toString(),canvas.width*(9.5/10),canvas.height*(0.5/10),"black",context);
-    drawText(intitule,Math.trunc(canvas.width/2),canvas.height*(0.3/10),"black",context);
+    drawText("A : "+repA,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
+    drawText("B : "+repB,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
+    drawText("C : "+repC,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
 }
 
 /**
@@ -396,23 +408,25 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v);
 }
 
-function resetStaticCanvas(){
+function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
     drawCage(cageLeft,staticContext);
     drawCage(cageMid,staticContext);
     drawCage(cageRight,staticContext);
     randCage = Math.floor(Math.random() * 3);
     console.log(randCage);
-    getQuestion();// récupère une question aléatoire et la dessine sur le canvas hors écran
+    if(changeQuestion){
+        getQuestion();
+    }
 }
 
-function resetGame(){
+function resetGame(changeQuestion = true){
     //reset ball
     ball.x = Math.trunc(canvas.width/2);
     ball.y = Math.trunc(canvas.height*(7/10));
     newX = ball.x;
     newY = ball.y;
-    resetStaticCanvas(); // reset cage and get new question
+    resetStaticCanvas(changeQuestion); // reset cage and get new question
     cageLeft.interieurCage.color = "red";
     cageMid.interieurCage.color = "red";
     cageRight.interieurCage.color = "red";
@@ -431,7 +445,8 @@ function getQuestion() {
         },
         dataType : 'json',
         success: function (response) {
-            drawAnswer(response.vrai,response.faux1,response.faux2,response.intitule,staticContext);
+            drawAnswer(response.vrai,response.faux1,response.faux2,staticContext);
+            // $("#question").text(response.intitule);
         }
     });
 }
