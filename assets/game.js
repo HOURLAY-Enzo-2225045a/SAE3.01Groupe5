@@ -66,7 +66,7 @@ class Cage {
         this.fond = fond;
         this.poteauGauche = new Rectangle(fond.x, fond.y, fond.height, Math.trunc(fond.width/2), "black");
         this.poteauDroite = new Rectangle(fond.x+fond.width-fond.height, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/6), "red");
+        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/8), "red");
     }
 }
 
@@ -315,7 +315,6 @@ function collisionManager(){
     bounceManager(cageMid);
     bounceManager(cageRight);
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
-        cageLeft.interieurCage.color = (randCage === 0)? "green": "orange";
         if(randCage === 0){
             score+=100;
             addScore();
@@ -323,9 +322,7 @@ function collisionManager(){
         } else {
             resetGame();
         }
-        console.log("Score !");
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
-        cageMid.interieurCage.color = (randCage === 1)? "green": "orange";
         if(randCage === 1){
             score+=100;
             addScore();
@@ -333,9 +330,7 @@ function collisionManager(){
         } else {
             resetGame();
         }
-        console.log("Score !");
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
-        cageRight.interieurCage.color = (randCage === 2)? "green": "orange";
         if(randCage === 2){
             score+=100;
             addScore();
@@ -343,7 +338,6 @@ function collisionManager(){
         } else {
             resetGame();
         }
-        console.log("Score !");
     }
 }
 
@@ -357,7 +351,6 @@ function bounceManager(cage){
     if(RectCircleColliding(ball,cage.fond)) { // collision avec le fond de la cage
         newX = ball.x + (newX- ball.x);
         newY = ball.y - (newY - ball.y);
-        console.log("BOUNCE !");
     }
     if(RectCircleColliding(ball,cage.poteauGauche) || RectCircleColliding(ball,cage.poteauDroite)) { // collision avec un des poteaux de la cage
         if(ball.y > cage.poteauGauche.y+cage.poteauGauche.height){
@@ -367,16 +360,13 @@ function bounceManager(cage){
             newX = ball.x - (newX- ball.x);
             newY = ball.y + (newY - ball.y);
         }
-        console.log("BOUNCE !");
     }
-    if(ball.x < 0 || ball.x > canvas.width){ // collision avec les bords gauche et droite du canvas
+    if(Math.abs(ball.x - 0) < ball.r || Math.abs(ball.x - canvas.width) < ball.r){ // collision avec les bords gauche et droite du canvas
         newX = ball.x - (newX- ball.x);
         newY = ball.y + (newY - ball.y);
-        console.log("BOUNCE !");
-    } else if(ball.y < 0 || ball.y > canvas.height){ // collision avec les bords haut et bas du canvas
+    } else if(Math.abs(ball.y - 0) < ball.r || Math.abs(ball.y - canvas.height) < ball.r){ // collision avec les bords haut et bas du canvas
         newX = ball.x + (newX- ball.x);
         newY = ball.y - (newY - ball.y);
-        console.log("BOUNCE !");
     }
 }
 
