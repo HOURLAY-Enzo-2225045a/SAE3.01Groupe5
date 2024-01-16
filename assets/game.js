@@ -65,9 +65,9 @@ class Cage {
 
 // les objets qui représente la cage
 tailleCage = Math.trunc(canvas.width*(2.5/10));
-let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
 // objet qui représente la balle
 let ball = {
@@ -424,7 +424,7 @@ function resetStaticCanvas(changeQuestion = true){
 function resetGame(changeQuestion = true){
     //reset ball
     ball.x = Math.trunc(canvas.width/2);
-    ball.y = Math.trunc(canvas.height*(7/10));
+    ball.y = Math.trunc(canvas.height*(5/10));
     newX = ball.x;
     newY = ball.y;
     resetStaticCanvas(changeQuestion);
