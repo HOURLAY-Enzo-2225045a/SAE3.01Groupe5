@@ -32,7 +32,7 @@ $actionsMapping = [
     'addSessionPlayer' => ['fields' => ['pseudo'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
     'showRanking' => ['controller' => $sessionController, 'adminOnly' => true ],
     'addScore' => [ 'fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
-
+    'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true ],
 ];
 
 // Fonction pour traiter les actions

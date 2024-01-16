@@ -1,7 +1,7 @@
 <a href="/home" class="absolute left-5 top-5 w-20 h-20">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
-<a class="absolute right-5 top-5 w-10 h-10">
+<a class="absolute right-5 top-5 w-16 h-16">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/deconnect.svg" id="deconnect" alt="deconnect">
 </a>
 <h1 class="titlePage">

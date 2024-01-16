@@ -1,4 +1,5 @@
-$(document).ready(function(){
+$(document).ready(function(e){
+    console.log(e);
     $(document).on("click", ".star", function(){
         // Toggle l'état rempli/vide de l'étoile
         let filled = !$(this).data("filled");
@@ -182,7 +183,21 @@ function updateRanking() {
     });
 }
 
+function getSessionCode() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "getSessionCode",
+        },
+    }).done(function(response){
+        console.log(response);
+        $('#code').html(response.toString());
+    });
+}
+
 if (window.location.pathname === "/users") {
+    getSessionCode()
     updateRanking()
     setInterval(updateRanking, 3000);
 }

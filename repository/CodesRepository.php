@@ -57,4 +57,16 @@ class CodesRepository extends AbstractRepository
         $statement = $this->connexion->prepare($query);
         $statement->execute();
     }
+
+    public function getSessionCode(): string
+    {
+        $query = 'SELECT CODE FROM CODES WHERE CODE_TYPE = "SESSION"';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute();
+        $data = $statement->fetch();
+        if ($statement->rowCount() === 0) {
+            return 'Pas de session en cours';
+        }
+        return $data['CODE'];
+    }
 }

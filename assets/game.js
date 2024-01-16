@@ -92,9 +92,9 @@ function resizeCanvas() {
     staticCanvas.width = canvas.width;
     staticCanvas.height = canvas.height;
     tailleCage = Math.trunc(canvas.width*(2.5/10));
-    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
     ball.r = Math.trunc(cageMid.fond.width/8);
 

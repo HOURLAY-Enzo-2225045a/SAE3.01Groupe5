@@ -12,8 +12,17 @@
 
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
+    <style>
+        body {
+            -webkit-user-select: none; /* Désactivation de la sélection sur les navigateurs WebKit/Blink */
+            -moz-user-select: none; /* Désactivation de la sélection sur les navigateurs basés sur Gecko (Firefox) */
+            -ms-user-select: none; /* Désactivation de la sélection sur Internet Explorer/Edge */
+            user-select: none; /* Désactivation de la sélection sur les navigateurs prenant en charge la norme */
+        }
+    </style>
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
+
 
 <a href="/home" class="absolute left-5 top-0 w-20 h-20">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
@@ -27,10 +36,10 @@
         <label class="text-5xl text-black text-center" id="question"></label>
     </div>
 </div>
-<div class="w-[68%] ml-[16%] flex items-center justify-between absolute top-[20%] z-10">
-    <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep1"></label></div>
-    <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep2"></label></div>
-    <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep3"></label></div>
+<div class="w-[85%] ml-[7.5%] flex items-center justify-between absolute top-[22%] z-10">
+    <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep1"></label></div>
+    <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep2"></label></div>
+    <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep3"></label></div>
 </div>
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 <script src="/assets/game.js"></script>

@@ -50,4 +50,9 @@ class CodesController
         echo 'Pas de session en cours';
     }
 
+    public function getSessionCode(): void
+    {
+        echo $this->repository->getSessionCode();
+    }
+
 }
