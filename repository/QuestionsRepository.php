@@ -31,18 +31,23 @@ class QuestionsRepository extends AbstractRepository
         return new Question($question);
     }
 
-    public function getRandomQuestion(): Question
-    {
-        $query = 'SELECT * FROM QUESTION ORDER BY RAND() LIMIT 1;';
+    public function getRandomQuestion(): array{
+        $query = 'SELECT * FROM QUESTION ORDER BY RAND() LIMIT 5;';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
 
-        //exception imposible mais a prévoire car on ne peut insérer qu'une question du meme ID
-        if ($statement->rowCount() > 1) {
-            throw new MoreThanOneException("Problème présent dans la BD");
+        //on récupère le résultat de la requête SQL
+        $arraySQL = $statement->fetchAll();
+        //on crée un tableau de questions
+        $arrayQuestions = array();
+
+        //on transforme le tableau de données SQL en tableau de questions
+        for ($i = 0; $i < sizeof($arraySQL); $i++) {
+            $question = new Question($arraySQL[$i]);
+            $arrayQuestions[] = $question;
         }
-        $question = $statement->fetch();
-        return new Question($question);
+
+        return $arrayQuestions;
     }
 
     public function getAll() :  array{
@@ -54,11 +59,11 @@ class QuestionsRepository extends AbstractRepository
 //            throw new NotFoundException('Aucune question n\'a été trouvée ');
 //        }
 
-        //on créer un tableau de questions contenant toutes les données
+        //on crée un tableau de questions contenant toutes les données
         $arraySQL = $statement->fetchAll();
         $arrayQuestions = array();
 
-        /* on récupére le résultat de la requête SQL et on le met dans un tableau d'User'*/
+        /* on récupère le résultat de la requête SQL et on le met dans un tableau d'User'*/
         for ($i = 0; $i < sizeof($arraySQL); $i++) {
             $question = new Question($arraySQL[$i]);
             $arrayQuestions[] = $question;
@@ -79,12 +84,12 @@ class QuestionsRepository extends AbstractRepository
     }
     public function deleteQuestionById($id): void
     {
-        //On supprime un question avec son id
+        //On supprime une question avec son id
         $query = 'DELETE FROM QUESTION WHERE QUESTION_ID = :id';
         $statement = $this->connexion->prepare($query);
         $statement->execute(['id' => $id]);
 
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun question avec cette id
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucune question avec cette id
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun question trouvé');
         }
