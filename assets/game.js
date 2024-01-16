@@ -316,23 +316,17 @@ function collisionManager(){
             score+=100;
             addScore();
             resetGame();
-        } else {
-            resetGame();
         }
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
         if(randCage === 1){
             score+=100;
             addScore();
             resetGame();
-        } else {
-            resetGame();
         }
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
         if(randCage === 2){
             score+=100;
             addScore();
-            resetGame();
-        } else {
             resetGame();
         }
     }
@@ -467,8 +461,8 @@ function getQuestion() {
         dataType : 'json',
         success: function (response) {
             let repA = (randCage === 0)? response.vrai : response.faux1;
-            let repB = (randCage === 1)? response.vrai : response.faux1;
-            let repC = (randCage === 2)? response.vrai : response.faux1;
+            let repB = (randCage === 1)? response.vrai : (randCage === 2)? response.faux2 : response.faux1;
+            let repC = (randCage === 2)? response.vrai : response.faux2;
             $("#question").text(response.text);
             $("#rep1").text(repA);
             $("#rep2").text(repB);
