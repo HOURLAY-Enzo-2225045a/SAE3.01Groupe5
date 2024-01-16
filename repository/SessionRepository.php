@@ -69,4 +69,22 @@ class SessionRepository extends AbstractRepository
         }
     }
 
+    public function getScore($id): int
+    {
+        //On ajoute le score à l'utilisateur
+        $query = 'SELECT * FROM SESSION WHERE SESSION_USER_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            'id' => $id,
+        ]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun USER trouvé');
+        }
+
+        $data = $statement->fetch();
+        return $data['SCORE'];
+    }
+
 }
