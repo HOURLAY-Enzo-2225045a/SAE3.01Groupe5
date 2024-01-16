@@ -14,9 +14,6 @@ let widthPercentage = 100;
 let heightPercentage = 80;
 // cage de la bonne réponse
 let randCage;
-// image de fond du canvas
-// let backgroundImage = new Image();
-// backgroundImage.src = "/assets/images/ice.jpg";
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
@@ -107,7 +104,6 @@ function resizeCanvas() {
 
     //reset du jeu sans changer de question
     resetGame(false);
-
 }
 // Gestion du redimensionnement de la fenêtre
 window.addEventListener("resize", resizeCanvas);
@@ -459,7 +455,7 @@ function getQuestion() {
             let repA = (randCage === 0)? response.vrai : response.faux1;
             let repB = (randCage === 1)? response.vrai : response.faux1;
             let repC = (randCage === 2)? response.vrai : response.faux1;
-            $("#question").text(response.intitule);
+            $("#question").text(response.text);
             $("#rep1").text(repA);
             $("#rep2").text(repB);
             $("#rep3").text(repC);

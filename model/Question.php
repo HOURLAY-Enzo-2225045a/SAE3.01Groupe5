@@ -9,8 +9,8 @@ namespace Model;
 class Question extends Entity
 {
     private $question_id;
-    private $intitule;
-    private $niveau;
+    private $text;
+    private $difficulty;
     private $response;
     private $false1;
     private $false2;
@@ -82,33 +82,33 @@ class Question extends Entity
     /**
      * @return mixed
      */
-    public function getIntitule()
+    public function getText()
     {
-        return $this->intitule;
+        return $this->text;
     }
 
     /**
-     * @param mixed $intitule
+     * @param mixed $text
      */
-    public function setIntitule($intitule): void
+    public function setText($text): void
     {
-        $this->intitule = $intitule;
+        $this->text = $text;
     }
 
     /**
      * @return mixed
      */
-    public function getNiveau()
+    public function getDifficulty()
     {
-        return $this->niveau;
+        return $this->difficulty;
     }
 
     /**
-     * @param mixed $niveau
+     * @param mixed $difficulty
      */
-    public function setNiveau($niveau): void
+    public function setDifficulty($difficulty): void
     {
-        $this->niveau = $niveau;
+        $this->difficulty = $difficulty;
     }
 
 
