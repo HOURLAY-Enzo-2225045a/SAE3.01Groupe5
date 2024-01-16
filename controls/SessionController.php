@@ -53,5 +53,18 @@ class SessionController
         }
     }
 
+    public function addScore($id, $score): void
+    {
+        try{
+            $this->repository->addScore($id, $score);
+        }
+        catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+        //TODO : Ajouter 100? au score avec une requete
+        //TODO : Aller chercher le nouveau score avec une requete
+        //TODO : echo le nouveau score
+    }
 
 }
