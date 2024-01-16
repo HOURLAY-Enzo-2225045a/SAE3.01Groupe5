@@ -19,7 +19,7 @@ class SessionController
     }
 
     public function addSessionPlayer($pseudo){
-        $this->repository->addSessionPlayer($pseudo, $_SESSION['code']);
+        $_SESSION['id'] = $this->repository->addSessionPlayer($pseudo, $_SESSION['code']);
         $_SESSION['pseudo'] = $pseudo;
     }
 
@@ -53,12 +53,11 @@ class SessionController
         }
     }
 
-    public function addScore($id, $score): void
+    public function addScore($score)
     {
         try{
-            $this->repository->addScore($id, $score); // on ajoute le score à l'utilisateur
-            $score = $this->repository->getScore($id); // on récupère le score de l'utilisateur
-            echo json_encode($score); // on renvoie le score de l'utilisateur
+            $this->repository->addScore($_SESSION['id'], $score);
+            echo $this->repository->getScore($_SESSION['id']);
         }
         catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);

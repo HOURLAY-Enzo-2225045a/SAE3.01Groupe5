@@ -14,13 +14,16 @@ class SessionRepository extends AbstractRepository
         parent::__construct();
     }
 
-    public function addSessionPlayer($pseudo, $code){
+    public function addSessionPlayer($pseudo, $code): false|string
+    {
         $query = 'INSERT INTO SESSION (pseudo, code) VALUES (:pseudo, :code)';
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             'pseudo' => $pseudo,
             'code' => $code
         ]);
+        $lastInsertedId = $this->connexion->lastInsertId();
+        return $lastInsertedId;
     }
 
     public function deleteSession(){

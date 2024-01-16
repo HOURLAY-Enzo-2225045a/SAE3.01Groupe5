@@ -477,8 +477,8 @@ function addScore(){
         },
         dataType : 'json',
         success: function (response) {
-            console.log(response)
-            $("#score").text(response);
+            score = response.toString();
+            $("#score").text(score);
         }
     });
 }

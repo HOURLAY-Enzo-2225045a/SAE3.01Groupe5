@@ -1,5 +1,5 @@
-<a href="/home" class="absolute left-5 top-5 w-10 h-10">
-    <img class="p-1" src="/assets/images/home.svg" alt="homepage">
+<a href="/home" class="absolute left-5 top-5 w-20 h-20">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 <div class="h-[40vh] w-full flex flex-col justify-center items-center">
     <form class="flex flex-col items-center space-y-5 w-1/2" id="verificationForm" method="post">
