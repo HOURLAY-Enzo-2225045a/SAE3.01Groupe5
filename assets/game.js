@@ -25,7 +25,8 @@ canvas.width = (widthPercentage / 100) * window.innerWidth;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
-canvas.style.backgroundImage = "url('/assets/images/ice.webp')"; // ajout d'un background au canvas
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')";// ajout d'un background au canvas
+canvas.style.backgroundSize = "cover"; // ajustement du background au canvas
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
@@ -409,14 +410,33 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v);
 }
 
+function drawImage(x,y,w,h) {
+    let image = new Image();
+    image.src = "/assets/images/hockeyCage.png";
+    image.onload = function() {
+        // Vérifie que l'image est dans la zone de dessin du canvas
+        if (image.width > canvas.width || image.height > canvas.height) {
+            // Déplace l'image à l'intérieur de la zone de dessin
+            image.x = (canvas.width - image.width) / 2;
+            image.y = (canvas.height - image.height) / 2;
+        }
+
+        // Dessine l'image
+        staticContext.drawImage(image,x,y,w,h);
+    };
+}
+
 function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
     // drawCage(cageLeft,staticContext);
     // drawCage(cageMid,staticContext);
     // drawCage(cageRight,staticContext);
-    staticContext.drawImage(cage,cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
-    staticContext.drawImage(cage,cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
-    staticContext.drawImage(cage,cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
+    drawImage(cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
+    drawImage(cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
+    drawImage(cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
+    // staticContext.drawImage(cage,cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
+    // staticContext.drawImage(cage,cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
+    // staticContext.drawImage(cage,cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
 
     randCage = Math.floor(Math.random() * 3);
     if(changeQuestion){
@@ -431,9 +451,6 @@ function resetGame(changeQuestion = true){
     newX = ball.x;
     newY = ball.y;
     resetStaticCanvas(changeQuestion);
-    cageLeft.interieurCage.color = "red";
-    cageMid.interieurCage.color = "red";
-    cageRight.interieurCage.color = "red";
 }
 
 /**
