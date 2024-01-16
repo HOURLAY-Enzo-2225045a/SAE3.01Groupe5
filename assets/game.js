@@ -7,21 +7,25 @@
 
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
+// score du joueur
 let score = 0;
+// pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;
 let heightPercentage = 80;
+// cage de la bonne réponse
+let randCage;
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
-canvas.width = (widthPercentage / 100) * window.innerWidth; // on adapte la taille du canvas à la taille de la page
+// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
+canvas.width = (widthPercentage / 100) * window.innerWidth;
+// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
-// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
 staticCanvas.width = canvas.width;
-// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 staticCanvas.height = canvas.height;
 var staticContext = staticCanvas.getContext('2d');
 
@@ -55,23 +59,20 @@ class Cage {
         this.fond = fond;
         this.poteauGauche = new Rectangle(fond.x, fond.y, fond.height, Math.trunc(fond.width/2), "black");
         this.poteauDroite = new Rectangle(fond.x+fond.width-fond.height, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/2)-fond.height, "red");
+        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/6), "red");
     }
 }
 
-//initialisation de la réponse
-let randCage = Math.floor(Math.random() * 3);
-
 // les objets qui représente la cage
-tailleCage = Math.trunc(canvas.width*(1.8/10));
-let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+tailleCage = Math.trunc(canvas.width*(2.5/10));
+let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
 // objet qui représente la balle
 let ball = {
     x: Math.trunc(canvas.width/2), // position x de la balle
-    y: Math.trunc(canvas.height*(7/10)), // position y de la balle
+    y: Math.trunc(canvas.height*(5/10)), // position y de la balle
     r: Math.trunc(cageMid.fond.width/8), // rayon de la balle
     v: 10 // vitesse de la balle en pixel
 };
@@ -90,11 +91,10 @@ function resizeCanvas() {
     canvas.height = (heightPercentage / 100) * window.innerHeight;
     staticCanvas.width = canvas.width;
     staticCanvas.height = canvas.height;
-
-    tailleCage = Math.trunc(canvas.width*(1.8/10));
-    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    tailleCage = Math.trunc(canvas.width*(2.5/10));
+    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
     cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
     ball.r = Math.trunc(cageMid.fond.width/8);
 
@@ -136,7 +136,6 @@ window.addEventListener("mousemove", (e) => {
 
 // Fonction pour gérer le mouvement tactile
 window.addEventListener("touchmove", (e) => {
-    console.log("touchmove : ", e);
     if (mouseIsDown) {
         let pos = getMouseOrTouchPos(canvas, e);
         newX = (ball.x + (ball.x - pos.x));
@@ -159,7 +158,6 @@ window.addEventListener("mousedown", (e) => {
 
 // Fonction pour gérer le début du toucher
 window.addEventListener("touchstart", (e) => {
-    console.log("touchstart : ", e);
     let pos = getMouseOrTouchPos(canvas, e);
     if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
         pos.y < ball.y + 80 && pos.y > ball.y - 80) {
@@ -169,12 +167,8 @@ window.addEventListener("touchstart", (e) => {
 
 
 /**
- * A METTRE A JOUR !!! <--------------------------------------
- *
- * Permets de détecter le relachement de la souris
- * l'action n'est pris en compte que si la souris est sur le ballon
- * au relachement de la souris on calcule la nouvelle position de la balle
- * pour qu'elle parte dans la direction opposé de la où la souris est relaché
+ * Permets de détecter le relâchement de la souris
+ * si la souris est clicker alors, on calcule la nouvelle position de la balle
  */
 // Fonction pour gérer le relâchement de la souris
 window.addEventListener("mouseup", (e) => {
@@ -196,20 +190,6 @@ window.addEventListener("touchend", (e) => {
     }
     mouseIsDown = false;
 });
-
-
-
-/**
- * <----------------------------UTILISE LE !-------------------------->
- * Permets de détecter si une position donnée est dans un cercle donné
- * @param {*} circle : circle est un objet de type : {x:Number, y:Number, r:Number}
- * @param {*} pos : pos est un objet de type : {x:Number, y:Number}
- */
-function isInsideBall(circle, pos) {
-    let dx = Math.abs(circle.x - pos.x);
-    let dy = Math.abs(circle.y - pos.y);
-    return (dx < circle.r && dy < circle.r);
-}
 
 /**
  * Permets de dessiner un cercle sur le canvas
@@ -247,8 +227,6 @@ function drawCage(cage,context) {
     drawRectangle(cage.poteauDroite, cage.poteauDroite.color,context);
     // fonde la cage
     drawRectangle(cage.fond, cage.fond.color,context);
-    // intérieur de la cage <-------------------------------------- A ENLEVER PLUS TARD!!!
-    drawRectangle(cage.interieurCage, cage.interieurCage.color,context);
 }
 
 /**
@@ -300,15 +278,6 @@ function drawText(txt, x, y, color,context){
     context.fillStyle = color;
     context.textAlign = "center";
     context.fillText(txt,x,y);
-}
-
-function drawAnswer(a,b,c,context){
-    repA = (randCage === 0)? a : b;
-    repB = (randCage === 1)? a : b;
-    repC = (randCage === 2)? a : b;
-    drawText("A : "+repA,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
-    drawText("B : "+repB,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
-    drawText("C : "+repC,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
 }
 
 /**
@@ -497,6 +466,10 @@ function addScore(){
             score: 100,
         },
         dataType : 'json',
+        success: function (response) {
+            console.log(response)
+            $("#score").text(response);
+        }
     });
 }
 
@@ -516,7 +489,7 @@ function draw() {
     } else {
         if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
             if(moveObject(ball, {x:newX, y:newY}, ball.v)){
-                // getQuestion();
+                resetGame(false);
                 newX = ball.x;
                 newY = ball.y
             }
