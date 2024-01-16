@@ -26,6 +26,11 @@
     <div class="h-full flex justify-center items-center">
         <label class="text-5xl text-black text-center" id="question"></label>
     </div>
+    <div class="h-full flex justify-center items-center">
+        <label class="text-5xl text-black text-center" id="rep1"></label>
+        <label class="text-5xl text-black text-center" id="rep2"></label>
+        <label class="text-5xl text-black text-center" id="rep3"></label>
+    </div>
 </div>
 <canvas id="myCanvas" class="bg-gray-200 absolute bottom-0 left-0 h-[80%]"></canvas>
 <script src="/assets/game.js"></script>
