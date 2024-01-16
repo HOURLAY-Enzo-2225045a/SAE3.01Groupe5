@@ -14,13 +14,16 @@ class SessionRepository extends AbstractRepository
         parent::__construct();
     }
 
-    public function addSessionPlayer($pseudo, $code){
+    public function addSessionPlayer($pseudo, $code): false|string
+    {
         $query = 'INSERT INTO SESSION (pseudo, code) VALUES (:pseudo, :code)';
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             'pseudo' => $pseudo,
             'code' => $code
         ]);
+        $lastInsertedId = $this->connexion->lastInsertId();
+        return $lastInsertedId;
     }
 
     public function deleteSession(){
@@ -67,6 +70,24 @@ class SessionRepository extends AbstractRepository
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun USER trouvé');
         }
+    }
+
+    public function getScore($id): int
+    {
+        //On ajoute le score à l'utilisateur
+        $query = 'SELECT * FROM SESSION WHERE SESSION_USER_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            'id' => $id,
+        ]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun USER trouvé');
+        }
+
+        $data = $statement->fetch();
+        return $data['SCORE'];
     }
 
 }

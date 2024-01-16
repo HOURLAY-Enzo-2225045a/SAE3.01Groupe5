@@ -247,8 +247,6 @@ function drawCage(cage,context) {
     drawRectangle(cage.poteauDroite, cage.poteauDroite.color,context);
     // fonde la cage
     drawRectangle(cage.fond, cage.fond.color,context);
-    // intérieur de la cage <-------------------------------------- A ENLEVER PLUS TARD!!!
-    drawRectangle(cage.interieurCage, cage.interieurCage.color,context);
 }
 
 /**
@@ -497,6 +495,10 @@ function addScore(){
             score: 100,
         },
         dataType : 'json',
+        success: function (response) {
+            score = response.toString();
+            $("#score").text(score);
+        }
     });
 }
 

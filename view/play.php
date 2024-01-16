@@ -15,22 +15,22 @@
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
 
-<a href="/home" class="absolute top-5 left-5 w-10 h-10">
-    <img class="p-1" src="/assets/images/home.svg" alt="homepage">
+<a href="/home" class="absolute left-5 top-0 w-20 h-20">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 <div class="h-[20%] bg-customBlue w-full flex flex-col p-5" id="top">
     <div class="items-center text-3xl text-black text-right">
         <label>Score :</label>
-        <label  id="score">0</label>
+        <label id="score"></label>
     </div>
     <div class="h-full flex justify-center items-center">
         <label class="text-5xl text-black text-center" id="question"></label>
     </div>
-    <div class="h-full flex justify-center items-center">
-        <label class="text-5xl text-black text-center" id="rep1"></label>
-        <label class="text-5xl text-black text-center" id="rep2"></label>
-        <label class="text-5xl text-black text-center" id="rep3"></label>
-    </div>
+</div>
+<div class="w-[68%] ml-[16%] flex items-center justify-between absolute top-[20%] z-10">
+    <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep1"></label></div>
+    <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep2"></label></div>
+    <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep3"></label></div>
 </div>
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 <script src="/assets/game.js"></script>

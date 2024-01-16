@@ -1,5 +1,5 @@
-<a href="/home" class="absolute left-5 top-5 w-10 h-10">
-    <img class="p-1" src="/assets/images/home.svg" alt="homepage">
+<a href="/home" class="absolute left-5 top-5 w-20 h-20">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 
 <div class="m-10">
@@ -7,7 +7,7 @@
         <span class="text-black">Les</span> règles du jeu
     </h1>
     <div class="w-full flex justify-center items-center py-10">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/hNQlOJoj2Vc?si=A2k1BD8d1LjhS9Wu" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <iframe width="840" height="472,5" src="https://www.youtube.com/embed/hNQlOJoj2Vc?si=A2k1BD8d1LjhS9Wu" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
     <div id="default-carousel" class="relative" data-carousel="static">
         <!-- Carousel wrapper -->
