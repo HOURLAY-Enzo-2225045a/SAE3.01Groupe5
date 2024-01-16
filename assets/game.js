@@ -14,15 +14,15 @@ let heightPercentage = 80;
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
-// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
-canvas.width = (widthPercentage / 100) * window.innerWidth;
-// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
+canvas.width = (widthPercentage / 100) * window.innerWidth; // on adapte la taille du canvas à la taille de la page
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
+// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
 staticCanvas.width = canvas.width;
+// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 staticCanvas.height = canvas.height;
 $("#question").text(canvas.width+" "+canvas.height);
 var staticContext = staticCanvas.getContext('2d');
@@ -99,7 +99,6 @@ function resizeCanvas() {
 }
 // Gestion du redimensionnement de la fenêtre
 window.addEventListener("resize", resizeCanvas);
-
 
 function getMouseOrTouchPos(canvas, event) {
     let rect = canvas.getBoundingClientRect();
@@ -437,23 +436,25 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v);
 }
 
-function resetStaticCanvas(){
+function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
     drawCage(cageLeft,staticContext);
     drawCage(cageMid,staticContext);
     drawCage(cageRight,staticContext);
     randCage = Math.floor(Math.random() * 3);
     console.log(randCage);
-    getQuestion();// récupère une question aléatoire et la dessine sur le canvas hors écran
+    if(changeQuestion){
+        getQuestion();
+    }
 }
 
-function resetGame(){
+function resetGame(changeQuestion = true){
     //reset ball
     ball.x = Math.trunc(canvas.width/2);
     ball.y = Math.trunc(canvas.height*(7/10));
     newX = ball.x;
     newY = ball.y;
-    resetStaticCanvas(); // reset cage and get new question
+    resetStaticCanvas(changeQuestion); // reset cage and get new question
     cageLeft.interieurCage.color = "red";
     cageMid.interieurCage.color = "red";
     cageRight.interieurCage.color = "red";
