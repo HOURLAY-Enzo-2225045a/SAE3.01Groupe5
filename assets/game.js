@@ -8,6 +8,7 @@
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
 let score = 0;
+console.log(document.documentElement.clientWidth,document.documentElement.clientHeight);
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
@@ -20,19 +21,6 @@ let staticCanvas = document.createElement('canvas');
 staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 var staticContext = staticCanvas.getContext('2d');
-
-
-
-// objet qui représente la balle
-let ball = {
-    x: Math.trunc(canvas.width/2), // position x de la balle
-    y: Math.trunc(canvas.height*(7/10)), // position y de la balle
-    r: 25, // rayon de la balle
-    v: 10 // vitesse de la balle en pixel
-};
-
-let newX= ball.x; // nouvelle position x de la balle après interaction (drag & drop)
-let newY= ball.y; // nouvelle position y de la balle après interaction (drag & drop)
 
 /**
  * Classe qui représente un rectangle
@@ -72,9 +60,20 @@ class Cage {
 let randCage = Math.floor(Math.random() * 3);
 
 // les objets qui représente la cage
-let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
-let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
-let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-150, Math.trunc(canvas.height/2)-300, 300, 20, "grey"));
+tailleCage = Math.trunc(canvas.width*(1.8/10));
+let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+
+// objet qui représente la balle
+let ball = {
+    x: Math.trunc(canvas.width/2), // position x de la balle
+    y: Math.trunc(canvas.height*(7/10)), // position y de la balle
+    r: Math.trunc(cageMid.fond.width/8), // rayon de la balle
+    v: 10 // vitesse de la balle en pixel
+};
+let newX= ball.x; // nouvelle position x de la balle après interaction (drag & drop)
+let newY= ball.y; // nouvelle position y de la balle après interaction (drag & drop)
 
 /**
  * Permets de détecter le redimensionnement de la page
@@ -99,6 +98,9 @@ window.addEventListener("mousemove", (e) => {
         newX = (ball.x+((ball.x-e.pageX)));
         newY = (ball.y-((e.pageY-ball.y)));
     }
+    if(isInsideBall(ball,{x:e.pageX,y:e.pageY})){
+        console.log("inside ball",ball,e.pageX,e.pageY);
+    }
 });
 window.addEventListener("touchmove", (e) => {
     console.log("touchmove : ",e);
@@ -113,15 +115,14 @@ window.addEventListener("touchmove", (e) => {
  * l'action n'est pris en compte que si la souris est sur le ballon
  */
 window.addEventListener("mousedown", (e) => {
-    if(e.pageX < ball.x + 50 && e.pageX > ball.x - 50 &&
-        e.pageY < ball.y + 50 && e.pageY > ball.y - 50){
+    console.log("mousedown : ",e);
+    if(isInsideBall(ball,{x:e.pageX,y:e.pageY})){
         mouseIsDown = true;
     }
 });
 window.addEventListener("touchstart", (e) => {
     console.log("touchstart : ",e);
-    if(e.targetTouches[0].pageX < ball.x + 50 && e.targetTouches[0].pageX > ball.x - 50 &&
-        e.targetTouches[0].pageY < ball.y + 50 && e.targetTouches[0].pageY > ball.y - 50){
+    if(isInsideBall(ball,{x:e.targetTouches[0].pageX,y:e.targetTouches[0].pageY})){
         mouseIsDown = true;
     }
 });
@@ -248,7 +249,7 @@ function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
  * @param {string} color : couleur du texte
  */
 function drawText(txt, x, y, color,context){
-    context.font = "30px Arial";
+    context.font = tailleCage/5 +"px Arial";
     context.fillStyle = color;
     context.textAlign = "center";
     context.fillText(txt,x,y);
@@ -258,11 +259,11 @@ function drawAnswer(a,b,c,intitule,context){
     repA = (randCage === 0)? a : b;
     repB = (randCage === 1)? a : b;
     repC = (randCage === 2)? a : b;
-    drawText("A : "+repA,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
-    drawText("B : "+repB,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
-    drawText("C : "+repC,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
-    drawText("Score : "+score.toString(),canvas.width*(9.5/10),70,"black",context);
-    drawText(intitule,Math.trunc(canvas.width/2),70,"black",context);
+    drawText("A : "+repA,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-cageLeft.fond.height,"black",context);
+    drawText("B : "+repB,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-cageMid.fond.height,"black",context);
+    drawText("C : "+repC,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-cageRight.fond.height,"black",context);
+    drawText("Score : "+score.toString(),canvas.width*(9.5/10),canvas.height*(0.5/10),"black",context);
+    drawText(intitule,Math.trunc(canvas.width/2),canvas.height*(0.3/10),"black",context);
 }
 
 /**
