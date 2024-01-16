@@ -23,7 +23,6 @@ let staticCanvas = document.createElement('canvas');
 staticCanvas.width = canvas.width;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 staticCanvas.height = canvas.height;
-$("#question").text(canvas.width+" "+canvas.height);
 var staticContext = staticCanvas.getContext('2d');
 
 /**
@@ -93,9 +92,11 @@ function resizeCanvas() {
     staticCanvas.height = canvas.height;
 
     tailleCage = Math.trunc(canvas.width*(1.8/10));
-    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+
+    ball.r = Math.trunc(cageMid.fond.width/8);
 
     //reset du jeu sans changer de question
     resetGame(false);
@@ -421,7 +422,9 @@ function resetStaticCanvas(changeQuestion = true){
     drawCage(cageMid,staticContext);
     drawCage(cageRight,staticContext);
     randCage = Math.floor(Math.random() * 3);
-    getQuestion(changeQuestion);
+    if(changeQuestion){
+        getQuestion();
+    }
 }
 
 function resetGame(changeQuestion = true){
@@ -440,13 +443,12 @@ function resetGame(changeQuestion = true){
  * Fonction qui permet de récupérer une question aléatoire
  * et de la dessiner sur le canvas hors écran
  */
-function getQuestion(changeQuestion = true) {
+function getQuestion() {
     $.ajax({
         type: "POST",
         url: "/controls/actionController.php",
         data: {
             action: "getRandomQuestion",
-            changeQuestion: changeQuestion,
         },
         dataType : 'json',
         success: function (response) {
