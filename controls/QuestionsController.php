@@ -41,7 +41,7 @@ class QuestionsController
             $_SESSION['randomQuestion'] = $question;
         }
         if(!empty($_SESSION['randomQuestion'])) {
-            $temp = array('intitule' => $_SESSION['randomQuestion'][0]->getIntitule(),
+            $temp = array('text' => $_SESSION['randomQuestion'][0]->getText(),
                 'vrai' => $_SESSION['randomQuestion'][0]->getResponse(),
                 'faux1' => $_SESSION['randomQuestion'][0]->getFalse1(),
                 'faux2' => $_SESSION['randomQuestion'][0]->getFalse2());

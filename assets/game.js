@@ -15,6 +15,9 @@ let heightPercentage = 80;
 // cage de la bonne réponse
 let randCage;
 
+let cage = new Image();
+cage.src = "/assets/images/hockeyCage.png";
+
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
 // Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
@@ -22,6 +25,7 @@ canvas.width = (widthPercentage / 100) * window.innerWidth;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')"; // ajout d'un background au canvas
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
@@ -59,7 +63,7 @@ class Cage {
         this.fond = fond;
         this.poteauGauche = new Rectangle(fond.x, fond.y, fond.height, Math.trunc(fond.width/2), "black");
         this.poteauDroite = new Rectangle(fond.x+fond.width-fond.height, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/6), "red");
+        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/8), "red");
     }
 }
 
@@ -100,7 +104,6 @@ function resizeCanvas() {
 
     //reset du jeu sans changer de question
     resetGame(false);
-
 }
 // Gestion du redimensionnement de la fenêtre
 window.addEventListener("resize", resizeCanvas);
@@ -308,29 +311,29 @@ function collisionManager(){
     bounceManager(cageMid);
     bounceManager(cageRight);
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
-        cageLeft.interieurCage.color = (randCage === 0)? "green": "orange";
         if(randCage === 0){
             score+=100;
             addScore();
             resetGame();
+        } else {
+            resetGame();
         }
-        console.log("Score !");
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
-        cageMid.interieurCage.color = (randCage === 1)? "green": "orange";
         if(randCage === 1){
             score+=100;
             addScore();
             resetGame();
+        } else {
+            resetGame();
         }
-        console.log("Score !");
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
-        cageRight.interieurCage.color = (randCage === 2)? "green": "orange";
         if(randCage === 2){
             score+=100;
             addScore();
             resetGame();
+        } else {
+            resetGame();
         }
-        console.log("Score !");
     }
 }
 
@@ -344,7 +347,6 @@ function bounceManager(cage){
     if(RectCircleColliding(ball,cage.fond)) { // collision avec le fond de la cage
         newX = ball.x + (newX- ball.x);
         newY = ball.y - (newY - ball.y);
-        console.log("BOUNCE !");
     }
     if(RectCircleColliding(ball,cage.poteauGauche) || RectCircleColliding(ball,cage.poteauDroite)) { // collision avec un des poteaux de la cage
         if(ball.y > cage.poteauGauche.y+cage.poteauGauche.height){
@@ -354,16 +356,13 @@ function bounceManager(cage){
             newX = ball.x - (newX- ball.x);
             newY = ball.y + (newY - ball.y);
         }
-        console.log("BOUNCE !");
     }
-    if(ball.x < 0 || ball.x > canvas.width){ // collision avec les bords gauche et droite du canvas
+    if(Math.abs(ball.x - 0) < ball.r || Math.abs(ball.x - canvas.width) < ball.r){ // collision avec les bords gauche et droite du canvas
         newX = ball.x - (newX- ball.x);
         newY = ball.y + (newY - ball.y);
-        console.log("BOUNCE !");
-    } else if(ball.y < 0 || ball.y > canvas.height){ // collision avec les bords haut et bas du canvas
+    } else if(Math.abs(ball.y - 0) < ball.r || Math.abs(ball.y - canvas.height) < ball.r){ // collision avec les bords haut et bas du canvas
         newX = ball.x + (newX- ball.x);
         newY = ball.y - (newY - ball.y);
-        console.log("BOUNCE !");
     }
 }
 
@@ -412,9 +411,13 @@ function moveObject(ac, ne, v){
 
 function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
-    drawCage(cageLeft,staticContext);
-    drawCage(cageMid,staticContext);
-    drawCage(cageRight,staticContext);
+    // drawCage(cageLeft,staticContext);
+    // drawCage(cageMid,staticContext);
+    // drawCage(cageRight,staticContext);
+    staticContext.drawImage(cage,cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
+    staticContext.drawImage(cage,cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
+    staticContext.drawImage(cage,cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
+
     randCage = Math.floor(Math.random() * 3);
     if(changeQuestion){
         getQuestion();
@@ -449,7 +452,7 @@ function getQuestion() {
             let repA = (randCage === 0)? response.vrai : response.faux1;
             let repB = (randCage === 1)? response.vrai : response.faux1;
             let repC = (randCage === 2)? response.vrai : response.faux1;
-            $("#question").text(response.intitule);
+            $("#question").text(response.text);
             $("#rep1").text(repA);
             $("#rep2").text(repB);
             $("#rep3").text(repC);
