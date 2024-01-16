@@ -27,7 +27,7 @@
         <label class="text-5xl text-black text-center" id="question"></label>
     </div>
 </div>
-<canvas id="myCanvas" class="bg-gray-200 absolute bottom-0 left-0 h-[80%]"></canvas>
+<canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 <script src="/assets/game.js"></script>
 </body>
 </html>

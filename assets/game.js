@@ -14,16 +14,16 @@ let heightPercentage = 80;
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
-canvas.width = window.innerWidth; // on adapte la taille du canvas à la taille de la page
-canvas.height = window.innerHeight;
-let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
-
-// Créer un canvas hors écran pour dessiner les éléments statiques une fois
-let staticCanvas = document.createElement('canvas');
 // Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
 canvas.width = (widthPercentage / 100) * window.innerWidth;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
+let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
+
+// Créer un canvas hors écran pour dessiner les éléments statiques une fois
+let staticCanvas = document.createElement('canvas');
+staticCanvas.width = canvas.width;
+staticCanvas.height = canvas.height;
 $("#question").text(canvas.width+" "+canvas.height);
 var staticContext = staticCanvas.getContext('2d');
 
@@ -100,29 +100,43 @@ function resizeCanvas() {
 // Gestion du redimensionnement de la fenêtre
 window.addEventListener("resize", resizeCanvas);
 
-// Gestion du changement d'orientation sur les appareils mobiles
-window.addEventListener("orientationchange", function () {
-    // Attendez quelques millisecondes pour permettre au navigateur de mettre à jour les dimensions
-    setTimeout(resizeCanvas, 200);
-});
 
+function getMouseOrTouchPos(canvas, event) {
+    let rect = canvas.getBoundingClientRect();
+    if (event.touches && event.touches.length > 0) {
+        return {
+            x: event.touches[0].clientX - rect.left,
+            y: event.touches[0].clientY - rect.top
+        };
+    } else {
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
+    }
+}
 /**
  * Permets de détecter les mouvements de la souris
  * et de faire que le ballon suit la souris si la souris est clicker
  * @param {*} e
  * @deprecated remplacer la balle qui suit la souris par une flèche qui indique la direction de la balle
  */
+// Fonction pour gérer le mouvement de la souris
 window.addEventListener("mousemove", (e) => {
-    if(mouseIsDown){
-        newX = (ball.x+((ball.x-e.pageX)));
-        newY = (ball.y-((e.pageY-ball.y)));
+    if (mouseIsDown) {
+        let pos = getMouseOrTouchPos(canvas, e);
+        newX = (ball.x + (ball.x - pos.x));
+        newY = (ball.y - (pos.y - ball.y));
     }
 });
+
+// Fonction pour gérer le mouvement tactile
 window.addEventListener("touchmove", (e) => {
-    console.log("touchmove : ",e);
-    if(mouseIsDown){
-        newX = (ball.x+((ball.x-e.targetTouches[0].pageX)));
-        newY = (ball.y-((e.targetTouches[0].pageY-ball.y)));
+    console.log("touchmove : ", e);
+    if (mouseIsDown) {
+        let pos = getMouseOrTouchPos(canvas, e);
+        newX = (ball.x + (ball.x - pos.x));
+        newY = (ball.y - (pos.y - ball.y));
     }
 });
 
@@ -130,19 +144,25 @@ window.addEventListener("touchmove", (e) => {
  * Permets de détecter le click de la souris
  * l'action n'est pris en compte que si la souris est sur le ballon
  */
+// Fonction pour gérer le clic de la souris
 window.addEventListener("mousedown", (e) => {
-    if(e.pageX < ball.x + 50 && e.pageX > ball.x - 50 &&
-        e.pageY < ball.y + 50 && e.pageY > ball.y - 50){
+    let pos = getMouseOrTouchPos(canvas, e);
+    if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
+        pos.y < ball.y + 80 && pos.y > ball.y - 80) {
         mouseIsDown = true;
     }
 });
+
+// Fonction pour gérer le début du toucher
 window.addEventListener("touchstart", (e) => {
-    console.log("touchstart : ",e);
-    if(e.targetTouches[0].pageX < ball.x + 50 && e.targetTouches[0].pageX > ball.x - 50 &&
-        e.targetTouches[0].pageY < ball.y + 50 && e.targetTouches[0].pageY > ball.y - 50){
+    console.log("touchstart : ", e);
+    let pos = getMouseOrTouchPos(canvas, e);
+    if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
+        pos.y < ball.y + 80 && pos.y > ball.y - 80) {
         mouseIsDown = true;
     }
 });
+
 
 /**
  * A METTRE A JOUR !!! <--------------------------------------
@@ -152,21 +172,27 @@ window.addEventListener("touchstart", (e) => {
  * au relachement de la souris on calcule la nouvelle position de la balle
  * pour qu'elle parte dans la direction opposé de la où la souris est relaché
  */
+// Fonction pour gérer le relâchement de la souris
 window.addEventListener("mouseup", (e) => {
-    if(mouseIsDown){
-        newX = ball.x+((ball.x-e.pageX)*5);
-        newY = ball.y-((e.pageY-ball.y)*5);
+    if (mouseIsDown) {
+        let pos = getMouseOrTouchPos(canvas, e);
+        newX = ball.x + ((ball.x - pos.x) * 5);
+        newY = ball.y - ((pos.y - ball.y) * 5);
     }
     mouseIsDown = false;
 });
+
+// Fonction pour gérer la fin du toucher
 window.addEventListener("touchend", (e) => {
-    console.log("touchend : ",e);
-    if(mouseIsDown){
-        newX = ball.x+((ball.x-e.changedTouches[0].pageX)*5);
-        newY = ball.y-((e.changedTouches[0].pageY-ball.y)*5);
+    console.log("touchend : ", e);
+    if (mouseIsDown) {
+        let pos = getMouseOrTouchPos(canvas, e.changedTouches[0]);
+        newX = ball.x + ((ball.x - pos.x) * 5);
+        newY = ball.y - ((pos.y - ball.y) * 5);
     }
     mouseIsDown = false;
 });
+
 
 
 /**
