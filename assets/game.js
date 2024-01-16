@@ -9,17 +9,22 @@
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
 let score = 0;
+let widthPercentage = 100;
+let heightPercentage = 80;
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
-canvas.width = document.documentElement.clientWidth; // on adapte la taille du canvas à la taille de la page
-canvas.height = document.documentElement.clientHeight;
+canvas.width = window.innerWidth; // on adapte la taille du canvas à la taille de la page
+canvas.height = window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
-staticCanvas.width = canvas.width;
-staticCanvas.height = canvas.height;
+// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
+canvas.width = (widthPercentage / 100) * window.innerWidth;
+// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
+canvas.height = (heightPercentage / 100) * window.innerHeight;
+$("#question").text(canvas.width+" "+canvas.height);
 var staticContext = staticCanvas.getContext('2d');
 
 
@@ -82,11 +87,23 @@ let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-150, Ma
  * et d'adapter la taille du canvas
  * ainsi que de reset la position du ballon au millieu
  */
-window.addEventListener("resize",() => {
-    canvas.width = document.documentElement.clientWidth;
-    canvas.height = document.documentElement.clientHeight;
-    ball.x = Math.trunc(canvas.width/2);
-    ball.y = Math.trunc(canvas.height/2);
+function resizeCanvas() {
+    // Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
+    canvas.width = (widthPercentage / 100) * window.innerWidth;
+    // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
+    canvas.height = (heightPercentage / 100) * window.innerHeight;
+
+    staticCanvas.width = canvas.width;
+    staticCanvas.height = canvas.height;
+
+}
+// Gestion du redimensionnement de la fenêtre
+window.addEventListener("resize", resizeCanvas);
+
+// Gestion du changement d'orientation sur les appareils mobiles
+window.addEventListener("orientationchange", function () {
+    // Attendez quelques millisecondes pour permettre au navigateur de mettre à jour les dimensions
+    setTimeout(resizeCanvas, 200);
 });
 
 /**
@@ -255,15 +272,13 @@ function drawText(txt, x, y, color,context){
     context.fillText(txt,x,y);
 }
 
-function drawAnswer(a,b,c,intitule,context){
+function drawAnswer(a,b,c,context){
     repA = (randCage === 0)? a : b;
     repB = (randCage === 1)? a : b;
     repC = (randCage === 2)? a : b;
     drawText("A : "+repA,cageLeft.fond.x+cageLeft.fond.width/2,cageLeft.fond.y-10,"black",context);
     drawText("B : "+repB,cageMid.fond.x+cageMid.fond.width/2,cageMid.fond.y-10,"black",context);
     drawText("C : "+repC,cageRight.fond.x+cageRight.fond.width/2,cageRight.fond.y-10,"black",context);
-    drawText("Score : "+score.toString(),canvas.width*(9.5/10),70,"black",context);
-    drawText(intitule,Math.trunc(canvas.width/2),70,"black",context);
 }
 
 /**
@@ -431,7 +446,8 @@ function getQuestion() {
         },
         dataType : 'json',
         success: function (response) {
-            drawAnswer(response.vrai,response.faux1,response.faux2,response.intitule,staticContext);
+            drawAnswer(response.vrai,response.faux1,response.faux2,staticContext);
+            // $("#question").text(response.intitule);
         }
     });
 }

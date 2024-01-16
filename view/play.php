@@ -13,8 +13,21 @@
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
 </head>
-<body class="bg-[var(--color-bg)] h-[100vh]">
-    <canvas id="myCanvas" class="bg-gray-200 w-full h-full"></canvas>
-    <script src="/assets/game.js"></script>
+<body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
+
+<a href="/home" class="absolute top-5 left-5 w-10 h-10">
+    <img class="p-1" src="/assets/images/home.svg" alt="homepage">
+</a>
+<div class="h-[20%] bg-customBlue w-full flex flex-col p-5" id="top">
+    <div class="items-center text-3xl text-black text-right">
+        <label>Score :</label>
+        <label  id="score">0</label>
+    </div>
+    <div class="h-full flex justify-center items-center">
+        <label class="text-5xl text-black text-center" id="question"></label>
+    </div>
+</div>
+<canvas id="myCanvas" class="bg-gray-200 absolute bottom-0 left-0 h-[80%]"></canvas>
+<script src="/assets/game.js"></script>
 </body>
 </html>

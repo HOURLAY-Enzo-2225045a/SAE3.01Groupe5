@@ -35,21 +35,18 @@ class QuestionsController
 
     public function getRandomQuestion(): void
     {
-        try{
-            if(empty($_SESSION['randomQuestion'])){
-                $question = $this->repository->getRandomQuestion();
-                $_SESSION['randomQuestion'] = $question;
-            }
+
+        if(empty($_SESSION['randomQuestion'])){
+            $question = $this->repository->getRandomQuestion();
+            $_SESSION['randomQuestion'] = $question;
+        }
+        if(!empty($_SESSION['randomQuestion'])) {
             $temp = array('intitule' => $_SESSION['randomQuestion'][0]->getIntitule(),
                 'vrai' => $_SESSION['randomQuestion'][0]->getResponse(),
-                'faux1'=> $_SESSION['randomQuestion'][0]->getFalse1(),
+                'faux1' => $_SESSION['randomQuestion'][0]->getFalse1(),
                 'faux2' => $_SESSION['randomQuestion'][0]->getFalse2());
             $_SESSION['randomQuestion'] = array_slice($_SESSION['randomQuestion'], 1);
             echo json_encode($temp);
-        }
-        catch (MoreThanOneException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
         }
     }
 
