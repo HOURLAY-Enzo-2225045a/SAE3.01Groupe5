@@ -65,9 +65,9 @@ let randCage = Math.floor(Math.random() * 3);
 
 // les objets qui représente la cage
 tailleCage = Math.trunc(canvas.width*(1.8/10));
-let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
 // objet qui représente la balle
 let ball = {
@@ -89,9 +89,16 @@ function resizeCanvas() {
     canvas.width = (widthPercentage / 100) * window.innerWidth;
     // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
     canvas.height = (heightPercentage / 100) * window.innerHeight;
-
     staticCanvas.width = canvas.width;
     staticCanvas.height = canvas.height;
+
+    tailleCage = Math.trunc(canvas.width*(1.8/10));
+    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(7.5/10))-tailleCage/2, Math.trunc(canvas.height*(2/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+
+    //reset du jeu sans changer de question
+    resetGame(false);
 
 }
 // Gestion du redimensionnement de la fenêtre
@@ -414,10 +421,7 @@ function resetStaticCanvas(changeQuestion = true){
     drawCage(cageMid,staticContext);
     drawCage(cageRight,staticContext);
     randCage = Math.floor(Math.random() * 3);
-    console.log(randCage);
-    if(changeQuestion){
-        getQuestion();
-    }
+    getQuestion(changeQuestion);
 }
 
 function resetGame(changeQuestion = true){
@@ -426,7 +430,7 @@ function resetGame(changeQuestion = true){
     ball.y = Math.trunc(canvas.height*(7/10));
     newX = ball.x;
     newY = ball.y;
-    resetStaticCanvas(changeQuestion); // reset cage and get new question
+    resetStaticCanvas(changeQuestion);
     cageLeft.interieurCage.color = "red";
     cageMid.interieurCage.color = "red";
     cageRight.interieurCage.color = "red";
@@ -436,17 +440,23 @@ function resetGame(changeQuestion = true){
  * Fonction qui permet de récupérer une question aléatoire
  * et de la dessiner sur le canvas hors écran
  */
-function getQuestion() {
+function getQuestion(changeQuestion = true) {
     $.ajax({
         type: "POST",
         url: "/controls/actionController.php",
         data: {
             action: "getRandomQuestion",
+            changeQuestion: changeQuestion,
         },
         dataType : 'json',
         success: function (response) {
-            drawAnswer(response.vrai,response.faux1,response.faux2,staticContext);
-            // $("#question").text(response.intitule);
+            let repA = (randCage === 0)? response.vrai : response.faux1;
+            let repB = (randCage === 1)? response.vrai : response.faux1;
+            let repC = (randCage === 2)? response.vrai : response.faux1;
+            $("#question").text(response.intitule);
+            $("#rep1").text(repA);
+            $("#rep2").text(repB);
+            $("#rep3").text(repC);
         }
     });
 }
