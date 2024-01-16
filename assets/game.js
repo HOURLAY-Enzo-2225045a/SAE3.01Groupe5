@@ -15,6 +15,9 @@ let heightPercentage = 80;
 // cage de la bonne réponse
 let randCage;
 
+let cage = new Image();
+cage.src = "/assets/images/hockeyCage.png";
+
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
 // Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
@@ -23,9 +26,6 @@ canvas.width = (widthPercentage / 100) * window.innerWidth;
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
 canvas.style.backgroundImage = "url('/assets/images/ice.webp')"; // ajout d'un background au canvas
-canvas.style.backgroundSize = "cover"; // ajustement du background au canvas
-canvas.style.backgroundClip = "border-box"; // ajustement du background au canvas
-canvas.style.background
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
@@ -408,9 +408,6 @@ function moveObject(ac, ne, v){
     // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
     return (dist.x <= v && dist.y <= v);
 }
-
-let cage = new Image();
-cage.src = "/assets/images/hockeyCage.png";
 
 function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
