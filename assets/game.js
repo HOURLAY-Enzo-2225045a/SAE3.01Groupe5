@@ -100,6 +100,13 @@ window.addEventListener("mousemove", (e) => {
         newY = (ball.y-((e.pageY-ball.y)));
     }
 });
+window.addEventListener("touchmove", (e) => {
+    console.log("touchmove : ",e);
+    if(mouseIsDown){
+        newX = (ball.x+((ball.x-e.targetTouches[0].pageX)));
+        newY = (ball.y-((e.targetTouches[0].pageY-ball.y)));
+    }
+});
 
 /**
  * Permets de détecter le click de la souris
@@ -108,6 +115,13 @@ window.addEventListener("mousemove", (e) => {
 window.addEventListener("mousedown", (e) => {
     if(e.pageX < ball.x + 50 && e.pageX > ball.x - 50 &&
         e.pageY < ball.y + 50 && e.pageY > ball.y - 50){
+        mouseIsDown = true;
+    }
+});
+window.addEventListener("touchstart", (e) => {
+    console.log("touchstart : ",e);
+    if(e.targetTouches[0].pageX < ball.x + 50 && e.targetTouches[0].pageX > ball.x - 50 &&
+        e.targetTouches[0].pageY < ball.y + 50 && e.targetTouches[0].pageY > ball.y - 50){
         mouseIsDown = true;
     }
 });
@@ -124,6 +138,14 @@ window.addEventListener("mouseup", (e) => {
     if(mouseIsDown){
         newX = ball.x+((ball.x-e.pageX)*5);
         newY = ball.y-((e.pageY-ball.y)*5);
+    }
+    mouseIsDown = false;
+});
+window.addEventListener("touchend", (e) => {
+    console.log("touchend : ",e);
+    if(mouseIsDown){
+        newX = ball.x+((ball.x-e.changedTouches[0].pageX)*5);
+        newY = ball.y-((e.changedTouches[0].pageY-ball.y)*5);
     }
     mouseIsDown = false;
 });
@@ -278,7 +300,6 @@ function collisionManager(){
             resetGame();
         }
         console.log("Score !");
-        // TODO : faire la requete AJAX d'update du score
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
         cageMid.interieurCage.color = (randCage === 1)? "green": "orange";
         if(randCage === 1){
