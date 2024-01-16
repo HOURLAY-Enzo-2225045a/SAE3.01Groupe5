@@ -14,6 +14,9 @@ let widthPercentage = 100;
 let heightPercentage = 80;
 // cage de la bonne réponse
 let randCage;
+// image de fond du canvas
+// let backgroundImage = new Image();
+// backgroundImage.src = "/assets/images/ice.jpg";
 
 //setup du canvas
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
@@ -22,6 +25,10 @@ canvas.width = (widthPercentage / 100) * window.innerWidth;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 let ctx = canvas.getContext("2d"); // récupération du contexte du canvas
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')"; // ajout d'un background au canvas
+canvas.style.backgroundSize = "cover"; // ajustement du background au canvas
+canvas.style.backgroundClip = "border-box"; // ajustement du background au canvas
+canvas.style.background
 
 // Créer un canvas hors écran pour dessiner les éléments statiques une fois
 let staticCanvas = document.createElement('canvas');
@@ -92,9 +99,9 @@ function resizeCanvas() {
     staticCanvas.width = canvas.width;
     staticCanvas.height = canvas.height;
     tailleCage = Math.trunc(canvas.width*(2.5/10));
-    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(0.5/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
     ball.r = Math.trunc(cageMid.fond.width/8);
 
@@ -313,6 +320,8 @@ function collisionManager(){
             score+=100;
             addScore();
             resetGame();
+        } else {
+            resetGame();
         }
         console.log("Score !");
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
@@ -321,6 +330,8 @@ function collisionManager(){
             score+=100;
             addScore();
             resetGame();
+        } else {
+            resetGame();
         }
         console.log("Score !");
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
@@ -328,6 +339,8 @@ function collisionManager(){
         if(randCage === 2){
             score+=100;
             addScore();
+            resetGame();
+        } else {
             resetGame();
         }
         console.log("Score !");
@@ -410,11 +423,18 @@ function moveObject(ac, ne, v){
     return (dist.x <= v && dist.y <= v);
 }
 
+let cage = new Image();
+cage.src = "/assets/images/hockeyCage.png";
+
 function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
-    drawCage(cageLeft,staticContext);
-    drawCage(cageMid,staticContext);
-    drawCage(cageRight,staticContext);
+    // drawCage(cageLeft,staticContext);
+    // drawCage(cageMid,staticContext);
+    // drawCage(cageRight,staticContext);
+    staticContext.drawImage(cage,cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
+    staticContext.drawImage(cage,cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
+    staticContext.drawImage(cage,cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
+
     randCage = Math.floor(Math.random() * 3);
     if(changeQuestion){
         getQuestion();
