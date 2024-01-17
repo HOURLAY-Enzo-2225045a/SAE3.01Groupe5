@@ -20,7 +20,7 @@ $actionsMapping = [
     'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'deleteUser' => [     'idField' => 'id',                                    'controller' => $sessionController,        'redirect' => '/users', 'adminOnly' => true     ],
-    'deleteQuestion' => [ 'idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'deleteQuestion' => ['idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
@@ -37,6 +37,7 @@ $actionsMapping = [
     'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false ],
     'showEndGame' => ['controller' => $sessionController, 'adminOnly' => false ],
     'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
 
 ];
 

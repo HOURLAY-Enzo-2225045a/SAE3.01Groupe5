@@ -110,4 +110,10 @@ class SessionController
         }
     }
 
+    public function setSessionSpart($spartiateId): void
+    {
+        if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])) {
+            $_SESSION['spartiateId'] = $spartiateId;
+        }
+    }
 }

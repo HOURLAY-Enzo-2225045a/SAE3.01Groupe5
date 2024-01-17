@@ -166,6 +166,21 @@ $(document).ready(function(e){
             $('#code').html(response);
         });
     });
+
+    $(document).on("click", ".spartCard", function(){
+        let id = $(this).data("id");
+        // Effectuer la requête AJAX
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "setSessionSpart",
+                spartiateId: id,
+            },
+        }).done(function(response){
+            location.reload();
+        });
+    });
 });
 
 function updateRanking() {

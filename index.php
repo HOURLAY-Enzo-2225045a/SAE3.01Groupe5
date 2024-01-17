@@ -53,19 +53,25 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 }elseif (isset($pages[$url])) {
 
     $path = 'view/' . $url . '.php';
-    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
+    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']) && !empty($_SESSION['spartiateId']))) {
         View::display($pages[$url], $path);
-    }elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))){
+    } elseif ($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))) {
         $_SESSION['pseudo'] = null;
+        $_SESSION['spartiateId'] = null;
         header('refresh:0;url=/sessionCode');
-    }elseif($url == 'play' && empty($_SESSION['pseudo']))
+    } elseif ($url == 'play' && empty($_SESSION['pseudo'])){
+        $_SESSION['spartiateId'] = null;
         header('refresh:0;url=/pseudo');
+    } elseif ($url == 'play' && empty($_SESSION['spartiateId'])) {
+        $spartiatesController->showChooseSpartiate();
+    }
 
 }elseif (isset($forms[$url])) {
     $path = 'view/forms/' . $url . '.php';
-    if($url != "pseudo" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code'])))
+    if($url != "pseudo" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']))) {
+        $_SESSION['spartiateId'] = null;
         View::display($forms[$url], $path);
-    elseif($url == 'pseudo')
+    }elseif($url == 'pseudo')
         header('refresh:0;url=/sessionCode');
 
 }elseif(empty($_SESSION['admin'])) {

@@ -103,4 +103,10 @@ class SpartiatesController
         $path='view/forms/'.$url.'.php';
         View::display('MISE A JOUR', $path, $this->repository->getById($id));
     }
+
+    public function showChooseSpartiate()
+    {
+        $path = 'view/chooseSpartiate.php';
+        View::display('Choix du joueur', $path, $this->repository->getAll());
+    }
 }
