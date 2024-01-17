@@ -1,6 +1,7 @@
 <?php
 
 namespace Repository;
+
 use PDO;
 
 class Connexion
@@ -24,4 +25,5 @@ class Connexion
         return self::$instance;
     }
 }
+
 ?>

@@ -1,5 +1,5 @@
-$(document).ready(function(e){
-    $(document).on("click", ".star", function(){
+$(document).ready(function (e) {
+    $(document).on("click", ".star", function () {
         // Toggle l'état rempli/vide de l'étoile
         let filled = !$(this).data("filled");
         $(this).data("filled", filled);
@@ -22,11 +22,11 @@ $(document).ready(function(e){
         });
     });
 
-    $("#searchQuestion").on('input', function() {
+    $("#searchQuestion").on('input', function () {
         // recupere ce qui est ecrit dans la barre de recherche
         let searchTerm = $(this).val();
 
-        if (searchTerm.length > 0){
+        if (searchTerm.length > 0) {
             // envoie la requete ajax
             $.ajax({
                 type: "POST",
@@ -43,17 +43,17 @@ $(document).ready(function(e){
                     $('.searchedResult').show().html(result);
                 }
             });
-        }else{
+        } else {
             $('.searchedResult').hide()
             $('.result').show()
         }
     });
 
-    $("#searchSpartiate").on('input', function() {
+    $("#searchSpartiate").on('input', function () {
         // recupere ce qui est ecrit dans la barre de recherche
         let searchTerm = $(this).val();
 
-        if (searchTerm.length > 0){
+        if (searchTerm.length > 0) {
             // envoie la requete ajax
             $.ajax({
                 type: "POST",
@@ -70,13 +70,13 @@ $(document).ready(function(e){
                     $('.searchedResult').show().html(result);
                 }
             });
-        }else{
+        } else {
             $('.searchedResult').hide()
             $('.result').show()
         }
     });
 
-    $("#verificationForm").submit(function(e){
+    $("#verificationForm").submit(function (e) {
         e.preventDefault(); //empêcher une action par défaut
 
         // Récupérer l'URL du formulaire et la méthode
@@ -89,8 +89,8 @@ $(document).ready(function(e){
             url: "/controls/actionController.php",
             type: form_method,
             data: form_data
-        }).done(function(response){
-            if(response.success) {
+        }).done(function (response) {
+            if (response.success) {
                 // Si l'authentification est réussie, changer l'URL et recharger la page
                 window.location.href = response.url;
             } else {
@@ -100,7 +100,7 @@ $(document).ready(function(e){
         });
     });
 
-    $("#form").submit(function(e){
+    $("#form").submit(function (e) {
         e.preventDefault(); //empêcher une action par défaut
         // Récupérer l'URL du formulaire et la méthode
         let form_method = $(this).attr("method");
@@ -116,12 +116,12 @@ $(document).ready(function(e){
             data: form_data,
             contentType: false,
             processData: false
-        }).done(function(response){
+        }).done(function (response) {
             window.location.href = response;
         });
     });
 
-    $(document).on("click", "#actionButton", function(){
+    $(document).on("click", "#actionButton", function () {
         let action = $(this).data("action");
         let id = $(this).data("id");
         // Effectuer la requête AJAX
@@ -132,29 +132,29 @@ $(document).ready(function(e){
                 action: action,
                 id: id,
             },
-        }).done(function(response){
+        }).done(function (response) {
             window.location.href = response;
         });
     });
 
-    $(document).on("click", "#deconnect", function(){
+    $(document).on("click", "#deconnect", function () {
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",
             data: {
                 action: "deconnect",
             },
-        }).done(function(response){
+        }).done(function (response) {
             window.location.href = response;
         });
     });
 
-    $(document).on("click", "#callActionButton", function(){
+    $(document).on("click", "#callActionButton", function () {
         let buttonConfirmDelete = $('#actionButton');
         buttonConfirmDelete.data('id', $(this).data("id"));
     });
 
-    $(document).on("click", ".sessionAction", function(){
+    $(document).on("click", ".sessionAction", function () {
         let action = $(this).data("action");
         $.ajax({
             type: "POST",
@@ -162,12 +162,12 @@ $(document).ready(function(e){
             data: {
                 action: action,
             },
-        }).done(function(response){
+        }).done(function (response) {
             $('#code').html(response);
         });
     });
 
-    $(document).on("click", ".spartCard", function(){
+    $(document).on("click", ".spartCard", function () {
         let id = $(this).data("id");
         // Effectuer la requête AJAX
         $.ajax({
@@ -177,7 +177,7 @@ $(document).ready(function(e){
                 action: "setSessionSpart",
                 spartiateId: id,
             },
-        }).done(function(response){
+        }).done(function (response) {
             location.reload();
         });
     });
@@ -190,7 +190,7 @@ function updateRanking() {
         data: {
             action: "showRanking",
         },
-    }).done(function(response){
+    }).done(function (response) {
         $('#ranking').html(response);
     });
 }
@@ -202,7 +202,7 @@ function getSessionCode() {
         data: {
             action: "getSessionCode",
         },
-    }).done(function(response){
+    }).done(function (response) {
         $('#code').html(response.toString());
     });
 }

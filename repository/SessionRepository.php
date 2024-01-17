@@ -2,7 +2,6 @@
 
 namespace Repository;
 
-use Exception\MoreThanOneException;
 use Exception\NotFoundException;
 use Model\SessionUser;
 use PDO;
@@ -26,13 +25,15 @@ class SessionRepository extends AbstractRepository
         return $lastInsertedId;
     }
 
-    public function deleteSession(){
+    public function deleteSession()
+    {
         $query = 'DELETE FROM SESSION';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
     }
 
-    public function getRanking() :  array{
+    public function getRanking(): array
+    {
         $query = 'SELECT * FROM SESSION ORDER BY SCORE DESC';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
@@ -90,7 +91,8 @@ class SessionRepository extends AbstractRepository
         return $data['SCORE'];
     }
 
-    public function isInSession($id){
+    public function isInSession($id)
+    {
         $query = 'SELECT * FROM SESSION WHERE SESSION_USER_ID = :id';
         $statement = $this->connexion->prepare($query);
         $statement->execute([
@@ -104,7 +106,8 @@ class SessionRepository extends AbstractRepository
         return true;
     }
 
-    public function getSessionUser($id){
+    public function getSessionUser($id)
+    {
         $query = 'SELECT pseudo, score,
        (SELECT COUNT(DISTINCT score) + 1 FROM SESSION WHERE score > t1.score) AS rank
         FROM SESSION t1

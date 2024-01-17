@@ -95,5 +95,4 @@ class Spartiate extends Entity
     }
 
 
-
 }

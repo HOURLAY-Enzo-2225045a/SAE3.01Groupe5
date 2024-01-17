@@ -3,7 +3,6 @@
 namespace Controls;
 
 use Exception\MoreThanOneException;
-use Repository\SessionRepository;
 
 class CodesController
 {
@@ -17,25 +16,26 @@ class CodesController
         $this->repository = new \Repository\CodesRepository();
     }
 
-    public function checkSessionCode($code){
-        try{
-            if($this->repository->checkSessionCode($code)){
+    public function checkSessionCode($code)
+    {
+        try {
+            if ($this->repository->checkSessionCode($code)) {
                 $_SESSION['code'] = $code;
                 return true;
-            }else {
+            } else {
                 return false;
             }
-        }
-        catch (MoreThanOneException $ERROR){
+        } catch (MoreThanOneException $ERROR) {
             //on fais un retour d'erreur
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            file_put_contents('log/HockeyGame.log', $ERROR->getMessage() . "\n", FILE_APPEND | LOCK_EX);
             echo $ERROR->getMessage();
         }
     }
 
-    public function start(){
+    public function start()
+    {
         $randomCode = rand(10000, 99999);
-        if($this->repository->isSessionCode()){
+        if ($this->repository->isSessionCode()) {
             $this->repository->reset();
             $sessionRepo = new \Repository\SessionRepository();
             $sessionRepo->deleteSession();
@@ -43,7 +43,9 @@ class CodesController
         $this->repository->start($randomCode);
         echo $randomCode;
     }
-    public function stop(){
+
+    public function stop()
+    {
         $this->repository->stop();
         echo 'Pas de session en cours';
     }

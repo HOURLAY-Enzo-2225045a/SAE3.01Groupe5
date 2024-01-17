@@ -33,7 +33,8 @@ class SpartiatesRepository extends AbstractRepository
         return new Spartiate($spartiate);
     }
 
-    public function getAll() :  array{
+    public function getAll(): array
+    {
         $query = 'SELECT * FROM SPARTIATE';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
@@ -53,13 +54,16 @@ class SpartiatesRepository extends AbstractRepository
         }
         return $arrayUser;
     }
-    public function createSpartiate($lastname, $name) :  void{
+
+    public function createSpartiate($lastname, $name): void
+    {
         $query = "INSERT INTO SPARTIATE (SPART_ID, LASTNAME, NAME) VALUES (NULL, :lastName, :name);";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':lastName' => $lastname,
-            ':name'=> $name]);
+            ':name' => $name]);
     }
+
     public function deleteSpartiateById($id): void
     {
         //On supprime un spartiate avec son id
@@ -72,6 +76,7 @@ class SpartiatesRepository extends AbstractRepository
             throw new NotFoundException('Aucun SPARTIATE trouvé');
         }
     }
+
     public function isStarredById($id): int
     {
         //On select le score d'un utilisateur par rapport a son id
@@ -90,23 +95,27 @@ class SpartiatesRepository extends AbstractRepository
         $user = $statement->fetch();
         return $user["STAR"];
     }
+
     public function changeSpartiateStarById($id, $starred)
     {
         $query = "UPDATE SPARTIATE SET STAR = :starred WHERE SPART_ID = :id;";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':starred' => $starred,
-            ':id'=> $id]);
+            ':id' => $id]);
     }
-    public function updateSpartiateById($id, $lastName, $name){
+
+    public function updateSpartiateById($id, $lastName, $name)
+    {
         $query = "UPDATE SPARTIATE SET LASTNAME = :lastName, NAME = :name WHERE SPART_ID = :id;";
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             ':lastName' => $lastName,
-            ':name'=> $name,
+            ':name' => $name,
             ':id' => $id]);
 
     }
+
     public function search($searchTerm)
     {
         $query = "SELECT * FROM SPARTIATE WHERE LASTNAME LIKE :searchTerm OR NAME LIKE :searchTerm LIMIT 10";

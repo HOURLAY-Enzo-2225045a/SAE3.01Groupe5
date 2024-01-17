@@ -1,11 +1,13 @@
 <?php
 
 namespace Repository;
+
 use PDO;
 
 abstract class AbstractRepository
 {
-    protected PDO $connexion ;
+    protected PDO $connexion;
+
     public function __construct()
     {
 //        putenv("DB_DND_DSN=mysql:host=mysql-rbb.alwaysdata.net;dbname=rbb_sitednd");

@@ -8,5 +8,5 @@
             <input class="rounded-xl w-full" type="text" id="pseudo" name="pseudo" required>
         </label>
         <input type="submit" value="JOUER" class="text-3xl border-2 border-black rounded-xl w-2/3 md:w-2/5 xl:w-1/6"/>
-</form>
+    </form>
 </div>
