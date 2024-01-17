@@ -109,7 +109,7 @@ class SpartiatesRepository extends AbstractRepository
     }
     public function search($searchTerm)
     {
-        $query = "SELECT * FROM SPARTIATE WHERE LASTNAME LIKE :searchTerm OR NAME LIKE :searchTerm";
+        $query = "SELECT * FROM SPARTIATE WHERE LASTNAME LIKE :searchTerm OR NAME LIKE :searchTerm LIMIT 10";
         $statement = $this->connexion->prepare($query);
         $statement->execute([':searchTerm' => "%$searchTerm%"]);
 

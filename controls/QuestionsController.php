@@ -35,7 +35,6 @@ class QuestionsController
 
     public function getRandomQuestion(): void
     {
-
         if(empty($_SESSION['randomQuestion'])){
             $question = $this->repository->getRandomQuestion();
             $_SESSION['randomQuestion'] = $question;

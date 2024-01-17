@@ -33,6 +33,11 @@ $actionsMapping = [
     'showRanking' => ['controller' => $sessionController, 'adminOnly' => true ],
     'addScore' => [ 'fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
     'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true ],
+    'getRandomQuestion' => ['controller' => $questionsController, 'adminOnly' => false ],
+    'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'showEndGame' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
+
 ];
 
 // Fonction pour traiter les actions
@@ -107,7 +112,7 @@ function handleAction($actionsMapping)
     }
 }
 
-if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action']) && $_POST['action'] != 'getRandomQuestion') {
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action'])) {
     if (isset($actionsMapping[$_POST['action']])) {
     // Utilisation de la fonction si la requete ajax est detectée
     handleAction($actionsMapping);
@@ -115,7 +120,4 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
         $_SESSION['admin'] = false;
         echo '/home';
     }
-} elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && !empty($_POST['action']) && $_POST['action'] == 'getRandomQuestion') {
-    // Utilisation de la fonction si la requete ajax est detectée
-    $questionsController->getRandomQuestion();
 }

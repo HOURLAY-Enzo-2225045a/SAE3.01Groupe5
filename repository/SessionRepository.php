@@ -90,6 +90,37 @@ class SessionRepository extends AbstractRepository
         return $data['SCORE'];
     }
 
+    public function isInSession($id){
+        $query = 'SELECT * FROM SESSION WHERE SESSION_USER_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            'id' => $id,
+        ]);
+
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getSessionUser($id){
+        $query = 'SELECT pseudo, score,
+       (SELECT COUNT(DISTINCT score) + 1 FROM SESSION WHERE score > t1.score) AS rank
+        FROM SESSION t1
+        WHERE SESSION_USER_ID = :id;
+';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            ':id' => $id,
+        ]);
+        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
+        if ($statement->rowCount() === 0) {
+            throw new NotFoundException('Aucun USER trouvé');
+        }
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
 
 
 }

@@ -7,8 +7,7 @@
 
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
-// score du joueur
-let score = 0;
+
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;
 let heightPercentage = 80;
@@ -153,19 +152,23 @@ window.addEventListener("touchmove", (e) => {
  */
 // Fonction pour gérer le clic de la souris
 window.addEventListener("mousedown", (e) => {
-    let pos = getMouseOrTouchPos(canvas, e);
-    if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
-        pos.y < ball.y + 80 && pos.y > ball.y - 80) {
-        mouseIsDown = true;
+    if(gameActive) {
+        let pos = getMouseOrTouchPos(canvas, e);
+        if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
+            pos.y < ball.y + 80 && pos.y > ball.y - 80) {
+            mouseIsDown = true;
+        }
     }
 });
 
 // Fonction pour gérer le début du toucher
 window.addEventListener("touchstart", (e) => {
-    let pos = getMouseOrTouchPos(canvas, e);
-    if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
-        pos.y < ball.y + 80 && pos.y > ball.y - 80) {
-        mouseIsDown = true;
+    if(gameActive) {
+        let pos = getMouseOrTouchPos(canvas, e);
+        if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
+            pos.y < ball.y + 80 && pos.y > ball.y - 80) {
+            mouseIsDown = true;
+        }
     }
 });
 
@@ -186,7 +189,6 @@ window.addEventListener("mouseup", (e) => {
 
 // Fonction pour gérer la fin du toucher
 window.addEventListener("touchend", (e) => {
-    console.log("touchend : ", e);
     if (mouseIsDown) {
         let pos = getMouseOrTouchPos(canvas, e.changedTouches[0]);
         newX = ball.x + ((ball.x - pos.x) * 5);
@@ -313,21 +315,18 @@ function collisionManager(){
     bounceManager(cageRight);
     if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
         if(randCage === 0){
-            score+=100;
-            addScore();
             resetGame();
+            addScore();
         }
     } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
         if(randCage === 1){
-            score+=100;
-            addScore();
             resetGame();
+            addScore();
         }
     } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
         if(randCage === 2){
-            score+=100;
-            addScore();
             resetGame();
+            addScore();
         }
     }
 }
@@ -422,15 +421,10 @@ function drawImage(x,y,w,h) {
 
 function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
-    // drawCage(cageLeft,staticContext);
-    // drawCage(cageMid,staticContext);
-    // drawCage(cageRight,staticContext);
+
     drawImage(cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
     drawImage(cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
     drawImage(cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
-    // staticContext.drawImage(cage,cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
-    // staticContext.drawImage(cage,cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
-    // staticContext.drawImage(cage,cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
 
     randCage = Math.floor(Math.random() * 3);
     if(changeQuestion){
@@ -439,12 +433,58 @@ function resetStaticCanvas(changeQuestion = true){
 }
 
 function resetGame(changeQuestion = true){
+    isInActiveSession();
     //reset ball
     ball.x = Math.trunc(canvas.width/2);
     ball.y = Math.trunc(canvas.height*(5/10));
     newX = ball.x;
     newY = ball.y;
     resetStaticCanvas(changeQuestion);
+}
+
+function endGame(){
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "showEndGame",
+        },
+        dataType : 'json',
+        success: function (response) {
+            $("#pseudo").text(response.pseudo);
+            $("#scoreEnd").text(response.score.toString());
+            $("#rank").text(response.rank.toString());
+        }
+    });
+}
+
+/**
+ * Fonction qui permet de verifier
+ * si le joueur est toujours dans la session
+ */
+function isInActiveSession() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "isInActiveSession",
+        },
+        success: function (response) {
+            if(response === 'notActive'){
+                gameActive = false;
+                $("#endGame").show();
+                endGame();
+            }
+            else if(response === 'false'){
+                gameActive = false;
+                window.location.href = "/home";
+            }
+            else if(response === 'true'){
+                gameActive = true;
+                $("#endGame").hide();
+            }
+        }
+    });
 }
 
 /**
@@ -471,20 +511,22 @@ function getQuestion() {
     });
 }
 
-function addScore(){
-    $.ajax({
-        type: "POST",
-        url: "/controls/actionController.php",
-        data: {
-            action: "addScore",
-            score: 100,
-        },
-        dataType : 'json',
-        success: function (response) {
-            score = response.toString();
-            $("#score").text(score);
-        }
-    });
+function addScore(number = 100){
+    if(gameActive){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "addScore",
+                score: number,
+            },
+            dataType : 'json',
+            success: function (response) {
+                score = response.toString();
+                $("#score").text(score);
+            }
+        });
+    }
 }
 
 /**
@@ -499,7 +541,6 @@ function draw() {
         ctx.strokeStyle="black";
         ctx.lineWidth=4;
         drawArrow(ball.x,ball.y,newX,newY);
-        console.log("Arrow")
     } else {
         if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
             if(moveObject(ball, {x:newX, y:newY}, ball.v)){
@@ -512,9 +553,24 @@ function draw() {
     collisionManager();
 }
 
+function showScore(){
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "showScore",
+        },
+        dataType : 'json',
+        success: function (response) {
+            $("#score").text(response.toString());
+        }
+    });
+}
+
 /**
  * resetStaticCanvas() initialise le canvas hors écran et
  * setInterval va appeler la fonction draw() toutes les 10ms
  */
-resetStaticCanvas();
+resetGame();
+showScore();
 setInterval(draw, 10);

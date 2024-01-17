@@ -1,5 +1,4 @@
 $(document).ready(function(e){
-    console.log(e);
     $(document).on("click", ".star", function(){
         // Toggle l'état rempli/vide de l'étoile
         let filled = !$(this).data("filled");
@@ -92,7 +91,6 @@ $(document).ready(function(e){
             data: form_data
         }).done(function(response){
             if(response.success) {
-                console.log(response);
                 // Si l'authentification est réussie, changer l'URL et recharger la page
                 window.location.href = response.url;
             } else {
@@ -119,7 +117,6 @@ $(document).ready(function(e){
             contentType: false,
             processData: false
         }).done(function(response){
-            console.log(response);
             window.location.href = response;
         });
     });
@@ -191,7 +188,6 @@ function getSessionCode() {
             action: "getSessionCode",
         },
     }).done(function(response){
-        console.log(response);
         $('#code').html(response.toString());
     });
 }

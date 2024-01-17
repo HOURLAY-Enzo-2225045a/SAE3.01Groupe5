@@ -4,6 +4,7 @@ namespace Controls;
 
 use Exception\MoreThanOneException;
 use Exception\NotFoundException;
+use Repository\CodesRepository;
 use View\View;
 
 class SessionController
@@ -56,10 +57,54 @@ class SessionController
     public function addScore($score)
     {
         try{
-            $this->repository->addScore($_SESSION['id'], $score);
-            echo $this->repository->getScore($_SESSION['id']);
+            $codesRepo = new CodesRepository();
+            if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id']) && isset($_SESSION['code']) && $codesRepo->isActive($_SESSION['code'])) {
+                $this->repository->addScore($_SESSION['id'], $score);
+                echo $this->repository->getScore($_SESSION['id']);
+            }
         }
         catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function isInActiveSession(): void
+    {
+        $codesRepo = new CodesRepository();
+        if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id']) && isset($_SESSION['code']) && $codesRepo->isActive($_SESSION['code'])){
+            echo 'true';
+        }elseif (isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])){
+            echo 'notActive';
+        }else{
+            $_SESSION['code'] = null;
+            $_SESSION['randomQuestion'] = null;
+            echo 'false';
+        }
+    }
+
+    public function showEndGame(): void
+    {
+        try {
+            if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])){
+                $sessionUser = $this->repository->getSessionUser($_SESSION['id']);
+//                $temp = array('pseudo' =>$sessionUser->getPseudo(),
+//                    'score' => $sessionUser->getScore());
+                echo json_encode($sessionUser);
+            }
+        }catch (NotFoundException $ERROR){
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
+    public function showScore(): void
+    {
+        try {
+            if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])){
+                echo $this->repository->getScore($_SESSION['id']);
+            }
+        }catch (NotFoundException $ERROR){
             file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
             echo $ERROR->getMessage();
         }

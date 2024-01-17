@@ -36,7 +36,7 @@ class CodesController
     public function start(){
         $randomCode = rand(10000, 99999);
         if($this->repository->isSessionCode()){
-            $this->repository->stop();
+            $this->repository->reset();
             $sessionRepo = new \Repository\SessionRepository();
             $sessionRepo->deleteSession();
         }
@@ -45,8 +45,6 @@ class CodesController
     }
     public function stop(){
         $this->repository->stop();
-        $sessionRepo = new \Repository\SessionRepository();
-        $sessionRepo->deleteSession();
         echo 'Pas de session en cours';
     }
 

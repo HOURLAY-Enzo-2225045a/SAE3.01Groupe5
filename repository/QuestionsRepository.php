@@ -32,7 +32,7 @@ class QuestionsRepository extends AbstractRepository
     }
 
     public function getRandomQuestion(): array{
-        $query = 'SELECT * FROM QUESTION ORDER BY RAND() LIMIT 5;';
+        $query = 'SELECT * FROM QUESTION ORDER BY RAND();';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
 
@@ -46,7 +46,6 @@ class QuestionsRepository extends AbstractRepository
             $question = new Question($arraySQL[$i]);
             $arrayQuestions[] = $question;
         }
-
         return $arrayQuestions;
     }
 
@@ -108,7 +107,7 @@ class QuestionsRepository extends AbstractRepository
 
     public function search($searchTerm)
     {
-        $query = "SELECT * FROM QUESTION WHERE TEXT LIKE :searchTerm LIMIT 5";
+        $query = "SELECT * FROM QUESTION WHERE TEXT LIKE :searchTerm LIMIT 10";
         $statement = $this->connexion->prepare($query);
         $statement->execute([':searchTerm' => "%$searchTerm%"]);
 

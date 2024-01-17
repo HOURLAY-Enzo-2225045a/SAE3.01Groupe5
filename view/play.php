@@ -23,7 +23,6 @@
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
 
-
 <a href="/home" class="absolute left-5 top-0 w-20 h-20">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
@@ -43,5 +42,15 @@
 </div>
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 <script src="/assets/game.js"></script>
+
+<div class="absolute w-[90vw] h-[90vh] z-50 right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5" id="endGame" style="display: none">
+    <label class="text-5xl" id="pseudo"></label>
+    <span><label class="text-5xl">Score : </label>
+    <label class="text-5xl" id="scoreEnd"></label></span>
+    <span><label class="text-5xl">Classement : #</label>
+    <label class="text-5xl" id="rank"></label></span>
+
+
+</div>
 </body>
 </html>
