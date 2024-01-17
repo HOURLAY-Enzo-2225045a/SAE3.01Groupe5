@@ -3,4 +3,3 @@
     <a class="button" href='/rules'><span>LES REGLES</span></a>
     <a class="blueButton" href='/users'><span>ADMIN</span></a>
 </div>
-<?php var_dump($_SESSION) ?>
