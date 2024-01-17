@@ -43,7 +43,7 @@
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 <script src="/assets/game.js"></script>
 
-<div class="absolute w-[90vw] h-[90vh] z-50 right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5" id="endGame" style="display: none">
+<div class="absolute w-[90vw] h-[90vh] z-50 right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5 text-white" id="endGame" style="display: none">
     <label class="text-5xl" id="pseudo"></label>
     <span><label class="text-5xl">Score : </label>
     <label class="text-5xl" id="scoreEnd"></label></span>
