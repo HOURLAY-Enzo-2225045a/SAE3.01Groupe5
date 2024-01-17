@@ -11,9 +11,9 @@
         </label>
         <label>Niveau :</label>
         <select name="level" required>
-            <option value="attaquant" <?php if($data->getNiveau() === "ATTAQUANT") echo'selected'?> >Attaquant</option>
-            <option value="defenseur" <?php if($data->getNiveau() === "DEFENSEUR") echo'selected'?>>Defenseur</option>
-            <option value="gardien" <?php if($data->getNiveau() === "GARDIEN") echo'selected'?>>Gardien</option>
+            <option value="attaquant" <?php if($data->getDifficulty() === "ATTAQUANT") echo'selected'?> >Attaquant</option>
+            <option value="defenseur" <?php if($data->getDifficulty() === "DEFENSEUR") echo'selected'?>>Defenseur</option>
+            <option value="gardien" <?php if($data->getDifficulty() === "GARDIEN") echo'selected'?>>Gardien</option>
         </select>
         <label>Bonne réponse :
             <textarea class="w-full rounded-xl" type="text" name="true" required><?=$data->getResponse()?></textarea>

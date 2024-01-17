@@ -426,8 +426,9 @@ function resetStaticCanvas(changeQuestion = true){
     drawImage(cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
     drawImage(cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
 
-    randCage = Math.floor(Math.random() * 3);
+
     if(changeQuestion){
+        randCage = Math.floor(Math.random() * 3);
         getQuestion();
     }
 }

@@ -28,7 +28,7 @@ class Question extends Entity
      */
     public function setResponse($response): void
     {
-        $this->response = $response;
+        $this->response = html_entity_decode($response);
     }
 
     /**
@@ -44,7 +44,7 @@ class Question extends Entity
      */
     public function setFalse1($false1): void
     {
-        $this->false1 = $false1;
+        $this->false1 = html_entity_decode($false1);
     }
 
     /**
@@ -60,7 +60,7 @@ class Question extends Entity
      */
     public function setFalse2($false2): void
     {
-        $this->false2 = $false2;
+        $this->false2 = html_entity_decode($false2);
     }
 
     /**
@@ -92,7 +92,7 @@ class Question extends Entity
      */
     public function setText($text): void
     {
-        $this->text = $text;
+        $this->text = html_entity_decode($text);
     }
 
     /**

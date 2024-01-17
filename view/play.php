@@ -35,7 +35,7 @@
         <label class="text-5xl text-black text-center" id="question"></label>
     </div>
 </div>
-<div class="w-[85%] ml-[7.5%] flex items-center justify-between absolute top-[22%] z-10">
+<div class="w-[85%] ml-[7.5%] flex items-center justify-between absolute top-[20%] z-10 min-h-[8%]">
     <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep1"></label></div>
     <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep2"></label></div>
     <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep3"></label></div>
@@ -49,8 +49,6 @@
     <label class="text-5xl" id="scoreEnd"></label></span>
     <span><label class="text-5xl">Classement : #</label>
     <label class="text-5xl" id="rank"></label></span>
-
-
 </div>
 </body>
 </html>
