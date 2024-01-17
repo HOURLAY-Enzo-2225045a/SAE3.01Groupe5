@@ -30,7 +30,6 @@ class UsersController
             }
         } catch (MoreThanOneException|NotFoundException $ERROR) {
             //on fais un retour d'erreur
-            file_put_contents('log/HockeyGame.log', $ERROR->getMessage() . "\n", FILE_APPEND | LOCK_EX);
             echo $ERROR->getMessage();
         }
     }
