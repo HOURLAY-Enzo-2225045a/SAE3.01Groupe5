@@ -7,7 +7,7 @@
         <input type="hidden" name="id" value="<?= $data->getQuestion_id()?>">
         <h1 > Mise a jour question </h1>
         <label>Question :
-            <textarea class="w-full rounded-xl" type="text" name="text" required><?=$data->getIntitule()?></textarea>
+            <textarea class="w-full rounded-xl" type="text" name="text" required><?=$data->getText()?></textarea>
         </label>
         <label>Niveau :</label>
         <select name="level" required>
