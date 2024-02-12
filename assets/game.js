@@ -5,6 +5,10 @@
  * @version: 1.0
  */
 
+import "Cage.js";
+import "Rectangle.js";
+import "Palet.js";
+
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
 // score du joueur
@@ -33,55 +37,24 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 var staticContext = staticCanvas.getContext('2d');
 
-/**
- * Classe qui représente un rectangle
- * @param {Number} x : position x du rectangle
- * @param {Number} y : position y du rectangle
- * @param {Number} width : largeur du rectangle
- * @param {Number} height : hauteur du rectangle
- * @param {String} color : couleur du rectangle
- */
-class Rectangle{
-    constructor(x, y, width, height, color) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.color = color;
-    }
-}
-
-/**
- * Classe qui représente une cage
- * @param {Rectangle} fond : rectangle qui représente le fond de la cage
- * @param {Rectangle} poteauGauche : rectangle qui représente le poteau gauche de la cage
- * @param {Rectangle} poteauDroite : rectangle qui représente le poteau droit de la cage
- * @param {Rectangle} interieurCage : rectangle qui représente l'intérieur de la cage
- */
-class Cage {
-    constructor(fond) {
-        this.fond = fond;
-        this.poteauGauche = new Rectangle(fond.x, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.poteauDroite = new Rectangle(fond.x+fond.width-fond.height, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/8), "red");
-    }
-}
-
 // les objets qui représente la cage
-tailleCage = Math.trunc(canvas.width*(2.5/10));
+let tailleCage = Math.trunc(canvas.width*(2.5/10));
 let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
 // objet qui représente la balle
+/*
 let ball = {
     x: Math.trunc(canvas.width/2), // position x de la balle
     y: Math.trunc(canvas.height*(5/10)), // position y de la balle
     r: Math.trunc(cageMid.fond.width/8), // rayon de la balle
     v: 10 // vitesse de la balle en pixel
 };
-let newX= ball.x; // nouvelle position x de la balle après interaction (drag & drop)
-let newY= ball.y; // nouvelle position y de la balle après interaction (drag & drop)
+*/
+let ball = new Palet(Math.trunc(canvas.width/2), Math.trunc(canvas.height*(5/10)), Math.trunc(cageMid.fond.width/8), 10)
+let newX = ball.x; // nouvelle position x de la balle après interaction (drag & drop)
+let newY = ball.y; // nouvelle position y de la balle après interaction (drag & drop)
 
 /**
  * Permets de détecter le redimensionnement de la page
