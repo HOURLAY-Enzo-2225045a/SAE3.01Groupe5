@@ -1,4 +1,4 @@
-class CanvasManager {
+export class CanvasManager {
     constructor(canvas, staticCanvas) {
         this.canvas = canvas;
         this.staticCanvas = staticCanvas;
@@ -12,5 +12,13 @@ class CanvasManager {
 
     drawStatic() {
         this.context.drawImage(this.staticCanvas, 0, 0);
+    }
+
+    getCanvas(){
+        return this.canvas;
+    }
+
+    getStaticCanvas(){
+        return this.staticCanvas;
     }
 }

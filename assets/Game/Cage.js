@@ -27,5 +27,9 @@ export class Cage {
     isInside(palet) {
         return this.inside.isInside(palet);
     }
+
+    getBack(){
+        return this.back;
+    }
 }
 

@@ -1,4 +1,4 @@
-class EventManager {
+export class EventManager {
     constructor(palet) {
         this.palet = palet;
         this.mouseIsDown = false;

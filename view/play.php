@@ -12,6 +12,7 @@
 
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
+    <script src="game.js" defer></script>
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
 
@@ -33,6 +34,5 @@
     <div class="text-center w-[26.5%]"><label class="text-3xl text-black" id="rep3"></label></div>
 </div>
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
-<script src="/assets/game.js"></script>
 </body>
 </html>
