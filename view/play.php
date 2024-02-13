@@ -12,7 +12,8 @@
 
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
-    <script src="game.js" defer></script>
+
+    <script type="module" src="/assets/Game/Game.js"></script>
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
 

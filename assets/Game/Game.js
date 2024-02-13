@@ -1,11 +1,9 @@
 // game.js
-console.log("HELLO")
-
-import { Cage } from '/Cage.js';
-import { Palet } from '/Palet.js';
-import { CanvasManager } from '/CanvasManager.js';
-import { CollisionManager } from '/CollisionManager.js';
-import { EventManager } from '/EventManager.js';
+import { Cage } from "/Cage.js";
+import { Palet } from "/Palet.js";
+import { CanvasManager } from "/CanvasManager.js";
+import { CollisionManager } from "/CollisionManager.js";
+import { EventManager } from "/EventManager.js";
 import { Rectangle } from "/Rectangle.js";
 
 class Game {
@@ -59,4 +57,4 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 
 const game = new Game(canvas,staticCanvas);
-game.start();
+//game.start();
