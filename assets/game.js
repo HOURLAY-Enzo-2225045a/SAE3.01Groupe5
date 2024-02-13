@@ -5,9 +5,9 @@
  * @version: 1.0
  */
 
-import "Cage.js";
-import "Rectangle.js";
-import "Palet.js";
+import "assets/Game/Cage.js";
+import "assets/Game/Rectangle.js";
+import "assets/Game/Palet.js";
 
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
