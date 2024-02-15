@@ -8,8 +8,8 @@
  */
 export class Rectangle{
     constructor(x, y, width, height, color) {
-        this.posX = x;
-        this.posY = y;
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
@@ -17,7 +17,7 @@ export class Rectangle{
 
     draw(context){
         context.beginPath();
-        context.rect(this.posX, this.posY, this.width, this.height);
+        context.rect(this.x, this.y, this.width, this.height);
         context.fillStyle = this.color;
         context.fill();
         context.closePath();

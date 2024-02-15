@@ -10,9 +10,9 @@ import { Rectangle } from "/assets/Game/Rectangle.js"
 export class Cage {
     constructor(back) {
         this.back = back;
-        this.leftPole = new Rectangle(back.posX, back.posY, back.height, Math.trunc(back.width/2), "black");
-        this.rightPole = new Rectangle(back.posX+back.width-back.height, back.posY, back.height, Math.trunc(back.width/2), "black");
-        this.inside = new Rectangle(back.posX+back.height, back.posY+back.height, back.width-back.height*2 , Math.trunc(back.width/8), "red");
+        this.leftPole = new Rectangle(back.x, back.y, back.height, Math.trunc(back.width/2), "black");
+        this.rightPole = new Rectangle(back.x+back.width-back.height, back.y, back.height, Math.trunc(back.width/2), "black");
+        this.inside = new Rectangle(back.x+back.height, back.y+back.height, back.width-back.height*2 , Math.trunc(back.width/8), "red");
     }
 
     draw(context) {
