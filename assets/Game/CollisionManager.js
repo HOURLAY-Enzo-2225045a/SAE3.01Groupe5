@@ -1,19 +1,11 @@
 export class CollisionManager {
-    constructor(palet, cages) {
+    constructor(canvas, palet, cages) {
+        this.canvas = canvas;
         this.palet = palet;
         this.cages = cages;
     }
 
-    checkCollisions() {
-        for (let cage of this.cages) {
-            if (cage.isInside(this.palet)) {
-                return cage;
-            }
-        }
-        return null;
-    }
-
-    RectCircleColliding(circle,rect){
+    RectCircleColliding(circle,rect) {
         let distX = Math.abs(circle.x - rect.x-rect.width/2);
         let distY = Math.abs(circle.y - rect.y-rect.height/2);
 
@@ -28,34 +20,26 @@ export class CollisionManager {
         return (dx*dx+dy*dy<=(circle.r*circle.r));
     }
 
-    collisionManager(){
-        bounceManager(cageLeft);
-        bounceManager(cageMid);
-        bounceManager(cageRight);
-        if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
-            if(randCage === 0){
-                score+=100;
-                addScore();
-                resetGame();
-            } else {
-                resetGame();
+    handleCollisions() {
+        /*for (let cage of this.cages) {
+            if (this.RectCircleColliding(this.palet, cage)) {
+                console.log("Collision with cage");
+                this.bounceManager(cage);
             }
-        } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
-            if(randCage === 1){
-                score+=100;
-                addScore();
-                resetGame();
-            } else {
-                resetGame();
-            }
-        } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
-            if(randCage === 2){
-                score+=100;
-                addScore();
-                resetGame();
-            } else {
-                resetGame();
-            }
+        }*/
+        if(Math.abs(this.palet.x - 0) < this.palet.radius || Math.abs(this.palet.x - this.canvas.width) < this.palet.radius){ // collision avec les bords gauche et droite du canvas
+            this.palet.bounceVertical();
+            /*newX = this.palet.x - (newX- this.palet.x);
+            newY = this.palet.y + (newY - this.palet.y);*/
+        } else if(Math.abs(this.palet.y - 0) < this.palet.radius || Math.abs(this.palet.y - this.canvas.height) < this.palet.radius){ // collision avec les bords haut et bas du canvas
+            this.palet.bounceHorizontal();
+        }
+    }
+
+    bounceManager(cage) {
+        if (cage.isInside(this.palet)) {
+            console.log("Inside cage");
+            this.palet.bounce();
         }
     }
 }

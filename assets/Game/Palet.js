@@ -67,4 +67,18 @@ export class Palet {
         // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
         return (dist.x <= this.velocity && dist.y <= this.velocity);
     }
+
+    bounce(){
+        //this.newX = this.x - (this.newX - this.x);
+        console.log("bounce")
+    }
+
+    bounceVertical(){
+        this.newX = this.x - (this.newX - this.x);
+
+    }
+
+    bounceHorizontal(){
+        this.newY = this.y - (this.newY - this.y);
+    }
 }

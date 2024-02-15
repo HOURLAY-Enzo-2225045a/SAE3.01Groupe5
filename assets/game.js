@@ -261,7 +261,7 @@ function drawText(txt, x, y, color,context){
  * @param {*} circle
  * @param {*} rect
  */
-function RectCircleColliding(circle,rect){
+/*function RectCircleColliding(circle,rect){
     let distX = Math.abs(circle.x - rect.x-rect.width/2);
     let distY = Math.abs(circle.y - rect.y-rect.height/2);
 
@@ -274,7 +274,7 @@ function RectCircleColliding(circle,rect){
     let dx=distX-rect.width/2;
     let dy=distY-rect.height/2;
     return (dx*dx+dy*dy<=(circle.r*circle.r));
-}
+}*/
 
 /**
  * Permet de gérer les collisions du jeu

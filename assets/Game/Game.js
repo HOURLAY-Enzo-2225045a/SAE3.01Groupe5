@@ -15,9 +15,10 @@ class Game {
         this.midCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width/2)-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(8/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.palet = new Palet(Math.trunc(tmpCanvas.width/2), Math.trunc(tmpCanvas.height*(5/10)), Math.trunc(this.midCage.getBack().width/8), 10);
-        this.collisionManager = new CollisionManager();
+        this.collisionManager = new CollisionManager(this.canvasManager.getCanvas(), this.palet, [this.leftCage, this.midCage, this.rightCage]);
         this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas());
-        this.arrow = new Image();
+
+        //this.arrow = new Image();
     }
 
     start() {
@@ -25,6 +26,7 @@ class Game {
         window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
         window.addEventListener('mousemove', (e) => this.eventManager.handleMouseMove(e));
         //window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
+        console.log(this.palet)
         setInterval(() => {
             this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.palet.draw(this.canvasManager.getCtx()); //drawBall(ball,"#0095DD");
@@ -38,6 +40,7 @@ class Game {
                     this.palet.resetNewPos();
                 }
             }
+            this.collisionManager.handleCollisions(); //collisionManager();
             /*if(mouseIsDown){
                 ctx.strokeStyle="black";
                 ctx.lineWidth=4;
