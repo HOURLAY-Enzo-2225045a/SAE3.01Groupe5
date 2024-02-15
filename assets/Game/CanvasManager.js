@@ -21,4 +21,12 @@ export class CanvasManager {
     getStaticCanvas(){
         return this.staticCanvas;
     }
+
+    getCtx() {
+        return this.context;
+    }
+
+    getStaticCtx() {
+        return this.staticContext;
+    }
 }

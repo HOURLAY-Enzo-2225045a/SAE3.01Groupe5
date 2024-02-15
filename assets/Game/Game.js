@@ -1,29 +1,59 @@
 // game.js
-import { Cage } from "/Cage.js";
-import { Palet } from "/Palet.js";
-import { CanvasManager } from "/CanvasManager.js";
-import { CollisionManager } from "/CollisionManager.js";
-import { EventManager } from "/EventManager.js";
-import { Rectangle } from "/Rectangle.js";
+import { Cage } from "/assets/Game/Cage.js";
+import { Palet } from "/assets/Game/Palet.js";
+import { CanvasManager } from "/assets/Game/CanvasManager.js";
+import { CollisionManager } from "/assets/Game/CollisionManager.js";
+import { EventManager } from "/assets/Game/EventManager.js";
+import { Rectangle } from "/assets/Game/Rectangle.js";
 
 class Game {
     constructor(canvas, staticCanvas) {
         this.canvasManager = new CanvasManager(canvas,staticCanvas);
-        this.collisionManager = new CollisionManager();
-        this.eventManager = new EventManager();
         let tailleCage = Math.trunc(this.canvasManager.getCanvas().width*(2.5/10));
         var tmpCanvas = this.canvasManager.getCanvas();
         this.leftCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(2/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.midCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width/2)-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(8/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.palet = new Palet(Math.trunc(tmpCanvas.width/2), Math.trunc(tmpCanvas.height*(5/10)), Math.trunc(this.midCage.getBack().width/8), 10);
+        this.collisionManager = new CollisionManager();
+        this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas());
+        this.arrow = new Image();
     }
 
     start() {
-        //resetStaticCanvas();
+        window.addEventListener('mousedown', (e) => this.eventManager.handleMouseDown(e));
+        window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
+        window.addEventListener('mousemove', (e) => this.eventManager.handleMouseMove(e));
+        //window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
         setInterval(() => {
-            this.canvasManager.clear();
-            this.palet.draw();
+            this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
+            this.palet.draw(this.canvasManager.getCtx()); //drawBall(ball,"#0095DD");
+            this.leftCage.draw(this.canvasManager.getCtx());
+            this.midCage.draw(this.canvasManager.getCtx());
+            this.rightCage.draw(this.canvasManager.getCtx());// ctx.drawImage(staticCanvas, 0, 0);
+            // Gestion du déplacement du palet
+            let newPos = this.eventManager.getNewPos();
+            if((newPos.x !== this.palet.x || newPos.y !== this.palet.y) && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
+                console.log("move");
+                if(this.palet.move(newPos)){
+                    this.eventManager.setNewPos(this.palet.x, this.palet.y);
+                }
+            }
+            /*if(mouseIsDown){
+                ctx.strokeStyle="black";
+                ctx.lineWidth=4;
+                drawArrow(ball.x,ball.y,newX,newY);
+                console.log("Arrow")
+            } else {
+                if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
+                    if(moveObject(ball, {x:newX, y:newY}, ball.v)){
+                        resetGame(false);
+                        newX = ball.x;
+                        newY = ball.y
+                    }
+                }
+            }
+            collisionManager();*/
         }, 10);
     }
 
@@ -31,12 +61,12 @@ class Game {
         // ...
     }
 
-    // ...
+    addScore() {
+        // ...
+    }
 }
 
-console.log("hello world")
-// boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
-let mouseIsDown = false;
+console.log("hello world");
 // score du joueur
 let score = 0;
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
@@ -57,4 +87,4 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 
 const game = new Game(canvas,staticCanvas);
-//game.start();
+game.start();

@@ -346,7 +346,7 @@ function bounceManager(cage){
  * @param {*} ne : arrivé {x, y} représente la position où l'objet doit aller
  * @param {*} v : vitesse en pixel
  */
-function moveObject(ac, ne, v){
+/*function moveObject(ac, ne, v){
     let   s = {x:1, y:1}        // sens
         , move = {x:1, y:1} // pixel de déplacement
         , delta// delta -> pythagore
@@ -380,7 +380,7 @@ function moveObject(ac, ne, v){
 
     // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
     return (dist.x <= v && dist.y <= v);
-}
+}*/
 
 function resetStaticCanvas(changeQuestion = true){
     staticContext.clearRect(0, 0, canvas.width, canvas.height);

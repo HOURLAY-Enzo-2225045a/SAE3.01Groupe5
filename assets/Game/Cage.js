@@ -1,4 +1,4 @@
-import { Rectangle } from "Rectangle.js"
+import { Rectangle } from "/assets/Game/Rectangle.js"
 
 /**
  * Classe qui représente une cage

@@ -1,23 +1,65 @@
 export class EventManager {
-    constructor(palet) {
+    constructor(palet, canvas) {
         this.palet = palet;
+        this.canvas = canvas;
         this.mouseIsDown = false;
         this.newX = palet.x;
         this.newY = palet.y;
     }
 
+    getNewPos() {
+        return {x: this.newX, y: this.newY};
+    }
+
+    setNewPos(x, y) {
+        this.newX = x;
+        this.newY = y;
+    }
+
+    getMouseIsDown(){
+        return this.mouseIsDown;
+    }
+
     handleMouseDown(e) {
-        // Implementation here
+        let pos = this.getMouseOrTouchPos(e);
+        if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
+            pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
+            this.mouseIsDown = true;
+            console.log("mouse down")
+        }
     }
 
     handleMouseUp(e) {
-        // Implementation here
+        if (this.mouseIsDown) {
+            console.log("mouse up")
+            let pos = this.getMouseOrTouchPos(e);
+            this.newX = this.palet.x + ((this.palet.x - pos.x) * 5);
+            this.newY = this.palet.y - ((pos.y - this.palet.y) * 5);
+        }
+        this.mouseIsDown = false;
     }
 
     handleMouseMove(e) {
-        // Implementation here
+        if (this.mouseIsDown) {
+            console.log("mouse move")
+            let pos = this.getMouseOrTouchPos(e);
+            this.newX = (this.palet.x + (this.palet.x - pos.x));
+            this.newY = (this.palet.y - (pos.y - this.palet.y));
+        }
     }
 
-    handleResize(e){
+    getMouseOrTouchPos(e) {
+        let rect = this.canvas.getBoundingClientRect();
+        if (e.touches && e.touches.length > 0) {
+            return {
+                x: e.touches[0].clientX - rect.left,
+                y: e.touches[0].clientY - rect.top
+            };
+        } else {
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
     }
 }
