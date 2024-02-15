@@ -3,8 +3,6 @@ export class EventManager {
         this.palet = palet;
         this.canvas = canvas;
         this.mouseIsDown = false;
-        this.newX = palet.x;
-        this.newY = palet.y;
     }
 
     getNewPos() {
@@ -25,7 +23,7 @@ export class EventManager {
         if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
             pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
             this.mouseIsDown = true;
-            console.log("mouse down")
+            //console.log("mouse down")
         }
     }
 
@@ -33,18 +31,18 @@ export class EventManager {
         if (this.mouseIsDown) {
             console.log("mouse up")
             let pos = this.getMouseOrTouchPos(e);
-            this.newX = this.palet.x + ((this.palet.x - pos.x) * 5);
-            this.newY = this.palet.y - ((pos.y - this.palet.y) * 5);
+            this.palet.newX = this.palet.x + ((this.palet.x - pos.x) * 5);
+            this.palet.newY = this.palet.y - ((pos.y - this.palet.y) * 5);
         }
         this.mouseIsDown = false;
     }
 
     handleMouseMove(e) {
         if (this.mouseIsDown) {
-            console.log("mouse move")
+            //console.log("mouse move")
             let pos = this.getMouseOrTouchPos(e);
-            this.newX = (this.palet.x + (this.palet.x - pos.x));
-            this.newY = (this.palet.y - (pos.y - this.palet.y));
+            this.palet.newX = (this.palet.x + (this.palet.x - pos.x));
+            this.palet.newY = (this.palet.y - (pos.y - this.palet.y));
         }
     }
 

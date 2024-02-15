@@ -32,11 +32,10 @@ class Game {
             this.midCage.draw(this.canvasManager.getCtx());
             this.rightCage.draw(this.canvasManager.getCtx());// ctx.drawImage(staticCanvas, 0, 0);
             // Gestion du déplacement du palet
-            let newPos = this.eventManager.getNewPos();
-            if((newPos.x !== this.palet.x || newPos.y !== this.palet.y) && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
+            if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
                 console.log("move");
-                if(this.palet.move(newPos)){
-                    this.eventManager.setNewPos(this.palet.x, this.palet.y);
+                if(this.palet.move()){
+                    this.palet.resetNewPos();
                 }
             }
             /*if(mouseIsDown){

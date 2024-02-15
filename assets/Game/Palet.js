@@ -11,6 +11,17 @@ export class Palet {
         this.y = y;
         this.radius = radius;
         this.velocity = velocity;
+        this.newX = x;
+        this.newY = y;
+    }
+
+    checkNewPos() {
+        return (this.newX !== this.x || this.newY !== this.y);
+    }
+
+    resetNewPos() {
+        this.newX = this.x;
+        this.newY = this.y;
     }
 
     draw(context) {
@@ -21,7 +32,7 @@ export class Palet {
         context.closePath();
     }
 
-    move(newPos) {
+    move() {
         let   s = {x:1, y:1}        // sens
             , move = {x:1, y:1} // pixel de déplacement
             , delta// delta -> pythagore
@@ -29,8 +40,8 @@ export class Palet {
         ;
 
         // distance x/y
-        dist.x = Math.abs(this.x-newPos.x);
-        dist.y = Math.abs(this.y-newPos.y);
+        dist.x = Math.abs(this.x - this.newX);
+        dist.y = Math.abs(this.y - this.newY);
 
         // racine carrée de A² + B² (pythagore) → donne l'hypoténuse
         delta = Math.sqrt((dist.x*dist.x)+(dist.y*dist.y));
@@ -46,8 +57,8 @@ export class Palet {
         this.velocity=tempV;
 
         // déplacement vers la gauche -1, droite 1, haut -1, bas 1
-        s.x = (this.x > newPos.x)? -1: 1;
-        s.y = (this.y > newPos.y)? -1: 1;
+        s.x = (this.x > this.newX)? -1: 1;
+        s.y = (this.y > this.newY)? -1: 1;
 
         // rajoute à nos coordonnées actuelles le déplacement dans le bon sens
         this.x += move.x*s.x;
