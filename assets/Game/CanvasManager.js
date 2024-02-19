@@ -29,4 +29,8 @@ export class CanvasManager {
     getStaticCtx() {
         return this.staticContext;
     }
+
+    getCtx(){
+        return this.context;
+    }
 }

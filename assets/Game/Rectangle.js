@@ -8,11 +8,11 @@
  */
 export class Rectangle{
     constructor(x, y, width, height, color) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.color = color;
+        this.x = x; // position horizontal du centre
+        this.y = y; // position vertical du centre
+        this.width = width; // largeur
+        this.height = height; // hauteur
+        this.color = color; // couleur
     }
 
     draw(context){

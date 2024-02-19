@@ -1,8 +1,7 @@
 export class CollisionManager {
-    constructor(canvas, palet, cages) {
+    constructor(canvas, palet) {
         this.canvas = canvas;
         this.palet = palet;
-        this.cages = cages;
     }
 
     RectCircleColliding(circle,rect) {
@@ -21,12 +20,6 @@ export class CollisionManager {
     }
 
     handleCollisions() {
-        /*for (let cage of this.cages) {
-            if (this.RectCircleColliding(this.palet, cage)) {
-                console.log("Collision with cage");
-                this.bounceManager(cage);
-            }
-        }*/
         if(Math.abs(this.palet.x - 0) < this.palet.radius || Math.abs(this.palet.x - this.canvas.width) < this.palet.radius){ // collision avec les bords gauche et droite du canvas
             this.palet.bounceVertical();
             /*newX = this.palet.x - (newX- this.palet.x);
