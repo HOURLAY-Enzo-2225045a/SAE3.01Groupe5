@@ -43,6 +43,7 @@ export class EventManager {
             let pos = this.getMouseOrTouchPos(e);
             this.palet.newX = (this.palet.x + (this.palet.x - pos.x));
             this.palet.newY = (this.palet.y - (pos.y - this.palet.y));
+            this.palet.resetStartPos();
         }
     }
 

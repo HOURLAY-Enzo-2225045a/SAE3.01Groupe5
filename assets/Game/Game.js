@@ -14,7 +14,7 @@ class Game {
         this.leftCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(2/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.midCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width/2)-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(8/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-        this.palet = new Palet(Math.trunc(tmpCanvas.width/2), Math.trunc(tmpCanvas.height*(5/10)), Math.trunc(this.midCage.getBack().width/8), 10);
+        this.palet = new Palet(Math.trunc(tmpCanvas.width/2), Math.trunc(tmpCanvas.height*(5/10)), Math.trunc(this.midCage.getBack().width/8), 10, tmpCanvas);
         this.collisionManager = new CollisionManager(this.canvasManager.getCanvas(), this.palet, [this.leftCage, this.midCage, this.rightCage]);
         this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas());
 
@@ -30,6 +30,8 @@ class Game {
         setInterval(() => {
             this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.palet.draw(this.canvasManager.getCtx()); //drawBall(ball,"#0095DD");
+            this.palet.drawNewPos(this.canvasManager.getCtx());
+            this.palet.drawStartPos(this.canvasManager.getCtx());
             this.leftCage.draw(this.canvasManager.getCtx());
             this.midCage.draw(this.canvasManager.getCtx());
             this.rightCage.draw(this.canvasManager.getCtx());// ctx.drawImage(staticCanvas, 0, 0);

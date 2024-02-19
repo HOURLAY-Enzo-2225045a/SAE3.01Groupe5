@@ -6,13 +6,21 @@
  *
  */
 export class Palet {
-    constructor(x, y, radius, velocity) {
+    constructor(x, y, radius, velocity, canvas) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.velocity = velocity;
         this.newX = x;
         this.newY = y;
+        this.startX = x;
+        this.startY = y;
+        this.canvas = canvas;
+    }
+
+    resetStartPos() {
+        this.startX = this.x;
+        this.startY = this.y;
     }
 
     checkNewPos() {
@@ -28,6 +36,22 @@ export class Palet {
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
         context.fillStyle = "#0095DD";
+        context.fill();
+        context.closePath();
+    }
+
+    drawNewPos(context) {
+        context.beginPath();
+        context.arc(this.newX, this.newY, this.radius, 0, Math.PI*2);
+        context.fillStyle = "red";
+        context.fill();
+        context.closePath();
+    }
+
+    drawStartPos(context) {
+        context.beginPath();
+        context.arc(this.startX, this.startY, this.radius, 0, Math.PI*2);
+        context.fillStyle = "green";
         context.fill();
         context.closePath();
     }
@@ -68,14 +92,53 @@ export class Palet {
         return (dist.x <= this.velocity && dist.y <= this.velocity);
     }
 
-    bounce(){
-        //this.newX = this.x - (this.newX - this.x);
-        console.log("bounce")
+    bounce(status) {
+        const startPoint = {x: this.startX, y: this.startY}
+        const endPoint = {x: this.newX, y: this.newY}
+        const collisionPoint = {x: this.x, y: this.y}
+
+        // Calcul du vecteur de déplacement avant le rebond
+        const displacementVector = {
+            x: endPoint.x - startPoint.x,
+            y: endPoint.y - startPoint.y
+        };
+
+        // Calcul de la normale au mur (vecteur normalisé)
+        let wallNormal;
+        if(status === "vertical"){ // collision avec les bords gauche et droite du canvas
+            wallNormal = {x: 1, y: 0};
+        } else if(status === "horizontal"){ // collision avec les bords haut et bas du canvas
+            wallNormal = {x: 0, y: 1};
+        }
+
+        // Calcul du produit scalaire entre le vecteur de déplacement et la normale au mur
+        const dotProduct = displacementVector.x * wallNormal.x + displacementVector.y * wallNormal.y;
+
+        // Calcul du vecteur de déplacement après le rebond
+        const reflectedVector = {
+            x: displacementVector.x - 2 * dotProduct * wallNormal.x,
+            y: displacementVector.y - 2 * dotProduct * wallNormal.y
+        };
+
+        // Calculer la distance restante avant le rebond
+        const remainingDistance = Math.sqrt((endPoint.x - collisionPoint.x) ** 2 + (endPoint.y - collisionPoint.y) ** 2);
+
+        // Normaliser le vecteur réfléchi
+        const length = Math.sqrt(reflectedVector.x * reflectedVector.x + reflectedVector.y * reflectedVector.y);
+        reflectedVector.x /= length;
+        reflectedVector.y /= length;
+
+        // Multiplier par la distance restante
+        reflectedVector.x *= remainingDistance;
+        reflectedVector.y *= remainingDistance;
+
+        // Calcul du nouveau point d'arrivée
+        this.newX = collisionPoint.x + reflectedVector.x
+        this.newY = collisionPoint.y + reflectedVector.y
     }
 
     bounceVertical(){
         this.newX = this.x - (this.newX - this.x);
-
     }
 
     bounceHorizontal(){

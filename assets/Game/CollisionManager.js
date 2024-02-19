@@ -28,11 +28,11 @@ export class CollisionManager {
             }
         }*/
         if(Math.abs(this.palet.x - 0) < this.palet.radius || Math.abs(this.palet.x - this.canvas.width) < this.palet.radius){ // collision avec les bords gauche et droite du canvas
-            this.palet.bounceVertical();
-            /*newX = this.palet.x - (newX- this.palet.x);
-            newY = this.palet.y + (newY - this.palet.y);*/
+            this.palet.bounce("vertical");
+            this.palet.resetStartPos();
         } else if(Math.abs(this.palet.y - 0) < this.palet.radius || Math.abs(this.palet.y - this.canvas.height) < this.palet.radius){ // collision avec les bords haut et bas du canvas
-            this.palet.bounceHorizontal();
+            this.palet.bounce("horizontal");
+            this.palet.resetStartPos();
         }
     }
 
