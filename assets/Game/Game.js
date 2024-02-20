@@ -26,7 +26,8 @@ class Game {
         window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
         window.addEventListener('mousemove', (e) => this.eventManager.handleMouseMove(e));
         //window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
-        console.log(this.palet)
+        console.log(this.palet);
+        console.log(this.collisionManager);
         setInterval(() => {
             this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.palet.draw(this.canvasManager.getCtx()); //drawBall(ball,"#0095DD");

@@ -24,12 +24,16 @@ export class Cage {
         this.back.draw(context);
     }
 
-    isInside(palet) {
-        return this.inside.isInside(palet);
+    getInside(){
+        return this.inside;
     }
 
     getBack(){
         return this.back;
+    }
+
+    getRects(){
+        return [this.back, this.leftPole, this.rightPole];
     }
 }
 
