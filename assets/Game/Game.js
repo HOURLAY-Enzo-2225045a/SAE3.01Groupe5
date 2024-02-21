@@ -39,6 +39,7 @@ class Game {
             // Gestion du déplacement du palet
             if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
                 console.log("move");
+                this.palet.resetPrevPos();
                 if(this.palet.move()){
                     this.palet.resetNewPos();
                 }
@@ -57,8 +58,7 @@ class Game {
                         newY = ball.y
                     }
                 }
-            }
-            collisionManager();*/
+            }*/
         }, 10);
     }
 
@@ -66,8 +66,48 @@ class Game {
         // ...
     }
 
-    addScore() {
-        // ...
+    /**
+     * Récupère une question aléatoire et l'affiche dans le canvas
+     * @deprecated Vérifier si modification nécessaire / Ou QuestionManager ?
+     */
+    getQuestion() {
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "getRandomQuestion",
+            },
+            dataType : 'json',
+            success: function (response) {
+                let repA = (randCage === 0)? response.vrai : response.faux1;
+                let repB = (randCage === 1)? response.vrai : response.faux1;
+                let repC = (randCage === 2)? response.vrai : response.faux1;
+                $("#question").text(response.text);
+                $("#rep1").text(repA);
+                $("#rep2").text(repB);
+                $("#rep3").text(repC);
+            }
+        });
+    }
+
+    /**
+     * Ajoute 100 points au score du joueur
+     * @deprecated Vérifier si modification nécessaire
+     */
+    addScore(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "addScore",
+                score: 100,
+            },
+            dataType : 'json',
+            success: function (response) {
+                score = response.toString();
+                $("#score").text(score);
+            }
+        });
     }
 }
 

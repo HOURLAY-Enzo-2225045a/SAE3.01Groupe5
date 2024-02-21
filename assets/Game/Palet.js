@@ -15,7 +15,12 @@ export class Palet {
         this.newY = y;
         this.startX = x;
         this.startY = y;
+        this.prevPos = {x: x, y: y};
         this.canvas = canvas;
+    }
+
+    resetPrevPos() {
+        this.prevPos = {x: this.x, y: this.y};
     }
 
     resetStartPos() {

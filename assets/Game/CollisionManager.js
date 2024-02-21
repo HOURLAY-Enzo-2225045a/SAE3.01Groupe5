@@ -5,14 +5,23 @@ export class CollisionManager {
         this.cages = cages;
     }
 
+    /**
+     * Vérifie si un cercle est en collision avec un rectangle
+     * Vérifie également la trajectoire de la balle
+     * @param circle
+     * @param rect
+     * @param prevCircle
+     * @returns {boolean}
+     * @constructor
+     */
     RectCircleColliding(circle, rect, prevCircle) {
-        // Check for collision using the current position of the ball
+        // Vérifie si le palet est en collision avec le rectangle
         let collision = this.RectCircleCollidingBasic(circle, rect);
         if (collision) {
             return true;
         }
 
-        // If no collision is detected, check the trajectory of the ball
+        // Si aucune collision n'est détectée, vérifie la trajectoire de la balle
         let distX = Math.abs(prevCircle.x - circle.x);
         let distY = Math.abs(prevCircle.y - circle.y);
         let steps = Math.max(distX, distY);
@@ -35,6 +44,13 @@ export class CollisionManager {
         return false;
     }
 
+    /**
+     * Vérifie si un cercle est en collision avec un rectangle
+     * @param circle
+     * @param rect
+     * @returns {boolean}
+     * @constructor
+     */
     RectCircleCollidingBasic(circle, rect) {
         let distX = Math.abs(circle.x - rect.x-rect.width/2);
         let distY = Math.abs(circle.y - rect.y-rect.height/2);
@@ -53,7 +69,7 @@ export class CollisionManager {
     handleCollisions() {
         for (let cage of this.cages) {
             for (let rect of cage.getRects()) {
-                if (this.RectCircleColliding(this.palet, rect)) {
+                if (this.RectCircleColliding(this.palet, rect, this.palet.prevPos)) {
                     console.log("Collision with cage");
                     this.bounceManager(rect);
                 }
@@ -79,15 +95,33 @@ export class CollisionManager {
     }
 
     bounceManager(rect) {
-        let distX = this.palet.x - (rect.x + rect.width / 2);
-        let distY = this.palet.y - (rect.y + rect.height / 2);
+        let distX, distY;
+        if (this.palet.x < rect.x) { // à gauche du rectangle
+            distX = rect.x - this.palet.x;
+        } else if (this.palet.x > rect.x + rect.width) { // à droite du rectangle
+            distX = this.palet.x - (rect.x + rect.width);
+        } else { // au-dessus ou en-dessous du rectangle
+            distX = 0;
+        }
 
-        if (Math.abs(distX) > Math.abs(distY)) {
+        if (this.palet.y < rect.y) { // au-dessus du rectangle
+            distY = rect.y - this.palet.y;
+        } else if (this.palet.y > rect.y + rect.height) { // en-dessous du rectangle
+            distY = this.palet.y - (rect.y + rect.height);
+        } else { // à gauche ou à droite du rectangle
+            distY = 0;
+        }
+
+        if (distX > distY) {
             // Collision avec le côté gauche ou droit de la cage
             this.palet.bounce("vertical");
+            // Ajout d'un décalage pour éviter que la balle ne reste coincée
+            this.palet.x += (this.palet.x > rect.x) ? this.palet.radius-distX : -(this.palet.radius-distX);
         } else {
             // Collision avec le haut ou le bas de la cage
             this.palet.bounce("horizontal");
+            // Ajout d'un décalage pour éviter que la balle ne reste coincée
+            this.palet.y += (this.palet.y > rect.y) ? this.palet.radius-distY : -(this.palet.radius-distY);
         }
     }
 }
