@@ -5,10 +5,11 @@ socket.addEventListener('open', (event) => {
 });
 
 socket.addEventListener('message', (event) => {
-    const messagesDiv = document.getElementById('messages');
-    const message = document.createElement('div');
-    message.textContent = `Réponse: ${event.data}`;
-    messagesDiv.appendChild(message);
+    const message = event.data;
+    console.log('Message reçu du serveur:', message);
+    if(message === "stop"){
+        window.location.href = "/controls/actionController.php?action=deconnect";
+    }
 });
 
 socket.addEventListener('close', (event) => {
@@ -22,4 +23,8 @@ function sendMessage() {
 
     // Effacer le champ de saisie après l'envoi
     messageInput.value = '';
+}
+
+function sendAdminMessage() {
+    socket.send("Stop Session");
 }

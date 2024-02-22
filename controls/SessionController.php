@@ -116,4 +116,5 @@ class SessionController
             $_SESSION['spartiateId'] = $spartiateId;
         }
     }
+
 }

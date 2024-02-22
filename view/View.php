@@ -21,6 +21,7 @@ abstract class View
             require $path;
             $content = ob_get_clean();
 //        $content = str_replace(['%username%'], ['alex'], $content);//todo $_GET['username']
+            var_dump($_SESSION);
             echo str_replace(['%title%', '%content%'], [$title, $content], file_get_contents('view/layout.php'));
         }
     }

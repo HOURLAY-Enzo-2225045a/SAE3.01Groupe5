@@ -181,6 +181,26 @@ $(document).ready(function(e){
             location.reload();
         });
     });
+
+    $(document).on("click", ".buttonWS", function(){
+        console.log("clickButtonWS")
+        let action = $(this).data("action");
+        // Effectuer la requête AJAX
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: action,
+            },
+        }).done(function(response){
+            if(response === "Vous n\'avez pas les droits administratifs nécessaires.") {
+                alert(response);
+            }else{
+                eval(response)
+            }
+        });
+    });
+
 });
 
 function updateRanking() {

@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/dist/bundle.js"></script>
-
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
+<!--    --><?php //if(isset($_SESSION[]))?>
+    <script src="/assets/socket.js"></script>
 </head>
 
 <body class="bg-[var(--color-bg)] h-[100vh]">

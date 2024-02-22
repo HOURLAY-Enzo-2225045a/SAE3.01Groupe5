@@ -9,14 +9,15 @@
 </h1>
 <div class="w-full flex justify-center items-center text-4xl"><h2 class="bg-customBlue p-5 rounded-xl" id="code"></h2></div>
 <div class="w-full flex flex-row justify-center items-center">
-    <a class="button cursor-pointer sessionAction" data-action="start"><span>Demarrer</span></a>
-    <a class="button cursor-pointer sessionAction" data-action="stop"><span>Arreter</span></a>
-<!--    <a class="sessionAction" data-action="reset"><span>Reinitialiser</span></a>-->
+    <a class="button cursor-pointer sessionAction" data-action="start">Demarrer</a>
+    <a class="button cursor-pointer sessionAction" data-action="stop">Arreter</a>
+    <a class="button cursor-pointer buttonWS" data-action="stopWS">StopWS</a>
+<!--    <a class="sessionAction" data-action="reset">Reinitialiser</a>-->
 </div>
 
 <div class="w-full flex flex-row justify-center items-center">
-    <a class="blueButton" href='/spartiates'><span>Sportifs</span></a>
-    <a class="blueButton" href='/questions'><span>Questions</span></a>
+    <a class="blueButton" href='/spartiates'>Sportifs</a>
+    <a class="blueButton" href='/questions'>Questions</a>
 </div>
 
 <div class="container mx-auto px-4 py-8">
