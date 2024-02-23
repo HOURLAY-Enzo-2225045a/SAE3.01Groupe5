@@ -170,6 +170,7 @@ $(document).ready(function(e){
     $(document).on("click", ".spartCard", function(){
         let id = $(this).data("id");
         // Effectuer la requête AJAX
+        console.log('clic');
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",

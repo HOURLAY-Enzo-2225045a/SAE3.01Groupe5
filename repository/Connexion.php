@@ -12,12 +12,15 @@ class Connexion
         if (self::$instance == null) {
 
             self::$instance = new \PDO(
-                $_ENV['DSN'],
-                $_ENV['USERNAME'],
-                $_ENV['PASSWORD'],
-                [
-                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                ]
+//                $_ENV['DSN'],
+//                $_ENV['USERNAME'],
+//                $_ENV['PASSWORD'],
+//                [
+//                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+//                ]
+                'mysql:host=mysql-jeuspartiates.alwaysdata.net;dbname=jeuspartiates_bd',
+                '340307',
+                'Sparte300'
             );
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         }
