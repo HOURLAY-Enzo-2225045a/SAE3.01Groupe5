@@ -29,7 +29,7 @@ $actionsMapping = [
     'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                              ],
     'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                                   ],
     'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                                   ],
-    'addSessionPlayer' => ['fields' => ['pseudo'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
+    'addSessionPlayer' => ['fields' => ['pseudo','mail'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
     'showRanking' => ['controller' => $sessionController, 'adminOnly' => true ],
     'addScore' => [ 'fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
     'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true ],
@@ -56,9 +56,10 @@ function handleAction($actionsMapping)
         }
 
         // Vérifier la présence des champs requis pour les actions avec POST
+
         if (isset($mapping['fields'])) {
             foreach ($mapping['fields'] as $field) {
-                if (empty($postData[$field])) {
+                if (empty($postData[$field]) && $field != 'mail' ) {
                     echo "Champ $field manquant";
                     return;
                 }
