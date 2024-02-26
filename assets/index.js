@@ -183,7 +183,6 @@ $(document).ready(function(e){
     });
 
     $(document).on("click", ".buttonWS", function(){
-        console.log("clickButtonWS")
         let action = $(this).data("action");
         // Effectuer la requête AJAX
         $.ajax({
@@ -193,6 +192,7 @@ $(document).ready(function(e){
                 action: action,
             },
         }).done(function(response){
+            console.log(response);
             if(response === "Vous n\'avez pas les droits administratifs nécessaires.") {
                 alert(response);
             }else{

@@ -4,11 +4,24 @@ socket.addEventListener('open', (event) => {
     console.log('Connexion WebSocket ouverte:', event);
 });
 
+
+$messageMapping = [
+    "stop",
+    "start",
+];
+
 socket.addEventListener('message', (event) => {
     const message = event.data;
+    document.getElementById('socketMessage').innerHTML += `<p>${message}</p>`;
     console.log('Message reçu du serveur:', message);
-    if(message === "stop"){
-        window.location.href = "/controls/actionController.php?action=deconnect";
+    if(message in $messageMapping){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: message,
+            },
+        });
     }
 });
 

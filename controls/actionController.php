@@ -17,7 +17,6 @@ if (!isset($_SESSION)) {
 $actionsMapping = [
     'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => '/users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false, 'needResponse' => true],
     'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => '/pseudo'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false, 'needResponse' => true],
-    'stopWS' => [                                                               'controller' => $sessionController, 'webSocketFunction' => 'sendAdminMessage()', 'adminOnly' => true],
     'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'deleteUser' => [     'idField' => 'id',                                    'controller' => $sessionController,        'redirect' => '/users', 'adminOnly' => true     ],
@@ -39,7 +38,7 @@ $actionsMapping = [
     'showEndGame' => ['controller' => $sessionController, 'adminOnly' => false ],
     'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
     'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
-
+    'stopWS' => ['webSocketFunction' => 'sendAdminMessage()', 'adminOnly' => true],
 ];
 
 // Fonction pour traiter les actions
@@ -76,13 +75,12 @@ function handleAction($actionsMapping)
             $params[] = htmlspecialchars($postData[$field]);
         }
 
-        //je verifie si mon controller existe
-        if (!isset($mapping['controller']))
-            echo json_encode('Action non valide');
-
-        elseif (isset($mapping['webSocketFunction'])) {
-            // Appeler la fonction appropriée avec les paramètres
-            echo $mapping['webSocketFunction'];
+        //je verifie si mon controller existe ou si c'est une fonction websocket
+        if (!isset($mapping['controller']) || isset($mapping['webSocketFunction'])){
+            if (isset($mapping['webSocketFunction']))
+                echo $mapping['webSocketFunction'];
+            else
+                echo json_encode('Action non valide');
         }
 
         elseif(!empty($mapping['needResponse'])){

@@ -57,6 +57,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 
     $path = 'view/' . $url . '.php';
     if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']) && !empty($_SESSION['spartiateId']))) {
+        $_SESSION['isInSession'] = true;
         View::display($pages[$url], $path);
     } elseif ($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))) {
         $_SESSION['pseudo'] = null;

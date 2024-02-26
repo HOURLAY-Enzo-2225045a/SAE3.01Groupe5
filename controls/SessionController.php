@@ -72,9 +72,9 @@ class SessionController
     public function isInActiveSession(): void
     {
         $codesRepo = new CodesRepository();
-        if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id']) && isset($_SESSION['code']) && $codesRepo->isActive($_SESSION['code'])){
+        if(isset($_SESSION['id']) && !empty($_SESSION['isInSession']) && !empty($_SESSION['isSessionActive'])){
             echo 'true';
-        }elseif (isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])){
+        }elseif (isset($_SESSION['id']) && !empty($_SESSION['isInSession'])){
             echo 'notActive';
         }else{
             $_SESSION['code'] = null;
@@ -116,5 +116,6 @@ class SessionController
             $_SESSION['spartiateId'] = $spartiateId;
         }
     }
+
 
 }

@@ -34,6 +34,8 @@ class CodesController
     }
 
     public function start(){
+        $_SESSION['isInSession'] = true;
+        $_SESSION['isSessionActive'] = true;
         $randomCode = rand(10000, 99999);
         if($this->repository->isSessionCode()){
             $this->repository->reset();
@@ -44,6 +46,7 @@ class CodesController
         echo $randomCode;
     }
     public function stop(){
+        $_SESSION['isSessionActive'] = false;
         $this->repository->stop();
         echo 'Pas de session en cours';
     }

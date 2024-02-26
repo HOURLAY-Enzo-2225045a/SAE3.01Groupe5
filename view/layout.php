@@ -22,6 +22,9 @@
     <img class="w-1/5 absolute bottom-0 right-0" src="/assets/images/headerLines.png" alt="headerLines">
 </header>
 <div class="px-5 min-h-[40vh]">
+    <div id="socketMessage">
+        aaaaaaa
+    </div>
     %content%
 </div>
 <footer class="bg-cover bg-top h-[30vh] w-full relative" style="background-image: url('/assets/images/footer.png')">
