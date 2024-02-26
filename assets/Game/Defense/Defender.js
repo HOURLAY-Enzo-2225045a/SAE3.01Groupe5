@@ -6,8 +6,10 @@ export class Defender{
         this.velocity = velocity;
         this.newX = x;
         this.newY = y;
+        this.initialX = x;
+        this.initialY = y;
+        this.answer = null;
     }
-
 
     checkNewPos() {
         return (this.newX !== this.x || this.newY !== this.y);
@@ -19,7 +21,7 @@ export class Defender{
         this.newY = this.y;
     }
 
-    // ajoute le palet à l'écran
+    // ajoute le defenseur à l'écran
     draw(context) {
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
@@ -28,11 +30,11 @@ export class Defender{
         context.closePath();
     }
 
-    move() {
+    move(){
         let s = {x:1, y:1},         // sens
-        move = {x:1, y:1},         // pixel de déplacement
-        delta,                                        // delta -> pythagore
-        dist = {};                               // distance entre start et end
+            move = {x:1, y:1},         // pixel de déplacement
+            delta,                                        // delta -> pythagore
+            dist = {};                               // distance entre start et end
 
         // distance x/y
         dist.x = Math.abs(this.x - this.newX);
@@ -63,17 +65,23 @@ export class Defender{
         return (dist.x <= this.velocity && dist.y <= this.velocity);
     }
 
-    bounce(){
-        //this.newX = this.x - (this.newX - this.x);
-        console.log("bounce")
+    bounce() {
+        this.bounceVertical();
+        this.bounceHorizontal();
     }
 
     bounceVertical(){
         this.newX = this.x - (this.newX - this.x);
-
     }
 
     bounceHorizontal(){
         this.newY = this.y - (this.newY - this.y);
+    }
+
+    resetPosition() {
+        this.x = this.initialX;
+        this.y = this.initialY;
+        this.newX = this.initialX;
+        this.newY = this.initialY;
     }
 }

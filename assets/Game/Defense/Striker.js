@@ -1,4 +1,5 @@
 export class Striker{
+
     constructor(x,y, radius, velocity){
         this.x = x;
         this.y = y;
@@ -6,6 +7,9 @@ export class Striker{
         this.velocity = velocity;
         this.newX = x;
         this.newY = y;
+        this.initialX = x;
+        this.initialY = y;
+        this.answer = null;
     }
 
     draw(context) {
@@ -15,4 +19,16 @@ export class Striker{
         context.fill();
         context.closePath();
     }
+
+    resetPosition() {
+        this.x = this.initialX;
+        this.y = this.initialY;
+        this.newX = this.initialX;
+        this.newY = this.initialY;
+    }
+
+    moveDown() {
+        this.y += this.velocity;
+    }
+
 }
