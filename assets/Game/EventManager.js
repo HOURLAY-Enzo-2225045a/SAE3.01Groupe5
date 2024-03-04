@@ -1,6 +1,6 @@
 export class EventManager {
-    constructor(palet, canvas) {
-        this.palet = palet;
+    constructor(circle, canvas) {
+        this.circle = circle;
         this.canvas = canvas;
         this.mouseIsDown = false;
     }
@@ -20,29 +20,26 @@ export class EventManager {
 
     handleMouseDown(e) {
         let pos = this.getMouseOrTouchPos(e);
-        if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
-            pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
+        if (pos.x < this.circle.x + this.circle.radius && pos.x > this.circle.x - this.circle.radius &&
+            pos.y < this.circle.y + this.circle.radius && pos.y > this.circle.y - this.circle.radius) {
             this.mouseIsDown = true;
-            //console.log("mouse down")
         }
     }
 
     handleMouseUp(e) {
         if (this.mouseIsDown) {
-            console.log("mouse up")
             let pos = this.getMouseOrTouchPos(e);
-            this.palet.newX = this.palet.x + ((this.palet.x - pos.x) * 5);
-            this.palet.newY = this.palet.y - ((pos.y - this.palet.y) * 5);
+            this.circle.newX = this.circle.x + ((this.circle.x - pos.x) * 5);
+            this.circle.newY = this.circle.y - ((pos.y - this.circle.y) * 5);
         }
         this.mouseIsDown = false;
     }
 
     handleMouseMove(e) {
         if (this.mouseIsDown) {
-            //console.log("mouse move")
             let pos = this.getMouseOrTouchPos(e);
-            this.palet.newX = (this.palet.x + (this.palet.x - pos.x));
-            this.palet.newY = (this.palet.y - (pos.y - this.palet.y));
+            this.circle.newX = (this.circle.x + (this.circle.x - pos.x));
+            this.circle.newY = (this.circle.y - (pos.y - this.circle.y));
         }
     }
 

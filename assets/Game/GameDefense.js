@@ -1,41 +1,62 @@
 import {Goal} from "./Goal.js";
-import {Striker} from "./Striker.js";
-import {Defender} from "./Defender.js";
+import {Rectangle} from "./Rectangle.js";
 import {CollisionManager} from "./CollisionManager.js";
 import {EventManager} from "./EventManager.js";
+import {Circle} from "./Circle.js";
 
 class GameDefense{
     constructor(canvas) {
         this.canvas = canvas;
-        let goalSize = Math.trunc(this.canvas.width*(2.5/10)); // taille de la cage en fonction de la taille du Canva.
-        this.goal = new Goal(this.canvas, goalSize);
-        this.defender = new Defender(
-            Math.trunc(this.canvas.width/2),
-            Math.trunc(this.canvas.height*(7/10)),
-            Math.trunc(this.goal.getBack().width/8),
-            10
-        );
-        this.leftStriker = new Striker(
-            Math.trunc(this.canvas.width / 2) - 120,
-            Math.trunc(this.canvas.height * (1 / 10)),
-            Math.trunc(this.goal.getBack().width/8),
-            0.5
-        );
-        this.midleStriker = new Striker(
-            Math.trunc(this.canvas.width / 2),
-            Math.trunc(this.canvas.height * (1 / 10)),
-            Math.trunc(this.goal.getBack().width/8),
-            0.5
-        );
-        this.rightStriker = new Striker(
-            Math.trunc(this.canvas.width / 2) + 120,
-            Math.trunc(this.canvas.height * (1 / 10)),
-            Math.trunc(this.goal.getBack().width/8),
-            0.5
+        let goalSize = Math.trunc(canvas.width*(2.5/10)); // taille de la cage en fonction de la taille du Canva.
+        let goalBackX = Math.trunc(canvas.width / 2) - goalSize / 2
+        let goalBackY = Math.trunc(canvas.height * (9 / 10)) - goalSize / 8
+        let goalBackWidth = goalSize
+        let goalBackHeight = Math.trunc(goalSize / 15)
+
+        this.cage = new Goal(
+            new Rectangle(goalBackX, goalBackY, goalBackWidth, goalBackHeight, "grey"),
+            new Rectangle(
+                goalBackX,
+                goalBackY - Math.trunc(goalBackWidth/2),
+                goalBackHeight,
+                Math.trunc(goalBackWidth/2),
+                "black"
+            ),
+            new Rectangle(
+                goalBackX + goalBackWidth - goalBackHeight,
+                goalBackY - Math.trunc(goalBackWidth/2),
+                goalBackHeight,
+                Math.trunc(goalBackWidth/2),
+                "black"
+            )
         );
 
+        this.defender = new Circle(
+            Math.trunc(this.canvas.width/2),
+            Math.trunc(this.canvas.height*(7/10)),
+            Math.trunc(this.cage.getBack().width/8),
+            10
+        );
+        this.leftStriker = new Circle(
+            Math.trunc(this.canvas.width / 2) - 120,
+            Math.trunc(this.canvas.height * (1 / 10)),
+            Math.trunc(this.cage.getBack().width/8),
+            0.5
+        );
+        this.midleStriker = new Circle(
+            Math.trunc(this.canvas.width / 2),
+            Math.trunc(this.canvas.height * (1 / 10)),
+            Math.trunc(this.cage.getBack().width/8),
+            0.5
+        );
+        this.rightStriker = new Circle(
+            Math.trunc(this.canvas.width / 2) + 120,
+            Math.trunc(this.canvas.height * (1 / 10)),
+            Math.trunc(this.cage.getBack().width/8),
+            0.5
+        );
         this.eventManager = new EventManager(this.defender, this.canvas);
-        this.collisionManager = new CollisionManager();
+        this.collisionManager = new CollisionManager(this, this.canvas);
 
         // Ajout de la question et des réponses
         this.questionZone = document.getElementById("question");
@@ -64,7 +85,7 @@ class GameDefense{
             this.canvas.getContext("2d").clearRect(0, 0, this.canvas.width, this.canvas.height);
 
             // On affiche les différents éléments
-            this.goal.draw(this.canvas.getContext("2d"));
+            this.cage.draw(this.canvas.getContext("2d"));
             this.defender.draw(this.canvas.getContext("2d"));
             this.leftStriker.draw(this.canvas.getContext("2d"));
             this.midleStriker.draw(this.canvas.getContext("2d"));
@@ -84,7 +105,7 @@ class GameDefense{
 
 
             // Gérer les collisions
-            this.collisionManager.handleCollisions(this.defender, this.leftStriker, this.midleStriker, this.rightStriker, this.goal, canvas, this);
+            this.collisionManager.gameDefenseHandleCollisions(this.defender, this.leftStriker, this.midleStriker, this.rightStriker, this.cage);
         }, 10);
     }
 
@@ -117,7 +138,6 @@ class GameDefense{
         return answers;
     }
 }
-
 
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;

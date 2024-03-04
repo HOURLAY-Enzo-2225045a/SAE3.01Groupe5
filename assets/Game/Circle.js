@@ -1,4 +1,4 @@
-export class Defender{
+export class Circle{
     constructor(x,y, radius, velocity){
         this.x = x;
         this.y = y;
@@ -15,13 +15,13 @@ export class Defender{
         return (this.newX !== this.x || this.newY !== this.y);
     }
 
-    // rétabli la position du joueur à sa position de base
+    // rétabli la position du cercle à sa position de base
     resetNewPos() {
         this.newX = this.x;
         this.newY = this.y;
     }
 
-    // ajoute le defenseur à l'écran
+    // ajoute le cercle à l'écran
     draw(context) {
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
@@ -30,7 +30,7 @@ export class Defender{
         context.closePath();
     }
 
-    move(){
+    move() {
         let s = {x:1, y:1},         // sens
             move = {x:1, y:1},         // pixel de déplacement
             delta,                                        // delta -> pythagore
@@ -63,6 +63,10 @@ export class Defender{
 
         // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
         return (dist.x <= this.velocity && dist.y <= this.velocity);
+    }
+
+    moveDown() {
+        this.y += this.velocity;
     }
 
     bounce() {

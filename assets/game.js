@@ -5,7 +5,7 @@
  * @version: 1.0
  */
 
-import "assets/Game/Cage.js";
+import "assets/Game/Goal.js";
 import "assets/Game/Rectangle.js";
 import "assets/Game/Palet.js";
 
