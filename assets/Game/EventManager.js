@@ -5,15 +5,6 @@ export class EventManager {
         this.mouseIsDown = false;
     }
 
-    getNewPos() {
-        return {x: this.newX, y: this.newY};
-    }
-
-    setNewPos(x, y) {
-        this.newX = x;
-        this.newY = y;
-    }
-
     getMouseIsDown(){
         return this.mouseIsDown;
     }

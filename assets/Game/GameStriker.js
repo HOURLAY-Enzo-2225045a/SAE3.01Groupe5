@@ -3,6 +3,7 @@ import {EventManager} from "./EventManager.js";
 import {Goal} from "./Goal.js";
 import {Rectangle} from "./Rectangle.js";
 import {Circle} from "./Circle.js";
+import {Arrow} from "./Arrow.js";
 
 class GameStriker {
     constructor(canvas) {
@@ -56,24 +57,41 @@ class GameStriker {
             Math.trunc(canvas.width/2),
             Math.trunc(canvas.height*(5/10)),
             Math.trunc(this.midGoal.getBack().width/8),
-            10
+            10,
+            this.canvas
         );
         this.eventManager = new EventManager(this.palet, this.canvas);
         this.collisionManager = new CollisionManager(this, this.canvas);
 
-        // Ajout de la question et des réponses
-        this.questionZone = document.getElementById("question");
-        this.answer1Zone = document.getElementById("rep1");
-        this.answer2Zone = document.getElementById("rep2");
-        this.answer3Zone = document.getElementById("rep3");
+        // // Ajout de la question et des réponses
+        // this.questionZone = document.getElementById("question");
+        // this.answer1Zone = document.getElementById("rep1");
+        // this.answer2Zone = document.getElementById("rep2");
+        // this.answer3Zone = document.getElementById("rep3");
+        //
+        // this.question = "Quel joueur est le gardien de but ?";
+        // this.answer1 = "Le défenseur";
+        // this.answer2 = "Le milieu de terrain";
+        // this.answer3 = "Le gardien de but";
+        // this.goodAnswer = this.answer3;
+        //
+        // this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
+        // this.arrow = new Arrow(this.palet.x, this.palet.y, this.palet.x +50, this.palet.y, 20, 10)
+    }
 
-        this.question = "Quel joueur est le gardien de but ?";
-        this.answer1 = "Le défenseur";
-        this.answer2 = "Le milieu de terrain";
-        this.answer3 = "Le gardien de but";
-        this.goodAnswer = this.answer3;
-
-        this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
+    drawArrow(fromX, fromY, toX, toY){
+        let headlen = 10;   // length of head in pixels
+        let angle = Math.atan2(toY-fromY,toX-fromX);
+        const ctx = this.canvas.getContext("2d");
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.lineTo(toX-headlen*Math.cos(angle-Math.PI/6),toY-headlen*Math.sin(angle-Math.PI/6));
+        ctx.moveTo(toX, toY);
+        ctx.lineTo(toX-headlen*Math.cos(angle+Math.PI/6),toY-headlen*Math.sin(angle+Math.PI/6));
+        ctx.stroke();
     }
 
     start() {
@@ -87,14 +105,20 @@ class GameStriker {
             this.rightGoal.draw(this.canvas.getContext("2d"));
             this.palet.draw(this.canvas.getContext("2d"));
 
+            if (this.eventManager.getMouseIsDown()) {
+                //this.arrow.xA = this.palet.x;
+                //this.arrow.yA = this.palet.y;
+                //this.arrow.draw(this.canvas.getContext("2d"));
+                this.drawArrow(this.palet.x, this.palet.y, this.palet.newX, this.palet.newY);// drawArrow(ball.x,ball.y,newX,newY);
+            }
+
             // Gestion du déplacement du palet
             if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
-                console.log("move");
                 if(this.palet.move()){
                     this.palet.resetNewPos();
                 }
             }
-            this.collisionManager.gameStrikerHandleCollisions(this.palet, this.leftGoal, this.midGoal, this.rightGoal);
+            this.collisionManager.handleCollisionsAttack(this.palet,[this.leftGoal, this.midGoal, this.rightGoal]);
         }, 10);
     }
 
@@ -124,6 +148,16 @@ class GameStriker {
     }
 }
 
+// gameStriker.questionZone.textContent = gameStriker.question;
+// gameStriker.answer1Zone.textContent = gameStriker.shuffledAnswers[0];
+// gameStriker.leftGoal.answer = gameStriker.shuffledAnswers[0];
+// gameStriker.answer2Zone.textContent = gameStriker.shuffledAnswers[1];
+// gameStriker.midGoal.answer = gameStriker.shuffledAnswers[1];
+// gameStriker.answer3Zone.textContent = gameStriker.shuffledAnswers[2];
+// gameStriker.rightGoal.answer = gameStriker.shuffledAnswers[2];
+//
+// gameStriker.palet.answer = gameStriker.goodAnswer;
+
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;
 let heightPercentage = 80;
@@ -134,19 +168,9 @@ let canvas = document.getElementById("myCanvas"); // récupération du canvas
 canvas.width = (widthPercentage / 100) * window.innerWidth;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
-// Ajout d'un background au canvas
-canvas.style.backgroundImage = "url('/assets/images/ice.webp')";
 
 const gameStriker = new GameStriker(canvas);
 
-gameStriker.questionZone.textContent = gameStriker.question;
-gameStriker.answer1Zone.textContent = gameStriker.shuffledAnswers[0];
-gameStriker.leftGoal.answer = gameStriker.shuffledAnswers[0];
-gameStriker.answer2Zone.textContent = gameStriker.shuffledAnswers[1];
-gameStriker.midGoal.answer = gameStriker.shuffledAnswers[1];
-gameStriker.answer3Zone.textContent = gameStriker.shuffledAnswers[2];
-gameStriker.rightGoal.answer = gameStriker.shuffledAnswers[2];
 
-gameStriker.palet.answer = gameStriker.goodAnswer;
 
 gameStriker.start();

@@ -24,8 +24,16 @@ export class Goal {
         this.back.draw(context);
     }
 
+    getInside(){
+        return this.inside;
+    }
+
     getBack(){
         return this.back;
+    }
+
+    getRects(){
+        return [this.back, this.leftPost, this.rightPost];
     }
 }
 

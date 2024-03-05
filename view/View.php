@@ -12,7 +12,7 @@ abstract class View
     {
         if(!file_exists($path))
             header('refresh:0;url=/404');
-        if($path == 'view/playStriker.php') {
+        if($path == 'view/play.php') {
             echo str_replace(['%title%'], [$title], file_get_contents($path));
         }else {
 
