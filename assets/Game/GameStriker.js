@@ -3,7 +3,6 @@ import {EventManager} from "./EventManager.js";
 import {Goal} from "./Goal.js";
 import {Rectangle} from "./Rectangle.js";
 import {Circle} from "./Circle.js";
-import {Arrow} from "./Arrow.js";
 
 class GameStriker {
     constructor(canvas) {
