@@ -134,6 +134,8 @@ let canvas = document.getElementById("myCanvas"); // récupération du canvas
 canvas.width = (widthPercentage / 100) * window.innerWidth;
 // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
 canvas.height = (heightPercentage / 100) * window.innerHeight;
+// Ajout d'un background au canvas
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')";
 
 const gameStriker = new GameStriker(canvas);
 

@@ -53,7 +53,7 @@ let ball = {
 };
 */
 let ball = new Palet(Math.trunc(canvas.width/2), Math.trunc(canvas.height*(5/10)), Math.trunc(cageMid.fond.width/8), 10)
-let newX = ball.x; // nouvelle position x de la balle après interaction (drag & drop)
+let newX = ball.x;   // nouvelle position x de la balle après interaction (drag & drop)
 let newY = ball.y; // nouvelle position y de la balle après interaction (drag & drop)
 
 /**
@@ -232,13 +232,23 @@ function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
     ctx.lineCap="round";
     // Calculs des coordonnées des points C, D et E
     AB=Norm(xA,yA,xB,yB);
-    xC=xB+ArrowLength*(xA-xB)/AB;yC=yB+ArrowLength*(yA-yB)/AB;
-    xD=xC+ArrowWidth*(-(yB-yA))/AB;yD=yC+ArrowWidth*((xB-xA))/AB;
-    xE=xC-ArrowWidth*(-(yB-yA))/AB;yE=yC-ArrowWidth*((xB-xA))/AB;
+
+    xC=xB+ArrowLength*(xA-xB)/AB;
+    yC=yB+ArrowLength*(yA-yB)/AB;
+
+    xD=xC+ArrowWidth*(-(yB-yA))/AB;
+    yD=yC+ArrowWidth*((xB-xA))/AB;
+
+    xE=xC-ArrowWidth*(-(yB-yA))/AB;
+    yE=yC-ArrowWidth*((xB-xA))/AB;
+
     // et on trace le segment [AB], et sa flèche :
     ctx.beginPath();
-    ctx.moveTo(xA,yA);ctx.lineTo(xB,yB);
-    ctx.moveTo(xD,yD);ctx.lineTo(xB,yB);ctx.lineTo(xE,yE);
+    ctx.moveTo(xA,yA);
+    ctx.lineTo(xB,yB);
+    ctx.moveTo(xD,yD);
+    ctx.lineTo(xB,yB);
+    ctx.lineTo(xE,yE);
     ctx.stroke();
 }
 

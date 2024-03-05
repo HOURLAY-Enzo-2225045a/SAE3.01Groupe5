@@ -1,0 +1,80 @@
+/**
+ * Permet de calculer la norme d'un vecteur
+ * @param xA
+ * @param yA
+ * @param xB
+ * @param yB
+ * @returns {number}
+ */
+function Norm(xA,yA,xB,yB) {
+    return Math.sqrt(Math.pow(xB-xA,2)+Math.pow(yB-yA,2));
+}
+
+/**
+ * Permet de dessiner une flèche sur le canvas
+ * @param xA
+ * @param yA
+ * @param xB
+ * @param yB
+ * @param ArrowLength
+ * @param ArrowWidth
+ */
+function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
+    if (ArrowLength === undefined) {ArrowLength=10;}
+    if (ArrowWidth === undefined) {ArrowWidth=8;}
+    ctx.lineCap="round";
+    // Calculs des coordonnées des points C, D et E
+    AB=Norm(xA,yA,xB,yB);
+    xC=xB+ArrowLength*(xA-xB)/AB;yC=yB+ArrowLength*(yA-yB)/AB;
+    xD=xC+ArrowWidth*(-(yB-yA))/AB;yD=yC+ArrowWidth*((xB-xA))/AB;
+    xE=xC-ArrowWidth*(-(yB-yA))/AB;yE=yC-ArrowWidth*((xB-xA))/AB;
+    // et on trace le segment [AB], et sa flèche :
+    ctx.beginPath();
+    ctx.moveTo(xA,yA);ctx.lineTo(xB,yB);
+    ctx.moveTo(xD,yD);ctx.lineTo(xB,yB);ctx.lineTo(xE,yE);
+    ctx.stroke();
+}
+
+/**
+ * Fonction qui permet de récupérer une question aléatoire
+ * et de la dessiner sur le canvas hors écran
+ */
+function getQuestion() {
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "getRandomQuestion",
+        },
+        dataType : 'json',
+        success: function (response) {
+            let repA = (randCage === 0)? response.vrai : response.faux1;
+            let repB = (randCage === 1)? response.vrai : response.faux1;
+            let repC = (randCage === 2)? response.vrai : response.faux1;
+            $("#question").text(response.text);
+            $("#rep1").text(repA);
+            $("#rep2").text(repB);
+            $("#rep3").text(repC);
+        }
+    });
+}
+
+function addScore(){
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "addScore",
+            score: 100,
+        },
+        dataType : 'json',
+        success: function (response) {
+            score = response.toString();
+            $("#score").text(score);
+        }
+    });
+}
+
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')";// ajout d'un background au canvas
+canvas.style.backgroundSize = "cover"; // ajustement du background au canvas
+
