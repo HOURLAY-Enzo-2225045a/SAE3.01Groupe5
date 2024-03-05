@@ -105,14 +105,12 @@ class GameStriker {
             this.palet.draw(this.canvas.getContext("2d"));
 
             if (this.eventManager.getMouseIsDown()) {
-                //this.arrow.xA = this.palet.x;
-                //this.arrow.yA = this.palet.y;
-                //this.arrow.draw(this.canvas.getContext("2d"));
                 this.drawArrow(this.palet.x, this.palet.y, this.palet.newX, this.palet.newY);// drawArrow(ball.x,ball.y,newX,newY);
             }
 
             // Gestion du déplacement du palet
             if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
+                this.palet.resetPrevPos();
                 if(this.palet.move()){
                     this.palet.resetNewPos();
                 }
@@ -121,30 +119,30 @@ class GameStriker {
         }, 10);
     }
 
-    resetGame() {
-        this.palet.resetPosition();
+    // resetGame() {
+    //     this.palet.resetPosition();
+    //
+    //     this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
+    //     this.questionZone.textContent = this.question;
+    //     this.answer1Zone.textContent = this.shuffledAnswers[0];
+    //     this.leftGoal.answer = this.shuffledAnswers[0];
+    //     this.answer2Zone.textContent = this.shuffledAnswers[1];
+    //     this.midGoal.answer = this.shuffledAnswers[1];
+    //     this.answer3Zone.textContent = this.shuffledAnswers[2];
+    //     this.rightGoal.answer = this.shuffledAnswers[2];
+    //
+    //     this.palet.answer = this.goodAnswer;
+    // }
 
-        this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
-        this.questionZone.textContent = this.question;
-        this.answer1Zone.textContent = this.shuffledAnswers[0];
-        this.leftGoal.answer = this.shuffledAnswers[0];
-        this.answer2Zone.textContent = this.shuffledAnswers[1];
-        this.midGoal.answer = this.shuffledAnswers[1];
-        this.answer3Zone.textContent = this.shuffledAnswers[2];
-        this.rightGoal.answer = this.shuffledAnswers[2];
-
-        this.palet.answer = this.goodAnswer;
-    }
-
-    // Permet de mélanger les réponses
-    shuffleAnswers(answer1, answer2, answer3) {
-        const answers = [answer1, answer2, answer3];
-        for (let i = answers.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [answers[i], answers[j]] = [answers[j], answers[i]];
-        }
-        return answers;
-    }
+    // // Permet de mélanger les réponses
+    // shuffleAnswers(answer1, answer2, answer3) {
+    //     const answers = [answer1, answer2, answer3];
+    //     for (let i = answers.length - 1; i > 0; i--) {
+    //         const j = Math.floor(Math.random() * (i + 1));
+    //         [answers[i], answers[j]] = [answers[j], answers[i]];
+    //     }
+    //     return answers;
+    // }
 }
 
 // gameStriker.questionZone.textContent = gameStriker.question;

@@ -12,6 +12,7 @@ export class Circle{
         this.canvas = canvas;
     }
 
+    // a utiliser pour le score
     resetPos() {
         this.x = this.startX;
         this.y = this.startY;
