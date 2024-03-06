@@ -62,20 +62,8 @@ class GameDefense{
         );
         this.eventManager = new EventManager(this.defender, this.canvas);
         this.collisionManager = new CollisionManager(this, this.canvas);
-
-    //     // Ajout de la question et des réponses
-    //     this.questionZone = document.getElementById("question");
-    //     this.answer1Zone = document.getElementById("rep1");
-    //     this.answer2Zone = document.getElementById("rep2");
-    //     this.answer3Zone = document.getElementById("rep3");
-    //
-    //     this.question = "Quel joueur est le gardien de but ?";
-    //     this.answer1 = "Le défenseur";
-    //     this.answer2 = "Le milieu de terrain";
-    //     this.answer3 = "Le gardien de but";
-    //     this.goodAnswer = this.answer3;
-    //
-    //     this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
+        this.score = 0;
+        this.responseStriker = 0;
     }
 
     drawArrow(fromX, fromY, toX, toY){
@@ -94,6 +82,15 @@ class GameDefense{
     }
 
     start(){
+        this.getQuestion();
+        sessionStorage.setItem("score", 0);
+        // Récupération du score du joueur
+        if(!isNaN(parseInt(sessionStorage.getItem("score")))){
+            this.score = parseInt(sessionStorage.getItem("score"));
+        }
+        document.getElementById("score").innerText = this.score;
+
+
         // Les listener pour écouter chaque mouvement de la souris associé à leur méthodes
         window.addEventListener('mousedown', (e) => this.eventManager.handleMouseDown(e));
         window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
@@ -128,33 +125,87 @@ class GameDefense{
         }, 10);
     }
 
-    // resetGame() {
-    //     this.defender.resetPosition();
-    //     this.leftStriker.resetPosition();
-    //     this.midleStriker.resetPosition();
-    //     this.rightStriker.resetPosition();
-    //
-    //     this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
-    //
-    //     this.questionZone.textContent = this.question;
-    //     this.answer1Zone.textContent = this.shuffledAnswers[0];
-    //     this.leftStriker.answer = this.shuffledAnswers[0];
-    //     this.answer2Zone.textContent = this.shuffledAnswers[1];
-    //     this.midleStriker.answer = this.shuffledAnswers[1];
-    //     this.answer3Zone.textContent = this.shuffledAnswers[2];
-    //     this.rightStriker.answer = this.shuffledAnswers[2];
-    //
-    //     this.defender.answer = this.goodAnswer;
-    // }
-    //
-    // shuffleAnswers(answer1, answer2, answer3) {
-    //     const answers = [answer1, answer2, answer3];
-    //     for (let i = answers.length - 1; i > 0; i--) {
-    //         const j = Math.floor(Math.random() * (i + 1));
-    //         [answers[i], answers[j]] = [answers[j], answers[i]];
-    //     }
-    //     return answers;
-    // }
+
+
+    /**
+     * Récupère une question aléatoire et l'affiche dans le canvas
+     * @note Vérifier si modification nécessaire / Ou QuestionManager ?
+     */
+    getQuestion() {
+        this.responseStriker = Math.floor(Math.random() * 3);
+        let randCage = this.responseStriker
+        console.log(randCage, this.responseStriker)
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "getRandomQuestion",
+            },
+            dataType : 'json',
+            success: function (response) {
+                let repA = (randCage === 0)? response.vrai : response.faux1;
+                let repB = (randCage === 1)? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
+                let repC = (randCage === 2)? response.vrai : response.faux2;
+                $("#question").text(response.text);
+                $("#rep1").text(repA);
+                $("#rep2").text(repB);
+                $("#rep3").text(repC);
+            }
+        });
+    }
+
+
+    addScore(){
+        this.score += 100;
+        sessionStorage.setItem("score", this.score);
+        $("#score").text(this.score);
+        this.defender.resetPos();
+        this.getQuestion();
+    }
+
+
+
+    /**
+     * Ajoute 100 points au score du joueur
+     * @deprecated Vérifier si modification nécessaire
+     */
+    addScoreAjax(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "addScore",
+                score: 100,
+            },
+            dataType : 'json',
+            success: function (response) {
+                this.score = response.toString();
+                $("#score").text(score);
+            }
+        });
+    }
+
+    /**
+     * Ajoute 100 points au score du joueur
+     * @deprecated Vérifier si modification nécessaire
+     */
+    updateScore(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "updateScore",
+                score: this.score,
+            },
+            dataType : 'json'/*,
+            success: function (response) {
+                score = response.toString();
+                $("#score").text(score);
+            }*/
+        });
+        this.score = 0;
+        sessionStorage.setItem("score", this.score);
+    }
 }
 
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
@@ -163,23 +214,10 @@ let heightPercentage = 80;
 
 let canvas = document.getElementById("myCanvas"); // récupération du canvas
 
-// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
-canvas.width = (widthPercentage / 100) * window.innerWidth;
-// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
-canvas.height = (heightPercentage / 100) * window.innerHeight;
-// Ajout d'un background au canvas
-canvas.style.backgroundImage = "url('/assets/images/ice.webp')";
+canvas.width = (widthPercentage / 100) * window.innerWidth; // Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
+canvas.height = (heightPercentage / 100) * window.innerHeight;  // Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')";    // Ajout d'un background au canvas
 
 const gameDefense = new GameDefense(canvas);
-
-// gameDefense.questionZone.textContent = gameDefense.question;
-// gameDefense.answer1Zone.textContent = gameDefense.shuffledAnswers[0];
-// gameDefense.leftStriker.answer = gameDefense.shuffledAnswers[0];
-// gameDefense.answer2Zone.textContent = gameDefense.shuffledAnswers[1];
-// gameDefense.midleStriker.answer = gameDefense.shuffledAnswers[1];
-// gameDefense.answer3Zone.textContent = gameDefense.shuffledAnswers[2];
-// gameDefense.rightStriker.answer = gameDefense.shuffledAnswers[2];
-//
-// gameDefense.defender.answer = gameDefense.goodAnswer;
 
 gameDefense.start();

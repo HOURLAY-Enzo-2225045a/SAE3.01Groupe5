@@ -62,20 +62,8 @@ class GameStriker {
         this.eventManager = new EventManager(this.palet, this.canvas);
         this.collisionManager = new CollisionManager(this, this.canvas);
 
-        // // Ajout de la question et des réponses
-        // this.questionZone = document.getElementById("question");
-        // this.answer1Zone = document.getElementById("rep1");
-        // this.answer2Zone = document.getElementById("rep2");
-        // this.answer3Zone = document.getElementById("rep3");
-        //
-        // this.question = "Quel joueur est le gardien de but ?";
-        // this.answer1 = "Le défenseur";
-        // this.answer2 = "Le milieu de terrain";
-        // this.answer3 = "Le gardien de but";
-        // this.goodAnswer = this.answer3;
-        //
-        // this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
-        // this.arrow = new Arrow(this.palet.x, this.palet.y, this.palet.x +50, this.palet.y, 20, 10)
+        this.score = 0;
+        this.responseGoal = 0;
     }
 
     drawArrow(fromX, fromY, toX, toY){
@@ -94,6 +82,14 @@ class GameStriker {
     }
 
     start() {
+        this.getQuestion();
+        sessionStorage.setItem("score", 0);
+        // Récupération du score du joueur
+        if(!isNaN(parseInt(sessionStorage.getItem("score")))){
+            this.score = parseInt(sessionStorage.getItem("score"));
+        }
+        document.getElementById("score").innerText = this.score;
+
         window.addEventListener('mousedown', (e) => this.eventManager.handleMouseDown(e));
         window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
         window.addEventListener('mousemove', (e) => this.eventManager.handleMouseMove(e));
@@ -119,42 +115,87 @@ class GameStriker {
         }, 10);
     }
 
-    // resetGame() {
-    //     this.palet.resetPosition();
-    //
-    //     this.shuffledAnswers = this.shuffleAnswers(this.answer1, this.answer2, this.answer3);
-    //     this.questionZone.textContent = this.question;
-    //     this.answer1Zone.textContent = this.shuffledAnswers[0];
-    //     this.leftGoal.answer = this.shuffledAnswers[0];
-    //     this.answer2Zone.textContent = this.shuffledAnswers[1];
-    //     this.midGoal.answer = this.shuffledAnswers[1];
-    //     this.answer3Zone.textContent = this.shuffledAnswers[2];
-    //     this.rightGoal.answer = this.shuffledAnswers[2];
-    //
-    //     this.palet.answer = this.goodAnswer;
-    // }
+    /**
+    * Récupère une question aléatoire et l'affiche dans le canvas
+    * @note Vérifier si modification nécessaire / Ou QuestionManager ?
+    */
+    getQuestion() {
+        this.responseGoal = Math.floor(Math.random() * 3);
+        let randCage = this.responseGoal
+        console.log(randCage, this.responseGoal)
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "getRandomQuestion",
+            },
+            dataType : 'json',
+            success: function (response) {
+                let repA = (randCage === 0)? response.vrai : response.faux1;
+                let repB = (randCage === 1)? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
+                let repC = (randCage === 2)? response.vrai : response.faux2;
+                $("#question").text(response.text);
+                $("#rep1").text(repA);
+                $("#rep2").text(repB);
+                $("#rep3").text(repC);
+            }
+        });
+    }
 
-    // // Permet de mélanger les réponses
-    // shuffleAnswers(answer1, answer2, answer3) {
-    //     const answers = [answer1, answer2, answer3];
-    //     for (let i = answers.length - 1; i > 0; i--) {
-    //         const j = Math.floor(Math.random() * (i + 1));
-    //         [answers[i], answers[j]] = [answers[j], answers[i]];
-    //     }
-    //     return answers;
-    // }
+
+    addScore(){
+        this.score += 100;
+        sessionStorage.setItem("score", this.score);
+        $("#score").text(this.score);
+        this.palet.resetPos();
+        this.getQuestion();
+    }
+
+
+
+    /**
+     * Ajoute 100 points au score du joueur
+     * @deprecated Vérifier si modification nécessaire
+     */
+    addScoreAjax(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "addScore",
+                score: 100,
+            },
+            dataType : 'json',
+            success: function (response) {
+                this.score = response.toString();
+                $("#score").text(score);
+            }
+        });
+    }
+
+    /**
+     * Ajoute 100 points au score du joueur
+     * @deprecated Vérifier si modification nécessaire
+     */
+    updateScore(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "updateScore",
+                score: this.score,
+            },
+            dataType : 'json'/*,
+            success: function (response) {
+                score = response.toString();
+                $("#score").text(score);
+            }*/
+        });
+        this.score = 0;
+        sessionStorage.setItem("score", this.score);
+    }
+
 }
-
-// gameStriker.questionZone.textContent = gameStriker.question;
-// gameStriker.answer1Zone.textContent = gameStriker.shuffledAnswers[0];
-// gameStriker.leftGoal.answer = gameStriker.shuffledAnswers[0];
-// gameStriker.answer2Zone.textContent = gameStriker.shuffledAnswers[1];
-// gameStriker.midGoal.answer = gameStriker.shuffledAnswers[1];
-// gameStriker.answer3Zone.textContent = gameStriker.shuffledAnswers[2];
-// gameStriker.rightGoal.answer = gameStriker.shuffledAnswers[2];
-//
-// gameStriker.palet.answer = gameStriker.goodAnswer;
-
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;
 let heightPercentage = 80;
@@ -167,7 +208,5 @@ canvas.width = (widthPercentage / 100) * window.innerWidth;
 canvas.height = (heightPercentage / 100) * window.innerHeight;
 
 const gameStriker = new GameStriker(canvas);
-
-
 
 gameStriker.start();

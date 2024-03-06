@@ -231,15 +231,18 @@ export class CollisionManager {
 
 
     handleCollisionsAttack(circle, cages) {
+        let i = 0;
         for (let cage of cages) {
             for (let rect of cage.getRects()) {
                 if (this.isCircleCollidingWithRect(circle, rect, circle.prevPos)) {
                     this.bounceManager(rect,circle);
                 }
             }
-            if(this.isCircleCollidingWithRect(circle, cage.getInside(), circle.prevPos)){
+            if(this.isCircleCollidingWithRect(circle, cage.getInside(), circle.prevPos)&& this.game.responseGoal === i){
                 this.game.addScore();
+                this.game.getQuestion();
             }
+            ++i;
         }
         if(Math.abs(circle.x - 0) < circle.radius) { // collision avec le bord gauche du canvas
             circle.bounce("vertical");
@@ -261,6 +264,8 @@ export class CollisionManager {
     }
 
     handleCollisionsDefense(defender, cage, strikers) {
+        let i = 0;
+
         // Gestion des attaquants avec la cage
         for (let striker of strikers) {
             if (this.isCircleCollidingWithRect(striker, cage.inside, striker.prevPos)) {
@@ -279,9 +284,14 @@ export class CollisionManager {
 
         // Gestion du defenseur avec les attaquants
         for (let striker of strikers) {
-            if (this.areCirclesColliding(defender, striker, defender)){
-                this.bounceManagerDefense(striker, defender)
+            if (this.areCirclesColliding(defender, striker, defender) && this.game.responseStriker === i) {
+                this.game.addScore();
+                this.game.getQuestion();
             }
+            else if(this.areCirclesColliding(defender, striker, defender)){
+                this.bounceManagerDefense(striker,defender);
+            }
+            ++i;
         }
 
         // Gestion du defenseur avec le canvas
