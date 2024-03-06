@@ -3,6 +3,7 @@ export class EventManager {
         this.palet = palet;
         this.canvas = canvas;
         this.mouseIsDown = false;
+        this.gameActive = true;
     }
 
     getNewPos() {
@@ -19,11 +20,13 @@ export class EventManager {
     }
 
     handleMouseDown(e) {
-        let pos = this.getMouseOrTouchPos(e);
-        if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
-            pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
-            this.mouseIsDown = true;
-            //console.log("mouse down")
+        if (this.gameActive) {
+            let pos = this.getMouseOrTouchPos(e);
+            if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
+                pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
+                this.mouseIsDown = true;
+                //console.log("mouse down")
+            }
         }
     }
 

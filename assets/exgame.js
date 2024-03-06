@@ -1,5 +1,5 @@
 /**
- * Projet : Projet Serious Game - Hockey sur glace
+ * Projet : Projet Serious game - Hockey sur glace
  * Par : Groupe 5
  * @author: LKS
  * @version: 1.0
@@ -480,28 +480,27 @@ function endGame() {
     });
 }
 
-//fonction appelée par le websocket pour changer le statut de la session
-function sessionStatus(status) {
-    switch (status) {
-        case 'start':
-            gameActive = true;
-            $("#endGame").hide();
-            break;
-        case 'stop':
-            gameActive = false;
-            $("#endGame").show();
-            endGame();
-            break;
-        case 'reset':
-            gameActive = false;
-            window.location.href = "/home";
-            break;
-        default :
-            alert("Erreur de statuts de session");
-            break
-    }
-
-}
+// //fonction appelée par le websocket pour changer le statut de la session
+// function sessionStatus(status) {
+//     switch (status) {
+//         case 'start':
+//             gameActive = true;
+//             $("#endGame").hide();
+//             break;
+//         case 'stop':
+//             gameActive = false;
+//             $("#endGame").show();
+//             endGame();
+//             break;
+//         case 'reset':
+//             gameActive = false;
+//             window.location.href = "/home";
+//             break;
+//         default :
+//             alert("Erreur de statuts de session");
+//             break
+//     }
+// }
 
 /**
  * Fonction qui permet de verifier
@@ -529,7 +528,6 @@ function isInActiveSession() {
             }
         }
     });
-
 }
 
 /**

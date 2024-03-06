@@ -22,32 +22,38 @@ $(document).ready(function(e){
         });
     });
 
-    $("#searchQuestion").on('input', function() {
-        // recupere ce qui est ecrit dans la barre de recherche
-        let searchTerm = $(this).val();
+    function handleSearch(inputSelector) {
+        $(inputSelector).on('input', function () {
+            // Récupère ce qui est écrit dans la barre de recherche
+            let searchTerm = $(this).val();
 
-        if (searchTerm.length > 0){
-            // envoie la requete ajax
-            $.ajax({
-                type: "POST",
-                url: "/controls/actionController.php",
-                data: {
-                    action: "searchQuestion",
-                    searchTerm: searchTerm
-                },
-                success: function (result) {
-                    // affiche le resultat de la recherche
-                    if (result === "")
-                        result = "Aucun résultat";
-                    $('.result').hide()
-                    $('.searchedResult').show().html(result);
-                }
-            });
-        }else{
-            $('.searchedResult').hide()
-            $('.result').show()
-        }
-    });
+            if (searchTerm.length > 0) {
+                // Envoie la requête Ajax
+                $.ajax({
+                    type: "POST",
+                    url: "/controls/actionController.php",
+                    data: {
+                        action: inputSelector === "#searchQuestion" ? "searchQuestion" : "searchSpartiate",
+                        searchTerm: searchTerm
+                    },
+                    success: function (result) {
+                        // Affiche le résultat de la recherche
+                        if (result === "")
+                            result = "Aucun résultat";
+                        $('.result').hide();
+                        $('.searchedResult').show().html(result);
+                    }
+                });
+            } else {
+                $('.searchedResult').hide();
+                $('.result').show();
+            }
+        });
+    }
+
+// Appeler la fonction pour chaque champ de recherche spécifique
+    handleSearch("#searchQuestion");
+    handleSearch("#searchSpartiate");
 
     $("#verificationForm").submit(function (e) {
         e.preventDefault(); //empêcher une action par défaut
@@ -89,9 +95,11 @@ $(document).ready(function(e){
         });
     });
 
-    $("#actionButton").on("click", function () {
+    $(".actionButton").on("click", function () {
+
         let action = $(this).data("action");
         let id = $(this).data("id");
+        console.log(action + " " + id )
         // Effectuer la requête AJAX
         $.ajax({
             type: "POST",
@@ -105,8 +113,9 @@ $(document).ready(function(e){
         });
     });
 
-    $("#callActionButton").on("click", function () {
-        let buttonConfirmDelete = $('#actionButton');
+    $(".callActionButton").on("click", function () {
+        console.log("click")
+        let buttonConfirmDelete = $('.actionButton');
         buttonConfirmDelete.data('id', $(this).data("id"));
     });
 

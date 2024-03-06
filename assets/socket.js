@@ -1,23 +1,22 @@
-const socket = new WebSocket('wss://spartiates-socket-server.glitch.me/');
+let socket = new WebSocket('wss://spartiates-socket-server.glitch.me/');
 
 socket.addEventListener('open', (event) => {
     console.log('Connexion WebSocket ouverte:', event);
 });
 
-$messageMapping = [
+let messageMapping = [
     "stop",
     "start",
     "reset",
 ];
 
 socket.addEventListener('message', (event) => {
+    console.log('Message reçu:', event.data);
     const message = event.data;
-    if ($messageMapping.includes(message)) {
-        if(typeof sessionStatus === 'function') {
-            console.log("user")
-            sessionStatus(message);
-        } else {
-            console.log("admin")
+    if (messageMapping.includes(message)) {
+        if(typeof window.sessionStatus === 'function')
+            window.sessionStatus(message);
+        else {
             $.ajax({
                 type: "POST",
                 url: "/controls/actionController.php",
@@ -25,6 +24,7 @@ socket.addEventListener('message', (event) => {
                     action: message,
                 },
             }).done(function (response) {
+                console.log("modif de code socvket")
                 $('#code').html(response);
             });
         }

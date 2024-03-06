@@ -1,5 +1,4 @@
 
-
 /**
  * Classe qui représente un palet
  *

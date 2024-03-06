@@ -1,10 +1,9 @@
-// game.js
-import { Cage } from "/assets/Game/Cage.js";
-import { Palet } from "/assets/Game/Palet.js";
-import { CanvasManager } from "/assets/Game/CanvasManager.js";
-import { CollisionManager } from "/assets/Game/CollisionManager.js";
-import { EventManager } from "/assets/Game/EventManager.js";
-import { Rectangle } from "/assets/Game/Rectangle.js";
+import { Cage } from "./Cage.js";
+import { Palet } from "./Palet.js";
+import { CanvasManager } from "./CanvasManager.js";
+import { CollisionManager } from "./CollisionManager.js";
+import { EventManager } from "./EventManager.js";
+import { Rectangle } from "./Rectangle.js";
 
 export class Game {
     constructor(canvas, staticCanvas) {
@@ -16,9 +15,10 @@ export class Game {
         this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(8/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
         this.palet = new Palet(Math.trunc(tmpCanvas.width/2), Math.trunc(tmpCanvas.height*(5/10)), Math.trunc(this.midCage.getBack().width/8), 10, tmpCanvas);
         this.collisionManager = new CollisionManager(this.canvasManager.getCanvas(), this.palet, [this.leftCage, this.midCage, this.rightCage], this);
-        this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas());
+        this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas(), this);
         this.score = 0;
         this.responseCage = 0;
+        this.gameActive = true
     }
 
     /**
@@ -47,7 +47,7 @@ export class Game {
      * Démarre le jeu
      */
     start() {
-
+        this.isInActiveSession();
         this.getQuestion();
         sessionStorage.setItem("score", 0);
         // Récupération du score du joueur
@@ -103,7 +103,6 @@ export class Game {
     getQuestion() {
         this.responseCage = Math.floor(Math.random() * 3);
         let randCage = this.responseCage
-        console.log(randCage, this.responseCage)
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",
@@ -172,25 +171,30 @@ export class Game {
         this.score = 0;
         sessionStorage.setItem("score", this.score);
     }
+
+    /**
+     * Fonction qui permet de verifier
+     * si le joueur est toujours dans la session
+     */
+    isInActiveSession() {
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "isInActiveSession",
+            },
+            success: function (response) {
+                if (response === 'notActive') {
+                    $("#endGame").show();
+                } else if (response === 'false') {
+                    window.location.href = "/home";
+                } else if (response === 'true') {
+                    $("#endGame").hide();
+                }
+            }
+        });
+    }
+
 }
 
 
-// pourcentage de la taille du canvas par rapport à la taille de la fenêtre
-let widthPercentage = 100;
-let heightPercentage = 80;
-// cage de la bonne réponse
-let randCage;
-
-let canvas = document.getElementById("myCanvas"); // récupération du canvas
-// Calculer la nouvelle largeur en fonction de la largeur de la fenêtre
-canvas.width = (widthPercentage / 100) * window.innerWidth;
-// Calculer la nouvelle hauteur en fonction de la hauteur de la fenêtre
-canvas.height = (heightPercentage / 100) * window.innerHeight;
-
-// Créer un canvas hors écran pour dessiner les éléments statiques une fois
-let staticCanvas = document.createElement('canvas');
-staticCanvas.width = canvas.width;
-staticCanvas.height = canvas.height;
-
-const game = new Game(canvas,staticCanvas);
-game.start();
