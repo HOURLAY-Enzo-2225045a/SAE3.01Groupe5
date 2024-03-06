@@ -225,17 +225,13 @@ export class CollisionManager {
         return (dx*dx+dy*dy<=(circle1.radius * circle1.radius));
     }
 
-
-
-
-
-
     handleCollisionsAttack(circle, cages) {
         let i = 0;
         for (let cage of cages) {
             for (let rect of cage.getRects()) {
                 if (this.isCircleCollidingWithRect(circle, rect, circle.prevPos)) {
                     this.bounceManager(rect,circle);
+                    circle.resetStartPos();
                 }
             }
             if(this.isCircleCollidingWithRect(circle, cage.getInside(), circle.prevPos)&& this.game.responseGoal === i){
@@ -290,6 +286,7 @@ export class CollisionManager {
             }
             else if(this.areCirclesColliding(defender, striker, defender)){
                 this.bounceManagerDefense(striker,defender);
+                defender.resetStartPos();
             }
             ++i;
         }
@@ -316,7 +313,6 @@ export class CollisionManager {
             defender.resetStartPos();
         }
     }
-
 
     bounceManager(rect, circle) {
         let distX, distY;
@@ -379,5 +375,4 @@ export class CollisionManager {
             circle1.y += (circle1.y > circle2.y) ? circle1.radius-distY : -(circle1.radius-distY);
         }
     }
-
 }

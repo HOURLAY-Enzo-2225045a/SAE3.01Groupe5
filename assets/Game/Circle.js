@@ -9,13 +9,14 @@ export class Circle{
         this.startX = x;
         this.startY = y;
         this.prevPos = {x: x, y: y};
+        this.initialPos = {x: x, y: y};
         this.canvas = canvas;
     }
 
     // a utiliser pour le score
     resetPos() {
-        this.x = this.startX;
-        this.y = this.startY;
+        this.x = this.initialPos.x;
+        this.y = this.initialPos.y;
         this.resetStartPos();
         this.resetNewPos();
         this.resetPrevPos();
