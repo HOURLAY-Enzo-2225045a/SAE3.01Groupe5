@@ -1,18 +1,22 @@
+<script src="/assets/socket.js"></script>
+
 <a href="/home" class="absolute left-5 top-5 w-20 h-20">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 <a class="absolute right-5 top-5 w-16 h-16">
-    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/deconnect.svg" id="deconnect" alt="deconnect">
+    <img class="p-2 bg-customBlue rounded-xl actionButton cursor-pointer" src="/assets/images/deconnect.svg"
+         data-action="deconnect" alt="deconnect">
 </a>
 <h1 class="titlePage">
     <span class="text-black">La</span> page users
 </h1>
-<div class="w-full flex justify-center items-center text-4xl"><h2 class="bg-customBlue p-5 rounded-xl" id="code"></h2></div>
+<div class="w-full flex justify-center items-center text-4xl"><h2 class="bg-customBlue p-5 rounded-xl" id="code"></h2>
+</div>
 <div class="w-full flex flex-row justify-center items-center">
     <a class="button cursor-pointer sessionAction" data-action="start">Demarrer</a>
     <a class="button cursor-pointer sessionAction" data-action="stop">Arreter</a>
     <a class="button cursor-pointer buttonWS" data-action="stopWS">StopWS</a>
-<!--    <a class="sessionAction" data-action="reset">Reinitialiser</a>-->
+    <!--    <a class="sessionAction" data-action="reset">Reinitialiser</a>-->
 </div>
 
 <div class="w-full flex flex-row justify-center items-center">

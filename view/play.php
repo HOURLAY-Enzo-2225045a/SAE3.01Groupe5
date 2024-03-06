@@ -3,12 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="Serious Game de hockey pour les Spartiate de Marseille"/>
-    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon"/>
     <title>%title%</title>
     <!--    style-->
     <link rel="stylesheet" href="/dist/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/dist/bundle.js"></script>
+    <script src="/assets/socket.js"></script>
 
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
@@ -43,7 +44,8 @@
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 <script src="/assets/game.js"></script>
 
-<div class="absolute w-[90vw] h-[90vh] z-50 right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5 text-white" id="endGame" style="display: none">
+<div class="absolute w-[90vw] h-[90vh] z-50 right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5 text-white"
+     id="endGame" style="display: none">
     <label class="text-5xl" id="pseudo"></label>
     <span><label class="text-5xl">Score : </label>
     <label class="text-5xl" id="scoreEnd"></label></span>

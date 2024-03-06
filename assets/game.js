@@ -32,6 +32,7 @@ let staticCanvas = document.createElement('canvas');
 staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 var staticContext = staticCanvas.getContext('2d');
+let gameActive = false;
 
 /**
  * Classe qui représente un rectangle
@@ -41,7 +42,7 @@ var staticContext = staticCanvas.getContext('2d');
  * @param {Number} height : hauteur du rectangle
  * @param {String} color : couleur du rectangle
  */
-class Rectangle{
+class Rectangle {
     constructor(x, y, width, height, color) {
         this.x = x;
         this.y = y;
@@ -61,27 +62,27 @@ class Rectangle{
 class Cage {
     constructor(fond) {
         this.fond = fond;
-        this.poteauGauche = new Rectangle(fond.x, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.poteauDroite = new Rectangle(fond.x+fond.width-fond.height, fond.y, fond.height, Math.trunc(fond.width/2), "black");
-        this.interieurCage = new Rectangle(fond.x+fond.height, fond.y+fond.height, fond.width-fond.height*2 , Math.trunc(fond.width/8), "red");
+        this.poteauGauche = new Rectangle(fond.x, fond.y, fond.height, Math.trunc(fond.width / 2), "black");
+        this.poteauDroite = new Rectangle(fond.x + fond.width - fond.height, fond.y, fond.height, Math.trunc(fond.width / 2), "black");
+        this.interieurCage = new Rectangle(fond.x + fond.height, fond.y + fond.height, fond.width - fond.height * 2, Math.trunc(fond.width / 8), "red");
     }
 }
 
 // les objets qui représente la cage
-tailleCage = Math.trunc(canvas.width*(2.5/10));
-let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+tailleCage = Math.trunc(canvas.width * (2.5 / 10));
+let cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width * (2 / 10)) - tailleCage / 2, Math.trunc(canvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width / 2) - tailleCage / 2, Math.trunc(canvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width * (8 / 10)) - tailleCage / 2, Math.trunc(canvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
 
 // objet qui représente la balle
 let ball = {
-    x: Math.trunc(canvas.width/2), // position x de la balle
-    y: Math.trunc(canvas.height*(5/10)), // position y de la balle
-    r: Math.trunc(cageMid.fond.width/8), // rayon de la balle
+    x: Math.trunc(canvas.width / 2), // position x de la balle
+    y: Math.trunc(canvas.height * (5 / 10)), // position y de la balle
+    r: Math.trunc(cageMid.fond.width / 8), // rayon de la balle
     v: 10 // vitesse de la balle en pixel
 };
-let newX= ball.x; // nouvelle position x de la balle après interaction (drag & drop)
-let newY= ball.y; // nouvelle position y de la balle après interaction (drag & drop)
+let newX = ball.x; // nouvelle position x de la balle après interaction (drag & drop)
+let newY = ball.y; // nouvelle position y de la balle après interaction (drag & drop)
 
 /**
  * Permets de détecter le redimensionnement de la page
@@ -95,16 +96,17 @@ function resizeCanvas() {
     canvas.height = (heightPercentage / 100) * window.innerHeight;
     staticCanvas.width = canvas.width;
     staticCanvas.height = canvas.height;
-    tailleCage = Math.trunc(canvas.width*(2.5/10));
-    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width*(2/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
+    tailleCage = Math.trunc(canvas.width * (2.5 / 10));
+    cageLeft = new Cage(new Rectangle(Math.trunc(canvas.width * (2 / 10)) - tailleCage / 2, Math.trunc(canvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+    cageMid = new Cage(new Rectangle(Math.trunc(canvas.width / 2) - tailleCage / 2, Math.trunc(canvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+    cageRight = new Cage(new Rectangle(Math.trunc(canvas.width * (8 / 10)) - tailleCage / 2, Math.trunc(canvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
 
-    ball.r = Math.trunc(cageMid.fond.width/8);
+    ball.r = Math.trunc(cageMid.fond.width / 8);
 
     //reset du jeu sans changer de question
     resetGame(false);
 }
+
 // Gestion du redimensionnement de la fenêtre
 window.addEventListener("resize", resizeCanvas);
 
@@ -122,6 +124,7 @@ function getMouseOrTouchPos(canvas, event) {
         };
     }
 }
+
 /**
  * Permets de détecter les mouvements de la souris
  * et de faire que le ballon suit la souris si la souris est clicker
@@ -152,7 +155,7 @@ window.addEventListener("touchmove", (e) => {
  */
 // Fonction pour gérer le clic de la souris
 window.addEventListener("mousedown", (e) => {
-    if(gameActive) {
+    if (gameActive) {
         let pos = getMouseOrTouchPos(canvas, e);
         if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
             pos.y < ball.y + 80 && pos.y > ball.y - 80) {
@@ -163,7 +166,7 @@ window.addEventListener("mousedown", (e) => {
 
 // Fonction pour gérer le début du toucher
 window.addEventListener("touchstart", (e) => {
-    if(gameActive) {
+    if (gameActive) {
         let pos = getMouseOrTouchPos(canvas, e);
         if (pos.x < ball.x + 80 && pos.x > ball.x - 80 &&
             pos.y < ball.y + 80 && pos.y > ball.y - 80) {
@@ -202,9 +205,9 @@ window.addEventListener("touchend", (e) => {
  * @param {*} circle prend en paramètre un objet de type : {x:Number, y:Number, r:Number}
  * @param {*} color prend un string de la couleur
  */
-function drawBall(circle,color) {
+function drawBall(circle, color) {
     ctx.beginPath();
-    ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI*2);
+    ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
     ctx.fillStyle = color;
     ctx.fill();
     ctx.closePath();
@@ -215,7 +218,7 @@ function drawBall(circle,color) {
  * @param {object} rect prend en paramètre un objet de type : {x:Number, y:Number, width:Number, height:Number}
  * @param {string} color prend un string de la couleur
  */
-function drawRectangle(rect,color,context){
+function drawRectangle(rect, color, context) {
     context.beginPath();
     context.rect(rect.x, rect.y, rect.width, rect.height);
     context.fillStyle = color;
@@ -226,13 +229,13 @@ function drawRectangle(rect,color,context){
 /**
  * Permet de dessiner la cage sur le canvas
  */
-function drawCage(cage,context) {
+function drawCage(cage, context) {
     // poteau gauche
-    drawRectangle(cage.poteauGauche, cage.poteauGauche.color,context);
+    drawRectangle(cage.poteauGauche, cage.poteauGauche.color, context);
     //poteau droit
-    drawRectangle(cage.poteauDroite, cage.poteauDroite.color,context);
+    drawRectangle(cage.poteauDroite, cage.poteauDroite.color, context);
     // fonde la cage
-    drawRectangle(cage.fond, cage.fond.color,context);
+    drawRectangle(cage.fond, cage.fond.color, context);
 }
 
 /**
@@ -243,8 +246,8 @@ function drawCage(cage,context) {
  * @param yB
  * @returns {number}
  */
-function Norm(xA,yA,xB,yB) {
-    return Math.sqrt(Math.pow(xB-xA,2)+Math.pow(yB-yA,2));
+function Norm(xA, yA, xB, yB) {
+    return Math.sqrt(Math.pow(xB - xA, 2) + Math.pow(yB - yA, 2));
 }
 
 /**
@@ -256,19 +259,29 @@ function Norm(xA,yA,xB,yB) {
  * @param ArrowLength
  * @param ArrowWidth
  */
-function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
-    if (ArrowLength === undefined) {ArrowLength=10;}
-    if (ArrowWidth === undefined) {ArrowWidth=8;}
-    ctx.lineCap="round";
+function drawArrow(xA, yA, xB, yB, ArrowLength, ArrowWidth) {
+    if (ArrowLength === undefined) {
+        ArrowLength = 10;
+    }
+    if (ArrowWidth === undefined) {
+        ArrowWidth = 8;
+    }
+    ctx.lineCap = "round";
     // Calculs des coordonnées des points C, D et E
-    AB=Norm(xA,yA,xB,yB);
-    xC=xB+ArrowLength*(xA-xB)/AB;yC=yB+ArrowLength*(yA-yB)/AB;
-    xD=xC+ArrowWidth*(-(yB-yA))/AB;yD=yC+ArrowWidth*((xB-xA))/AB;
-    xE=xC-ArrowWidth*(-(yB-yA))/AB;yE=yC-ArrowWidth*((xB-xA))/AB;
+    AB = Norm(xA, yA, xB, yB);
+    xC = xB + ArrowLength * (xA - xB) / AB;
+    yC = yB + ArrowLength * (yA - yB) / AB;
+    xD = xC + ArrowWidth * (-(yB - yA)) / AB;
+    yD = yC + ArrowWidth * ((xB - xA)) / AB;
+    xE = xC - ArrowWidth * (-(yB - yA)) / AB;
+    yE = yC - ArrowWidth * ((xB - xA)) / AB;
     // et on trace le segment [AB], et sa flèche :
     ctx.beginPath();
-    ctx.moveTo(xA,yA);ctx.lineTo(xB,yB);
-    ctx.moveTo(xD,yD);ctx.lineTo(xB,yB);ctx.lineTo(xE,yE);
+    ctx.moveTo(xA, yA);
+    ctx.lineTo(xB, yB);
+    ctx.moveTo(xD, yD);
+    ctx.lineTo(xB, yB);
+    ctx.lineTo(xE, yE);
     ctx.stroke();
 }
 
@@ -279,11 +292,11 @@ function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
  * @param {number} y : position y du texte
  * @param {string} color : couleur du texte
  */
-function drawText(txt, x, y, color,context){
-    context.font = tailleCage/5 +"px Arial";
+function drawText(txt, x, y, color, context) {
+    context.font = tailleCage / 5 + "px Arial";
     context.fillStyle = color;
     context.textAlign = "center";
-    context.fillText(txt,x,y);
+    context.fillText(txt, x, y);
 }
 
 /**
@@ -291,40 +304,48 @@ function drawText(txt, x, y, color,context){
  * @param {*} circle
  * @param {*} rect
  */
-function RectCircleColliding(circle,rect){
-    let distX = Math.abs(circle.x - rect.x-rect.width/2);
-    let distY = Math.abs(circle.y - rect.y-rect.height/2);
+function RectCircleColliding(circle, rect) {
+    let distX = Math.abs(circle.x - rect.x - rect.width / 2);
+    let distY = Math.abs(circle.y - rect.y - rect.height / 2);
 
-    if (distX > (rect.width/2 + circle.r)) { return false; }
-    if (distY > (rect.height/2 + circle.r)) { return false; }
+    if (distX > (rect.width / 2 + circle.r)) {
+        return false;
+    }
+    if (distY > (rect.height / 2 + circle.r)) {
+        return false;
+    }
 
-    if (distX <= (rect.width/2)) { return true; }
-    if (distY <= (rect.height/2)) { return true; }
+    if (distX <= (rect.width / 2)) {
+        return true;
+    }
+    if (distY <= (rect.height / 2)) {
+        return true;
+    }
 
-    let dx=distX-rect.width/2;
-    let dy=distY-rect.height/2;
-    return (dx*dx+dy*dy<=(circle.r*circle.r));
+    let dx = distX - rect.width / 2;
+    let dy = distY - rect.height / 2;
+    return (dx * dx + dy * dy <= (circle.r * circle.r));
 }
 
 /**
  * Permet de gérer les collisions du jeu
  */
-function collisionManager(){
+function collisionManager() {
     bounceManager(cageLeft);
     bounceManager(cageMid);
     bounceManager(cageRight);
-    if(RectCircleColliding(ball,cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
-        if(randCage === 0){
+    if (RectCircleColliding(ball, cageLeft.interieurCage)) { // collision avec l'intérieur de la cage
+        if (randCage === 0) {
             resetGame();
             addScore();
         }
-    } else if(RectCircleColliding(ball,cageMid.interieurCage)) { // collision avec l'intérieur de la cage
-        if(randCage === 1){
+    } else if (RectCircleColliding(ball, cageMid.interieurCage)) { // collision avec l'intérieur de la cage
+        if (randCage === 1) {
             resetGame();
             addScore();
         }
-    } else if(RectCircleColliding(ball,cageRight.interieurCage)) { // collision avec l'intérieur de la cage
-        if(randCage === 2){
+    } else if (RectCircleColliding(ball, cageRight.interieurCage)) { // collision avec l'intérieur de la cage
+        if (randCage === 2) {
             resetGame();
             addScore();
         }
@@ -337,25 +358,25 @@ function collisionManager(){
  * si oui alors, on inverse la direction de la balle
  * en calculant la nouvelle position de la balle
  */
-function bounceManager(cage){
-    if(RectCircleColliding(ball,cage.fond)) { // collision avec le fond de la cage
-        newX = ball.x + (newX- ball.x);
+function bounceManager(cage) {
+    if (RectCircleColliding(ball, cage.fond)) { // collision avec le fond de la cage
+        newX = ball.x + (newX - ball.x);
         newY = ball.y - (newY - ball.y);
     }
-    if(RectCircleColliding(ball,cage.poteauGauche) || RectCircleColliding(ball,cage.poteauDroite)) { // collision avec un des poteaux de la cage
-        if(ball.y > cage.poteauGauche.y+cage.poteauGauche.height){
-            newX = ball.x + (newX- ball.x);
+    if (RectCircleColliding(ball, cage.poteauGauche) || RectCircleColliding(ball, cage.poteauDroite)) { // collision avec un des poteaux de la cage
+        if (ball.y > cage.poteauGauche.y + cage.poteauGauche.height) {
+            newX = ball.x + (newX - ball.x);
             newY = ball.y - (newY - ball.y);
-        } else{
-            newX = ball.x - (newX- ball.x);
+        } else {
+            newX = ball.x - (newX - ball.x);
             newY = ball.y + (newY - ball.y);
         }
     }
-    if(Math.abs(ball.x - 0) < ball.r || Math.abs(ball.x - canvas.width) < ball.r){ // collision avec les bords gauche et droite du canvas
-        newX = ball.x - (newX- ball.x);
+    if (Math.abs(ball.x - 0) < ball.r || Math.abs(ball.x - canvas.width) < ball.r) { // collision avec les bords gauche et droite du canvas
+        newX = ball.x - (newX - ball.x);
         newY = ball.y + (newY - ball.y);
-    } else if(Math.abs(ball.y - 0) < ball.r || Math.abs(ball.y - canvas.height) < ball.r){ // collision avec les bords haut et bas du canvas
-        newX = ball.x + (newX- ball.x);
+    } else if (Math.abs(ball.y - 0) < ball.r || Math.abs(ball.y - canvas.height) < ball.r) { // collision avec les bords haut et bas du canvas
+        newX = ball.x + (newX - ball.x);
         newY = ball.y - (newY - ball.y);
     }
 }
@@ -367,46 +388,46 @@ function bounceManager(cage){
  * @param {*} ne : arrivé {x, y} représente la position où l'objet doit aller
  * @param {*} v : vitesse en pixel
  */
-function moveObject(ac, ne, v){
-    let   s = {x:1, y:1}        // sens
-        , move = {x:1, y:1} // pixel de déplacement
+function moveObject(ac, ne, v) {
+    let s = {x: 1, y: 1}        // sens
+        , move = {x: 1, y: 1} // pixel de déplacement
         , delta// delta -> pythagore
         , dist = {}     // distance entre start et end
     ;
 
     // distance x/y
-    dist.x = Math.abs(ac.x-ne.x);
-    dist.y = Math.abs(ac.y-ne.y);
+    dist.x = Math.abs(ac.x - ne.x);
+    dist.y = Math.abs(ac.y - ne.y);
 
     // racine carrée de A² + B² (pythagore) → donne l'hypoténuse
-    delta = Math.sqrt((dist.x*dist.x)+(dist.y*dist.y));
+    delta = Math.sqrt((dist.x * dist.x) + (dist.y * dist.y));
 
     // ralentissement en fonction de la distance restante
     let tempV = v
     v *= delta / 1000;
 
     // règle des tiers afin d'avoir le déplacement par rapport à V et Delta
-    move.x = (dist.x*v)/delta;
-    move.y = (dist.y*v)/delta;
+    move.x = (dist.x * v) / delta;
+    move.y = (dist.y * v) / delta;
 
-    v=tempV;
+    v = tempV;
 
     // déplacement vers la gauche -1, droite 1, haut -1, bas 1
-    s.x = (ac.x > ne.x)? -1: 1;
-    s.y = (ac.y > ne.y)? -1: 1;
+    s.x = (ac.x > ne.x) ? -1 : 1;
+    s.y = (ac.y > ne.y) ? -1 : 1;
 
     // rajoute à nos coordonnées actuelles le déplacement dans le bon sens
-    ac.x += move.x*s.x;
-    ac.y += move.y*s.y;
+    ac.x += move.x * s.x;
+    ac.y += move.y * s.y;
 
     // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
     return (dist.x <= v && dist.y <= v);
 }
 
-function drawImage(x,y,w,h) {
+function drawImage(x, y, w, h) {
     let image = new Image();
     image.src = "/assets/images/hockeyCage.png";
-    image.onload = function() {
+    image.onload = function () {
         // Vérifie que l'image est dans la zone de dessin du canvas
         if (image.width > canvas.width || image.height > canvas.height) {
             // Déplace l'image à l'intérieur de la zone de dessin
@@ -415,42 +436,42 @@ function drawImage(x,y,w,h) {
         }
 
         // Dessine l'image
-        staticContext.drawImage(image,x,y,w,h);
+        staticContext.drawImage(image, x, y, w, h);
     };
 }
 
-function resetStaticCanvas(changeQuestion = true){
+function resetStaticCanvas(changeQuestion = true) {
     staticContext.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawImage(cageLeft.fond.x,cageLeft.fond.y,cageLeft.fond.width,cageLeft.poteauGauche.height);
-    drawImage(cageMid.fond.x,cageMid.fond.y,cageMid.fond.width,cageMid.poteauGauche.height);
-    drawImage(cageRight.fond.x,cageRight.fond.y,cageRight.fond.width,cageRight.poteauGauche.height);
+    drawImage(cageLeft.fond.x, cageLeft.fond.y, cageLeft.fond.width, cageLeft.poteauGauche.height);
+    drawImage(cageMid.fond.x, cageMid.fond.y, cageMid.fond.width, cageMid.poteauGauche.height);
+    drawImage(cageRight.fond.x, cageRight.fond.y, cageRight.fond.width, cageRight.poteauGauche.height);
 
 
-    if(changeQuestion){
+    if (changeQuestion) {
         randCage = Math.floor(Math.random() * 3);
         getQuestion();
     }
 }
 
-function resetGame(changeQuestion = true){
+function resetGame(changeQuestion = true) {
     isInActiveSession();
     //reset ball
-    ball.x = Math.trunc(canvas.width/2);
-    ball.y = Math.trunc(canvas.height*(5/10));
+    ball.x = Math.trunc(canvas.width / 2);
+    ball.y = Math.trunc(canvas.height * (5 / 10));
     newX = ball.x;
     newY = ball.y;
     resetStaticCanvas(changeQuestion);
 }
 
-function endGame(){
+function endGame() {
     $.ajax({
         type: "POST",
         url: "/controls/actionController.php",
         data: {
             action: "showEndGame",
         },
-        dataType : 'json',
+        dataType: 'json',
         success: function (response) {
             $("#pseudo").text(response.pseudo);
             $("#scoreEnd").text(response.score.toString());
@@ -459,11 +480,35 @@ function endGame(){
     });
 }
 
+//fonction appelée par le websocket pour changer le statut de la session
+function sessionStatus(status) {
+    switch (status) {
+        case 'start':
+            gameActive = true;
+            $("#endGame").hide();
+            break;
+        case 'stop':
+            gameActive = false;
+            $("#endGame").show();
+            endGame();
+            break;
+        case 'reset':
+            gameActive = false;
+            window.location.href = "/home";
+            break;
+        default :
+            alert("Erreur de statuts de session");
+            break
+    }
+
+}
+
 /**
  * Fonction qui permet de verifier
  * si le joueur est toujours dans la session
  */
 function isInActiveSession() {
+
     $.ajax({
         type: "POST",
         url: "/controls/actionController.php",
@@ -471,21 +516,20 @@ function isInActiveSession() {
             action: "isInActiveSession",
         },
         success: function (response) {
-            if(response === 'notActive'){
+            if (response === 'notActive') {
                 gameActive = false;
                 $("#endGame").show();
                 endGame();
-            }
-            else if(response === 'false'){
+            } else if (response === 'false') {
                 gameActive = false;
                 window.location.href = "/home";
-            }
-            else if(response === 'true'){
+            } else if (response === 'true') {
                 gameActive = true;
                 $("#endGame").hide();
             }
         }
     });
+
 }
 
 /**
@@ -499,11 +543,11 @@ function getQuestion() {
         data: {
             action: "getRandomQuestion",
         },
-        dataType : 'json',
+        dataType: 'json',
         success: function (response) {
-            let repA = (randCage === 0)? response.vrai : response.faux1;
-            let repB = (randCage === 1)? response.vrai : (randCage === 2)? response.faux2 : response.faux1;
-            let repC = (randCage === 2)? response.vrai : response.faux2;
+            let repA = (randCage === 0) ? response.vrai : response.faux1;
+            let repB = (randCage === 1) ? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
+            let repC = (randCage === 2) ? response.vrai : response.faux2;
             $("#question").text(response.text);
             $("#rep1").text(repA);
             $("#rep2").text(repB);
@@ -512,8 +556,8 @@ function getQuestion() {
     });
 }
 
-function addScore(number = 100){
-    if(gameActive){
+function addScore(number = 100) {
+    if (gameActive) {
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",
@@ -521,7 +565,7 @@ function addScore(number = 100){
                 action: "addScore",
                 score: number,
             },
-            dataType : 'json',
+            dataType: 'json',
             success: function (response) {
                 score = response.toString();
                 $("#score").text(score);
@@ -537,14 +581,14 @@ function addScore(number = 100){
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(staticCanvas, 0, 0);
-    drawBall(ball,"#0095DD");
-    if(mouseIsDown){
-        ctx.strokeStyle="black";
-        ctx.lineWidth=4;
-        drawArrow(ball.x,ball.y,newX,newY);
+    drawBall(ball, "#0095DD");
+    if (mouseIsDown) {
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 4;
+        drawArrow(ball.x, ball.y, newX, newY);
     } else {
-        if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
-            if(moveObject(ball, {x:newX, y:newY}, ball.v)){
+        if ((newX !== ball.x || newY !== ball.y) && !mouseIsDown) {
+            if (moveObject(ball, {x: newX, y: newY}, ball.v)) {
                 resetGame(false);
                 newX = ball.x;
                 newY = ball.y
@@ -554,14 +598,14 @@ function draw() {
     collisionManager();
 }
 
-function showScore(){
+function showScore() {
     $.ajax({
         type: "POST",
         url: "/controls/actionController.php",
         data: {
             action: "showScore",
         },
-        dataType : 'json',
+        dataType: 'json',
         success: function (response) {
             $("#score").text(response.toString());
         }
@@ -572,6 +616,7 @@ function showScore(){
  * resetStaticCanvas() initialise le canvas hors écran et
  * setInterval va appeler la fonction draw() toutes les 10ms
  */
+isInActiveSession();
 resetGame();
 showScore();
 setInterval(draw, 10);

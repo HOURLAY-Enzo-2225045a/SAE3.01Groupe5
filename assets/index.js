@@ -49,48 +49,19 @@ $(document).ready(function(e){
         }
     });
 
-    $("#searchSpartiate").on('input', function() {
-        // recupere ce qui est ecrit dans la barre de recherche
-        let searchTerm = $(this).val();
-
-        if (searchTerm.length > 0){
-            // envoie la requete ajax
-            $.ajax({
-                type: "POST",
-                url: "/controls/actionController.php",
-                data: {
-                    action: "searchSpartiate",
-                    searchTerm: searchTerm
-                },
-                success: function (result) {
-                    // affiche le resultat de la recherche
-                    if (result === "")
-                        result = "Aucun résultat";
-                    $('.result').hide()
-                    $('.searchedResult').show().html(result);
-                }
-            });
-        }else{
-            $('.searchedResult').hide()
-            $('.result').show()
-        }
-    });
-
-    $("#verificationForm").submit(function(e){
+    $("#verificationForm").submit(function (e) {
         e.preventDefault(); //empêcher une action par défaut
-
         // Récupérer l'URL du formulaire et la méthode
         let form_method = $(this).attr("method");
         // Encoder les éléments du formulaire et ajouter la letiable action
         let form_data = $(this).serialize()
-
         // Effectuer la requête AJAX
         $.ajax({
             url: "/controls/actionController.php",
             type: form_method,
             data: form_data
-        }).done(function(response){
-            if(response.success) {
+        }).done(function (response) {
+            if (response.success) {
                 // Si l'authentification est réussie, changer l'URL et recharger la page
                 window.location.href = response.url;
             } else {
@@ -100,15 +71,12 @@ $(document).ready(function(e){
         });
     });
 
-    $("#form").submit(function(e){
+    $("#form").submit(function (e) {
         e.preventDefault(); //empêcher une action par défaut
         // Récupérer l'URL du formulaire et la méthode
         let form_method = $(this).attr("method");
-
         // Encoder les éléments du formulaire et ajouter la letiable action
-        // let form_data = $(this).serialize()
         let form_data = new FormData(this);
-
         // Effectuer la requête AJAX
         $.ajax({
             url: "/controls/actionController.php",
@@ -116,12 +84,12 @@ $(document).ready(function(e){
             data: form_data,
             contentType: false,
             processData: false
-        }).done(function(response){
+        }).done(function (response) {
             window.location.href = response;
         });
     });
 
-    $(document).on("click", "#actionButton", function(){
+    $("#actionButton").on("click", function () {
         let action = $(this).data("action");
         let id = $(this).data("id");
         // Effectuer la requête AJAX
@@ -132,29 +100,17 @@ $(document).ready(function(e){
                 action: action,
                 id: id,
             },
-        }).done(function(response){
+        }).done(function (response) {
             window.location.href = response;
         });
     });
 
-    $(document).on("click", "#deconnect", function(){
-        $.ajax({
-            type: "POST",
-            url: "/controls/actionController.php",
-            data: {
-                action: "deconnect",
-            },
-        }).done(function(response){
-            window.location.href = response;
-        });
-    });
-
-    $(document).on("click", "#callActionButton", function(){
+    $("#callActionButton").on("click", function () {
         let buttonConfirmDelete = $('#actionButton');
         buttonConfirmDelete.data('id', $(this).data("id"));
     });
 
-    $(document).on("click", ".sessionAction", function(){
+    $(".sessionAction").on("click", function () {
         let action = $(this).data("action");
         $.ajax({
             type: "POST",
@@ -162,12 +118,13 @@ $(document).ready(function(e){
             data: {
                 action: action,
             },
-        }).done(function(response){
+        }).done(function (response) {
             $('#code').html(response);
         });
     });
 
-    $(document).on("click", ".spartCard", function(){
+    //choix du spartiate avant le jeu
+    $(".spartCard").on("click", function () {
         let id = $(this).data("id");
         // Effectuer la requête AJAX
         $.ajax({
@@ -177,12 +134,12 @@ $(document).ready(function(e){
                 action: "setSessionSpart",
                 spartiateId: id,
             },
-        }).done(function(response){
+        }).done(function (response) {
             location.reload();
         });
     });
 
-    $(document).on("click", ".buttonWS", function(){
+    $(".buttonWS").on("click", function () {
         let action = $(this).data("action");
         // Effectuer la requête AJAX
         $.ajax({
@@ -191,12 +148,11 @@ $(document).ready(function(e){
             data: {
                 action: action,
             },
-        }).done(function(response){
-            console.log(response);
-            if(response === "Vous n\'avez pas les droits administratifs nécessaires.") {
+        }).done(function (response) {
+            if (response === "Vous n\'avez pas les droits administratifs nécessaires.") {
                 alert(response);
-            }else{
-                eval(response)
+            } else {
+                sendMessage(response);
             }
         });
     });
@@ -210,7 +166,7 @@ function updateRanking() {
         data: {
             action: "showRanking",
         },
-    }).done(function(response){
+    }).done(function (response) {
         $('#ranking').html(response);
     });
 }
@@ -222,7 +178,8 @@ function getSessionCode() {
         data: {
             action: "getSessionCode",
         },
-    }).done(function(response){
+    }).done(function (response) {
+        console.log(response)
         $('#code').html(response.toString());
     });
 }
@@ -232,6 +189,3 @@ if (window.location.pathname === "/users") {
     updateRanking()
     setInterval(updateRanking, 3000);
 }
-
-
-
