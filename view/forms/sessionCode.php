@@ -8,6 +8,6 @@
             <input class="rounded-xl w-full" type="number" id="code" name="code" inputmode="numeric" pattern="[0-9]*" min="0" step="1" required>
         </label>
         <div class="text-red-700" id="res"></div>
-        <input type="submit" value="Vérifier" class="text-3xl border-2 border-black rounded-xl w-2/3 md:w-2/5 xl:w-1/6"/>
+        <input type="submit" value="Vérifier" class="text-3xl border-2 border-black rounded-xl h-[5vh] w-2/3 md:w-3/5 xl:w-1/6"/>
     </form>
 </div>
