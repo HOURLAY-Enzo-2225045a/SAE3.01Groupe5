@@ -13,7 +13,7 @@
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js"></script>
 
-    <script type="module" src="/assets/Game/GameStriker.js"></script>
+    <script type="module" src="/assets/Game/GameDefense.js"></script>
 </head>
 <body class="bg-[var(--color-bg)] h-[100vh] overflow-hidden fixed w-full">
 

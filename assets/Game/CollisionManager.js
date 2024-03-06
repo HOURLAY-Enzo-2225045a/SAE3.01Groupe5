@@ -4,15 +4,6 @@ export class CollisionManager {
         this.canvas = canvas;
     }
 
-    // Méthode pour savoir si deux cercles entre en collision
-    areCirclesColliding(circle1, circle2) {
-        const dx = circle1.x - circle2.x;
-        const dy = circle1.y - circle2.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        return distance <= circle1.radius + circle2.radius;
-    }
-
     // Méthode pour vérifier la collision entre un cercle et un rectangle
     /* isCircleCollidingWithRectangle(circle, rectangle) {
          const closestX = Math.max(rectangle.x, Math.min(circle.x, rectangle.x + rectangle.width));
@@ -190,6 +181,55 @@ export class CollisionManager {
         return (dx*dx+dy*dy<=(circle.radius*circle.radius));
     }
 
+    areCirclesColliding(circle1, circle2, prevCircle1) {
+        let collision = this.areCirclesCollidingBasic(circle1, circle2);
+        if (collision) {
+            return true;
+        }
+
+        // Si aucune collision n'est détectée, vérifie la trajectoire de la balle
+        let distX = Math.abs(prevCircle1.x - circle1.x);
+        let distY = Math.abs(prevCircle1.y - circle1.y);
+        let steps = Math.max(distX, distY);
+
+        let stepX = (circle1.x - prevCircle1.x) / steps;
+        let stepY = (circle1.y - prevCircle1.y) / steps;
+
+        let testCircle = {x: prevCircle1.x, y: prevCircle1.y, radius: circle1.radius};
+
+        for (let i = 0; i < steps; i++) {
+            testCircle.x += stepX;
+            testCircle.y += stepY;
+
+            collision = this.areCirclesCollidingBasic(testCircle, circle1);
+            if (collision) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    areCirclesCollidingBasic(circle1, circle2){
+        let distX = Math.abs(circle1.x - circle2.x - circle2.radius/2);
+        let distY = Math.abs(circle1.y - circle2.y - circle2.radius/2);
+
+        if (distX > (circle2.radius/2 + circle1.radius)) { return false; }
+        if (distY > (circle2.radius/2 + circle1.radius)) { return false; }
+
+        if (distX <= (circle2.radius/2)) { return true; }
+        if (distY <= (circle2.radius/2)) { return true; }
+
+        let dx=distX-circle2.radius/2;
+        let dy=distY-circle2.radius/2;
+        return (dx*dx+dy*dy<=(circle1.radius * circle1.radius));
+    }
+
+
+
+
+
+
     handleCollisionsAttack(circle, cages) {
         for (let cage of cages) {
             for (let rect of cage.getRects()) {
@@ -219,6 +259,54 @@ export class CollisionManager {
             circle.resetStartPos();
         }
     }
+
+    handleCollisionsDefense(defender, cage, strikers) {
+        // Gestion des attaquants avec la cage
+        for (let striker of strikers) {
+            if (this.isCircleCollidingWithRect(striker, cage.inside, striker.prevPos)) {
+                for (let striker of strikers) {
+                    striker.resetPosition();
+                }
+            }
+        }
+
+        // Gestion du defenseur avec la cage
+        for (let rect of cage.getRects()) {
+            if (this.isCircleCollidingWithRect(defender, rect, defender.prevPos)) {
+                this.bounceManager(rect,defender);
+            }
+        }
+
+        // Gestion du defenseur avec les attaquants
+        for (let striker of strikers) {
+            if (this.areCirclesColliding(defender, striker, defender)){
+                this.bounceManagerDefense(striker, defender)
+            }
+        }
+
+        // Gestion du defenseur avec le canvas
+        if(Math.abs(defender.x - 0) < defender.radius) { // collision avec le bord gauche du canvas
+            defender.bounce("vertical");
+            defender.x = defender.radius; // assure que la balle reste à l'intérieur du canvas
+            defender.resetStartPos();
+        }
+        else if(Math.abs(defender.x - this.canvas.width) < defender.radius) { // collision avec le bord droit du canvas
+            defender.bounce("vertical");
+            defender.x = this.canvas.width - defender.radius; // assure que la balle reste à l'intérieur du canvas
+            defender.resetStartPos();
+        }
+        else if(Math.abs(defender.y - 0) < defender.radius) { // collision avec le bord haut du canvas
+            defender.bounce("horizontal");
+            defender.y = defender.radius; // assure que la balle reste à l'intérieur du canvas
+            defender.resetStartPos();
+        }
+        else if(Math.abs(defender.y - this.canvas.height) < defender.radius) { // collision avec le bord bas du canvas
+            defender.bounce("horizontal");
+            defender.y = this.canvas.height - defender.radius; // assure que la balle reste à l'intérieur du canvas
+            defender.resetStartPos();
+        }
+    }
+
 
     bounceManager(rect, circle) {
         let distX, distY;
@@ -250,4 +338,36 @@ export class CollisionManager {
             circle.y += (circle.y > rect.y) ? circle.radius-distY : -(circle.radius-distY);
         }
     }
+
+    bounceManagerDefense(circle2, circle1) {
+        let distX, distY;
+        if (circle1.x < circle2.x) { // à gauche du circle2angle
+            distX = circle2.x - circle1.x;
+        } else if (circle1.x > circle2.x + circle2.radius) { // à droite du rectangle
+            distX = circle1.x - (circle2.x + circle2.radius);
+        } else { // au-dessus ou en-dessous du rectangle
+            distX = 0;
+        }
+
+        if (circle1.y < circle2.y) { // au-dessus du rectangle
+            distY = circle2.y - circle1.y;
+        } else if (circle1.y > circle2.y + circle2.radius) { // en-dessous du rectangle
+            distY = circle1.y - (circle2.y + circle2.radius);
+        } else { // à gauche ou à droite du rectangle
+            distY = 0;
+        }
+
+        if (distX > distY) {
+            // Collision avec le côté gauche ou droit de la cage
+            circle1.bounce("vertical");
+            // Ajout d'un décalage pour éviter que la balle ne reste coincée
+            circle1.x += (circle1.x > rect.x) ? circle1.radius-distX : -(circle1.radius-distX);
+        } else {
+            // Collision avec le haut ou le bas de la cage
+            circle1.bounce("horizontal");
+            // Ajout d'un décalage pour éviter que la balle ne reste coincée
+            circle1.y += (circle1.y > circle2.y) ? circle1.radius-distY : -(circle1.radius-distY);
+        }
+    }
+
 }
