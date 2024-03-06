@@ -17,6 +17,22 @@ class CodesController
         $this->repository = new \Repository\CodesRepository();
     }
 
+    public function codeIsActive($code)
+    {
+        try{
+            if($this->repository->isActive($code)){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        catch (MoreThanOneException $ERROR){
+            //on fais un retour d'erreur
+            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
+            echo $ERROR->getMessage();
+        }
+    }
+
     public function checkSessionCode($code){
         try{
             if($this->repository->checkSessionCode($code)){
@@ -34,8 +50,6 @@ class CodesController
     }
 
     public function start(){
-        $_SESSION['isInSession'] = true;
-        $_SESSION['isSessionActive'] = true;
         $randomCode = rand(10000, 99999);
         if($this->repository->isSessionCode()){
             $this->repository->reset();
@@ -46,16 +60,17 @@ class CodesController
         echo $randomCode;
     }
     public function stop(){
-        $_SESSION['isSessionActive'] = false;
         $this->repository->stop();
         $sessionRepo = new \Repository\SessionRepository();
         $data = $sessionRepo->getMailAndPseudoOfHighestScore();
-        $to = $data['mail'];
-        $who = $data['pseudo'];
-        $subject = 'Jeu Spartiate';
-        $headers = 'De: Spartiates <jeuspartiates@alwaysdata.net>' . "\r\n";
-        $message = 'Bonjour '.$who.' vous avez fait le meilleur score gardez ce mail pour récupérer votre prix';
-        mail($to, $subject, $message, $headers);
+        if($data['mail'] != null && $data['pseudo'] != null) {
+            $to = $data['mail'];
+            $who = $data['pseudo'];
+            $subject = 'Jeu Spartiate';
+            $headers = 'De: Spartiates <jeuspartiates@alwaysdata.net>' . "\r\n";
+            $message = 'Bonjour ' . $who . ' vous avez fait le meilleur score gardez ce mail pour récupérer votre prix';
+            mail($to, $subject, $message, $headers);
+        }
         echo 'Pas de session en cours';
     }
 

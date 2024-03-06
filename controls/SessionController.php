@@ -35,7 +35,7 @@ class SessionController
                 <td class="px-4 py-2 border-t border-b text-center">' . $sessionUser->getPseudo() .'</td>
                 <td class="px-4 py-2 border-t border-b text-center">' . $sessionUser->getScore().'</td>
                 <td class="p-2 border bg-[var(--color-bg)] text-center">
-                    <button data-id="'. $sessionUser->getSession_user_id() .'"data-action="deleteUser" class="actionButton inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
+                    <button data-id="'. $sessionUser->getSession_user_id() .'" data-action="deleteUser" class="actionButton inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
                         <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
                     </button>
                 </td>
@@ -72,11 +72,13 @@ class SessionController
 
     public function isInActiveSession(): void
     {
-        $codesRepo = new CodesRepository();
-        if(isset($_SESSION['id']) && !empty($_SESSION['isInSession']) && !empty($_SESSION['isSessionActive'])){
+        $codesController = new CodesController();
+        if(!empty($_SESSION['code'] && $codesController->codeIsActive($_SESSION['code'])) && $this->repository->isInSession($_SESSION['id'])){
             echo 'true';
-        }elseif (isset($_SESSION['id']) && !empty($_SESSION['isInSession'])){
+        }
+        elseif (!empty($_SESSION['code'] && $this->repository->isInSession($_SESSION['id']))){
             echo 'notActive';
+
         }else{
             $_SESSION['code'] = null;
             $_SESSION['randomQuestion'] = null;

@@ -95,8 +95,7 @@ $(document).ready(function(e){
         });
     });
 
-    $(".actionButton").on("click", function () {
-
+    $(document).on("click", ".actionButton", function () {
         let action = $(this).data("action");
         let id = $(this).data("id");
         console.log(action + " " + id )
@@ -109,12 +108,12 @@ $(document).ready(function(e){
                 id: id,
             },
         }).done(function (response) {
-            window.location.href = response;
+            if(response !== "")
+                window.location.href = response;
         });
     });
 
     $(".callActionButton").on("click", function () {
-        console.log("click")
         let buttonConfirmDelete = $('.actionButton');
         buttonConfirmDelete.data('id', $(this).data("id"));
     });
@@ -136,7 +135,6 @@ $(document).ready(function(e){
     $(".spartCard").on("click", function () {
         let id = $(this).data("id");
         // Effectuer la requête AJAX
-        console.log('clic');
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",

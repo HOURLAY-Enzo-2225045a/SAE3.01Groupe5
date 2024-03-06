@@ -2,6 +2,17 @@ let socket = new WebSocket('wss://spartiates-socket-server.glitch.me/');
 
 socket.addEventListener('open', (event) => {
     console.log('Connexion WebSocket ouverte:', event);
+
+    $.ajax({
+        type: "POST",
+        url: "/controls/actionController.php",
+        data: {
+            action: "connexionWS",
+        },
+    }).done(function (response) {
+        socket.send(response);
+    });
+
 });
 
 let messageMapping = [

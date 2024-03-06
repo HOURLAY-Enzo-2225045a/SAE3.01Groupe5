@@ -10,6 +10,7 @@ $spartiatesController = new \Controls\SpartiatesController();
 $usersController = new \Controls\UsersController();
 $codesController = new \Controls\CodesController();
 $sessionController = new \Controls\SessionController();
+$wscontroller = new \Controls\WSController();
 
 if (!isset($_SESSION)) {
     session_start();
@@ -19,7 +20,7 @@ $actionsMapping = [
     'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => '/pseudo'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false, 'needResponse' => true],
     'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
-    'deleteUser' => [     'idField' => 'id',                                    'controller' => $sessionController,        'redirect' => '/users', 'adminOnly' => true     ],
+    'deleteUser' => [     'idField' => 'id',                                    'controller' => $sessionController,        'redirect' => '', 'adminOnly' => true     ],
     'deleteQuestion' => ['idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
     'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
     'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
@@ -39,6 +40,7 @@ $actionsMapping = [
     'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
     'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
     'stopWS' => ['webSocketMessage' => 'stop', 'adminOnly' => true],
+    'connexionWS' => ['controller' => $wscontroller, 'adminOnly' => false]
 ];
 
 // Fonction pour traiter les actions

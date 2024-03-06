@@ -53,7 +53,6 @@ class SpartiatesController
 
     public function updateSpartiate($id, $lastName, $name)
     {
-        $spartiate = $this->repository->getById($id);
         try{
             $this->repository->updateSpartiateById($id, $lastName, $name);
         }

@@ -11,7 +11,6 @@
     <script src="/dist/bundle.js"></script>
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js" defer></script>
-<!--    --><?php //if(isset($_SESSION[]))?>
 </head>
 
 <body class="bg-[var(--color-bg)] h-[100vh]">
