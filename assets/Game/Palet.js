@@ -53,22 +53,6 @@ export class Palet {
         context.closePath();
     }
 
-    drawNewPos(context) {
-        context.beginPath();
-        context.arc(this.newX, this.newY, this.radius, 0, Math.PI*2);
-        context.fillStyle = "red";
-        context.fill();
-        context.closePath();
-    }
-
-    drawStartPos(context) {
-        context.beginPath();
-        context.arc(this.startX, this.startY, this.radius, 0, Math.PI*2);
-        context.fillStyle = "green";
-        context.fill();
-        context.closePath();
-    }
-
     move() {
         let   s = {x:1, y:1}        // sens
             , move = {x:1, y:1} // pixel de déplacement
