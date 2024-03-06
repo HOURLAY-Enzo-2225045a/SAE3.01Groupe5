@@ -18,6 +18,7 @@ export class Game {
         this.collisionManager = new CollisionManager(this.canvasManager.getCanvas(), this.palet, [this.leftCage, this.midCage, this.rightCage], this);
         this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas());
         this.score = 0;
+        this.responseCage = 0;
     }
 
     /**
@@ -42,7 +43,13 @@ export class Game {
         ctx.stroke();
     }
 
+    /**
+     * Démarre le jeu
+     */
     start() {
+
+        this.getQuestion();
+        sessionStorage.setItem("score", 0);
         // Récupération du score du joueur
         if(!isNaN(parseInt(sessionStorage.getItem("score")))){
             this.score = parseInt(sessionStorage.getItem("score"));
@@ -54,15 +61,11 @@ export class Game {
         window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
         window.addEventListener('mousemove', (e) => this.eventManager.handleMouseMove(e));
         //window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
-        console.log(this.palet);
-        console.log(this.collisionManager);
 
         // Boucle de jeu
         setInterval(() => {
             this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.palet.draw(this.canvasManager.getCtx()); //drawBall(ball,"#0095DD");
-            this.palet.drawNewPos(this.canvasManager.getCtx());
-            this.palet.drawStartPos(this.canvasManager.getCtx());
             this.leftCage.draw(this.canvasManager.getCtx());
             this.midCage.draw(this.canvasManager.getCtx());
             this.rightCage.draw(this.canvasManager.getCtx());// ctx.drawImage(staticCanvas, 0, 0);
@@ -78,13 +81,7 @@ export class Game {
                 }
             }
             this.collisionManager.handleCollisions(); //collisionManager();
-            /*if(mouseIsDown){
-                ctx.strokeStyle="black";
-                ctx.lineWidth=4;
-                drawArrow(ball.x,ball.y,newX,newY);
-                console.log("Arrow")
-            } else {
-                if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
+                /*if((newX !== ball.x || newY !== ball.y) && !mouseIsDown){
                     if(moveObject(ball, {x:newX, y:newY}, ball.v)){
                         resetGame(false);
                         newX = ball.x;
@@ -101,9 +98,12 @@ export class Game {
 
     /**
      * Récupère une question aléatoire et l'affiche dans le canvas
-     * @deprecated Vérifier si modification nécessaire / Ou QuestionManager ?
+     * @note Vérifier si modification nécessaire / Ou QuestionManager ?
      */
     getQuestion() {
+        this.responseCage = Math.floor(Math.random() * 3);
+        let randCage = this.responseCage
+        console.log(randCage, this.responseCage)
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",
@@ -113,8 +113,8 @@ export class Game {
             dataType : 'json',
             success: function (response) {
                 let repA = (randCage === 0)? response.vrai : response.faux1;
-                let repB = (randCage === 1)? response.vrai : response.faux1;
-                let repC = (randCage === 2)? response.vrai : response.faux1;
+                let repB = (randCage === 1)? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
+                let repC = (randCage === 2)? response.vrai : response.faux2;
                 $("#question").text(response.text);
                 $("#rep1").text(repA);
                 $("#rep2").text(repB);
@@ -128,6 +128,7 @@ export class Game {
         sessionStorage.setItem("score", this.score);
         $("#score").text(this.score);
         this.palet.resetPos();
+        this.getQuestion();
     }
 
     /**
@@ -144,7 +145,7 @@ export class Game {
             },
             dataType : 'json',
             success: function (response) {
-                score = response.toString();
+                this.score = response.toString();
                 $("#score").text(score);
             }
         });
@@ -173,9 +174,7 @@ export class Game {
     }
 }
 
-console.log("hello world");
-// score du joueur
-let score = 0;
+
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;
 let heightPercentage = 80;
