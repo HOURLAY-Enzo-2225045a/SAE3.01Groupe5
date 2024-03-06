@@ -73,6 +73,7 @@ export class CollisionManager {
             for (let rect of cage.getRects()) {
                 if (this.RectCircleColliding(this.palet, rect, this.palet.prevPos)) {
                     this.bounceManager(rect);
+                    this.palet.resetStartPos();
                 }
             }
             if(this.RectCircleColliding(this.palet, cage.getInside(), this.palet.prevPos) && this.game.responseCage === i){
