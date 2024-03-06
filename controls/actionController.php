@@ -36,7 +36,7 @@ $actionsMapping = [
     'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true ],
     'getRandomQuestion' => ['controller' => $questionsController, 'adminOnly' => false ],
     'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false ],
-    'showEndGame' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'showEndGame' => ['fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
     'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
     'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
     'stopWS' => ['webSocketMessage' => 'stop', 'adminOnly' => true],
@@ -58,10 +58,9 @@ function handleAction($actionsMapping)
         }
 
         // Vérifier la présence des champs requis pour les actions avec POST
-
         if (isset($mapping['fields'])) {
             foreach ($mapping['fields'] as $field) {
-                if (empty($postData[$field]) && $field != 'mail' ) {
+                if (empty($postData[$field]) && $postData[$field] !== "0" && $field != 'mail' ) {
                     echo "Champ $field manquant";
                     return;
                 }

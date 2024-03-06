@@ -27,18 +27,6 @@ socket.addEventListener('message', (event) => {
     if (messageMapping.includes(message)) {
         if(typeof window.sessionStatus === 'function')
             window.sessionStatus(message);
-        else {
-            $.ajax({
-                type: "POST",
-                url: "/controls/actionController.php",
-                data: {
-                    action: message,
-                },
-            }).done(function (response) {
-                console.log("modif de code socvket")
-                $('#code').html(response);
-            });
-        }
     }
 });
 
@@ -47,7 +35,34 @@ socket.addEventListener('close', (event) => {
 });
 
 function sendMessage(message) {
-    socket.send(message);
+
+    if(message === "stop"){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: message,
+            },
+        }).done(function (response) {
+            console.log("modif de code socvket")
+            $('#code').html(response);
+        });
+    }
+
+    const JsonMessage = {
+        action: 'adminBroadcast',
+        message: message,
+    };
+    socket.send(JSON.stringify(JsonMessage));
+}
+
+function sendIDMessage(message, id) {
+    const JsonMessage = {
+        action: 'adminMessage',
+        id: id,
+        message: message,
+    };
+    socket.send(JSON.stringify(JsonMessage));
 }
 
 // //TODO : a deplacer au bon endroit

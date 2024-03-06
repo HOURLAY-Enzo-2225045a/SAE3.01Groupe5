@@ -60,6 +60,7 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     } elseif ($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))) {
         $_SESSION['pseudo'] = null;
         $_SESSION['spartiateId'] = null;
+
         header('refresh:0;url=/sessionCode');
     } elseif ($url == 'play' && empty($_SESSION['pseudo'])) {
         $_SESSION['spartiateId'] = null;

@@ -11,7 +11,7 @@ class WSController
     public function connexionWS(){
         $identificationMessage = array(
             'action' => 'identify',
-            'id' => $_SESSION['id'],
+            'id' => $_SESSION['id'] ?? 1,
             'admin' => !empty($_SESSION['admin']),
         );
 

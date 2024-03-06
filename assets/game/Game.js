@@ -48,8 +48,8 @@ export class Game {
      */
     start() {
         this.isInActiveSession();
+        console.log("start");
         this.getQuestion();
-        sessionStorage.setItem("score", 0);
         // Récupération du score du joueur
         if(!isNaN(parseInt(sessionStorage.getItem("score")))){
             this.score = parseInt(sessionStorage.getItem("score"));
@@ -92,10 +92,6 @@ export class Game {
         }, 10);
     }
 
-    reset() {
-        // ...
-    }
-
     /**
      * Récupère une question aléatoire et l'affiche dans le canvas
      * @note Vérifier si modification nécessaire / Ou QuestionManager ?
@@ -127,7 +123,7 @@ export class Game {
         sessionStorage.setItem("score", this.score);
         $("#score").text(this.score);
         this.palet.resetPos();
-        this.getQuestion();
+        // this.getQuestion();
     }
 
     /**
@@ -186,11 +182,30 @@ export class Game {
             success: function (response) {
                 if (response === 'notActive') {
                     $("#endGame").show();
+                    Game.endGame("reload");
                 } else if (response === 'false') {
                     window.location.href = "/home";
                 } else if (response === 'true') {
                     $("#endGame").hide();
                 }
+            }
+        });
+    }
+
+    static endGame(){
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "showEndGame",
+                score : parseInt(sessionStorage.getItem("score")),
+            },
+            dataType: 'json',
+            success: function (response) {
+                $("#pseudo").text(response.pseudo);
+                $("#scoreEnd").text(response.score.toString());
+                $("#rank").text(response.rank.toString());
+                sessionStorage.setItem("score", 0);
             }
         });
     }

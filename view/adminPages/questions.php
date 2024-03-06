@@ -1,5 +1,3 @@
-<script src="/assets/socket.js"></script>
-
 <a href="/home" class="absolute left-5 top-5 w-20 h-20">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>

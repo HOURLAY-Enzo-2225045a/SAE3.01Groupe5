@@ -55,21 +55,6 @@ class SessionController
         }
     }
 
-    public function addScore($score)
-    {
-        try{
-            $codesRepo = new CodesRepository();
-            if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id']) && isset($_SESSION['code']) && $codesRepo->isActive($_SESSION['code'])) {
-                $this->repository->addScore($_SESSION['id'], $score);
-                echo $this->repository->getScore($_SESSION['id']);
-            }
-        }
-        catch (NotFoundException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
-        }
-    }
-
     public function isInActiveSession(): void
     {
         $codesController = new CodesController();
@@ -86,30 +71,19 @@ class SessionController
         }
     }
 
-    public function showEndGame(): void
+    public function showEndGame($score): void
     {
         try {
+            if($score == 0)
+                $score = $this->repository->getScore($_SESSION['id']);
             if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])){
+                $this->repository->setScore($_SESSION['id'], $score);
                 $sessionUser = $this->repository->getSessionUser($_SESSION['id']);
-//                $temp = array('pseudo' =>$sessionUser->getPseudo(),
-//                    'score' => $sessionUser->getScore());
                 echo json_encode($sessionUser);
             }
         }catch (NotFoundException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
             echo $ERROR->getMessage();
-        }
-    }
-
-    public function showScore(): void
-    {
-        try {
-            if(isset($_SESSION['id']) && $this->repository->isInSession($_SESSION['id'])){
-                echo $this->repository->getScore($_SESSION['id']);
-            }
-        }catch (NotFoundException $ERROR){
-            file_put_contents('log/HockeyGame.log',$ERROR->getMessage()."\n",FILE_APPEND | LOCK_EX);
-            echo $ERROR->getMessage();
+            echo $_SESSION['id'];
         }
     }
 

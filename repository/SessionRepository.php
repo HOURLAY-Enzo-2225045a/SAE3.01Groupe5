@@ -73,12 +73,17 @@ class SessionRepository extends AbstractRepository
             'id' => $id,
             'score' => $score
         ]);
-
-        //Si la requête ne rend rien ça veut dire qu'il n'y a aucun utilisateurs avec cette id
-        if ($statement->rowCount() === 0) {
-            throw new NotFoundException('Aucun USER trouvé');
-        }
     }
+
+    public function setScore($id, $score){
+        $query = 'UPDATE SESSION SET SCORE = :score WHERE SESSION_USER_ID = :id';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute([
+            'id' => $id,
+            'score' => $score
+        ]);
+    }
+
 
     public function getScore($id): int
     {

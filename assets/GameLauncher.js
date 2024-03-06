@@ -23,7 +23,6 @@ game.start();
 
 //fonction appelée par le websocket pour changer le statut de la session
 function sessionStatus(status) {
-    console.log("ca marche")
     switch (status) {
         case 'start':
             game.eventManager.gameActive = true;
@@ -32,7 +31,7 @@ function sessionStatus(status) {
         case 'stop':
             game.eventManager.gameActive= false;
             $("#endGame").show();
-            endGame();
+            Game.endGame("socket");
             break;
         case 'reset':
             game.eventManager.gameActive = false;

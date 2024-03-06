@@ -187,7 +187,6 @@ function getSessionCode() {
             action: "getSessionCode",
         },
     }).done(function (response) {
-        console.log(response)
         $('#code').html(response.toString());
     });
 }
