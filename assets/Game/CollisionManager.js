@@ -68,15 +68,18 @@ export class CollisionManager {
     }
 
     handleCollisions() {
+        let i = 0;
         for (let cage of this.cages) {
             for (let rect of cage.getRects()) {
                 if (this.RectCircleColliding(this.palet, rect, this.palet.prevPos)) {
                     this.bounceManager(rect);
                 }
             }
-            if(this.RectCircleColliding(this.palet, cage.getInside(), this.palet.prevPos)){
+            if(this.RectCircleColliding(this.palet, cage.getInside(), this.palet.prevPos) && this.game.responseCage === i){
                 this.game.addScore();
+                this.game.getQuestion();
             }
+            ++i;
         }
         if(Math.abs(this.palet.x - 0) < this.palet.radius) { // collision avec le bord gauche du canvas
             this.palet.bounce("vertical");
