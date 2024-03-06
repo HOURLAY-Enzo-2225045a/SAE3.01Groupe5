@@ -9,6 +9,7 @@ import "assets/Game/Cage.js";
 import "assets/Game/Rectangle.js";
 import "assets/Game/Palet.js";
 
+/*
 // boolean qui est vrai si la souris est clicker non si elle ne l'ai pas
 let mouseIsDown = false;
 // score du joueur
@@ -44,18 +45,16 @@ let cageMid = new Cage(new Rectangle(Math.trunc(canvas.width/2)-tailleCage/2, Ma
 let cageRight = new Cage(new Rectangle(Math.trunc(canvas.width*(8/10))-tailleCage/2, Math.trunc(canvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
 
 // objet qui représente la balle
-/*
 let ball = {
     x: Math.trunc(canvas.width/2), // position x de la balle
     y: Math.trunc(canvas.height*(5/10)), // position y de la balle
     r: Math.trunc(cageMid.fond.width/8), // rayon de la balle
     v: 10 // vitesse de la balle en pixel
 };
-*/
 let ball = new Palet(Math.trunc(canvas.width/2), Math.trunc(canvas.height*(5/10)), Math.trunc(cageMid.fond.width/8), 10)
 let newX = ball.x; // nouvelle position x de la balle après interaction (drag & drop)
 let newY = ball.y; // nouvelle position y de la balle après interaction (drag & drop)
-
+*/
 /**
  * Permets de détecter le redimensionnement de la page
  * et d'adapter la taille du canvas
@@ -81,6 +80,7 @@ function resizeCanvas() {
 // Gestion du redimensionnement de la fenêtre
 window.addEventListener("resize", resizeCanvas);
 
+/*
 function getMouseOrTouchPos(canvas, event) {
     let rect = canvas.getBoundingClientRect();
     if (event.touches && event.touches.length > 0) {
@@ -109,6 +109,7 @@ window.addEventListener("mousemove", (e) => {
         newY = (ball.y - (pos.y - ball.y));
     }
 });
+*/
 
 // Fonction pour gérer le mouvement tactile
 window.addEventListener("touchmove", (e) => {
