@@ -14,18 +14,26 @@ class SessionRepository extends AbstractRepository
         parent::__construct();
     }
 
-    public function addSessionPlayer($pseudo, $code): false|string
+    public function addSessionPlayer($pseudo,$mail ,$code): false|string
     {
-        $query = 'INSERT INTO SESSION (pseudo, code) VALUES (:pseudo, :code)';
+        $query1 = 'INSERT INTO MAILS (MAIL ) VALUES (:mail )';
+        $statement = $this->connexion->prepare($query1);
+        $statement->execute([
+            'mail' => $mail
+        ]);
+
+        $query = 'INSERT INTO SESSION (pseudo, code,MAIL) VALUES (:pseudo,:code, :mail)';
         $statement = $this->connexion->prepare($query);
         $statement->execute([
             'pseudo' => $pseudo,
-            'code' => $code
+            'code' => $code,
+            'mail' => $mail
         ]);
         $lastInsertedId = $this->connexion->lastInsertId();
+
+
         return $lastInsertedId;
     }
-
     public function deleteSession(){
         $query = 'DELETE FROM SESSION';
         $statement = $this->connexion->prepare($query);
@@ -118,6 +126,14 @@ class SessionRepository extends AbstractRepository
         if ($statement->rowCount() === 0) {
             throw new NotFoundException('Aucun USER trouvé');
         }
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    public function getMailAndPseudoOfHighestScore(){
+        $query = 'SELECT pseudo, mail FROM SESSION WHERE SCORE = (SELECT MAX(SCORE) FROM SESSION)';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute();
         $data = $statement->fetch(PDO::FETCH_ASSOC);
         return $data;
     }

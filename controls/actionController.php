@@ -5,11 +5,11 @@ namespace Controls;
 require __DIR__ . '/../vendor/autoload.php';
 
 // Utiliser un tableau pour stocker les instances des contrôleurs
-$questionsController = new QuestionsController();
-$spartiatesController = new SpartiatesController();
-$usersController = new UsersController();
-$codesController = new CodesController();
-$sessionController = new SessionController();
+$questionsController = new \Controls\QuestionsController();
+$spartiatesController = new \Controls\SpartiatesController();
+$usersController = new \Controls\UsersController();
+$codesController = new \Controls\CodesController();
+$sessionController = new \Controls\SessionController();
 
 if (!isset($_SESSION)) {
     session_start();
@@ -17,27 +17,27 @@ if (!isset($_SESSION)) {
 $actionsMapping = [
     'logIn' => ['fields' => ['pseudo', 'password'], 'controller' => $usersController, 'success' => ['success' => true, 'url' => '/users'], 'error' => ['success' => false, 'error' => 'Identifiant ou mot de passe incorrect'], 'adminOnly' => false, 'needResponse' => true],
     'checkSessionCode' => ['fields' => ['code'], 'controller' => $codesController, 'success' => ['success' => true, 'url' => '/pseudo'], 'error' => ['success' => false, 'error' => 'code incorrect'], 'adminOnly' => false, 'needResponse' => true],
-    'createSpartiate' => ['fields' => ['lastName', 'name'], 'controller' => $spartiatesController, 'redirect' => '/spartiates', 'adminOnly' => true],
-    'createQuestion' => ['fields' => ['text', 'level', 'true', 'false1', 'false2'], 'controller' => $questionsController, 'redirect' => '/questions', 'adminOnly' => true],
-    'deleteUser' => ['idField' => 'id', 'controller' => $sessionController, 'redirect' => '/users', 'adminOnly' => true],
-    'deleteQuestion' => ['idField' => 'id', 'controller' => $questionsController, 'redirect' => '/questions', 'adminOnly' => true],
-    'deleteSpartiate' => ['idField' => 'id', 'controller' => $spartiatesController, 'redirect' => '/spartiates', 'adminOnly' => true],
-    'updateQuestion' => ['idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'], 'controller' => $questionsController, 'redirect' => '/questions', 'adminOnly' => true],
-    'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'], 'controller' => $spartiatesController, 'redirect' => '/spartiates', 'adminOnly' => true],
-    'changeStar' => ['fields' => ['spartiateId'], 'controller' => $spartiatesController, 'adminOnly' => true],
-    'searchQuestion' => ['fields' => ['searchTerm'], 'controller' => $questionsController, 'adminOnly' => true],
-    'searchSpartiate' => ['fields' => ['searchTerm'], 'controller' => $spartiatesController, 'adminOnly' => true],
-    'start' => ['controller' => $codesController, 'adminOnly' => true],
-    'stop' => ['controller' => $codesController, 'adminOnly' => true],
-    'addSessionPlayer' => ['fields' => ['pseudo'], 'controller' => $sessionController, 'redirect' => '/play', 'adminOnly' => false],
-    'showRanking' => ['controller' => $sessionController, 'adminOnly' => true],
-    'addScore' => ['fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false],
-    'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true],
-    'getRandomQuestion' => ['controller' => $questionsController, 'adminOnly' => false],
-    'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false],
-    'showEndGame' => ['controller' => $sessionController, 'adminOnly' => false],
-    'showScore' => ['controller' => $sessionController, 'adminOnly' => false],
-    'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false],
+    'createSpartiate' => ['fields' => ['lastName', 'name'],                     'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+    'createQuestion' => [ 'fields' => ['text', 'level', 'true', 'false1', 'false2'],'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'deleteUser' => [     'idField' => 'id',                                    'controller' => $sessionController,        'redirect' => '/users', 'adminOnly' => true     ],
+    'deleteQuestion' => ['idField' => 'id',                                    'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'deleteSpartiate' => ['idField' => 'id',                                    'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+    'updateQuestion' => [ 'idField' => 'id', 'fields' => ['text', 'level', 'true', 'false1', 'false2'],     'controller' => $questionsController,   'redirect' => '/questions', 'adminOnly' => true ],
+    'updateSpartiate' => ['idField' => 'id', 'fields' => ['lastName', 'name'],  'controller' => $spartiatesController,  'redirect' => '/spartiates', 'adminOnly' => true],
+    'changeStar' => [     'fields' => ['spartiateId'],                          'controller' => $spartiatesController , 'adminOnly' => true                             ],
+    'searchQuestion' => [ 'fields' => ['searchTerm'],                           'controller' => $questionsController   , 'adminOnly' => true                            ],
+    'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                              ],
+    'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                                   ],
+    'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                                   ],
+    'addSessionPlayer' => ['fields' => ['pseudo','mail'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
+    'showRanking' => ['controller' => $sessionController, 'adminOnly' => true ],
+    'addScore' => [ 'fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
+    'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true ],
+    'getRandomQuestion' => ['controller' => $questionsController, 'adminOnly' => false ],
+    'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'showEndGame' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
+    'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
     'stopWS' => ['webSocketMessage' => 'stop', 'adminOnly' => true],
 ];
 
@@ -56,9 +56,10 @@ function handleAction($actionsMapping)
         }
 
         // Vérifier la présence des champs requis pour les actions avec POST
+
         if (isset($mapping['fields'])) {
             foreach ($mapping['fields'] as $field) {
-                if (empty($postData[$field])) {
+                if (empty($postData[$field]) && $field != 'mail' ) {
                     echo "Champ $field manquant";
                     return;
                 }

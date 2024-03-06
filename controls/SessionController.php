@@ -19,9 +19,10 @@ class SessionController
         $this->repository = new \Repository\SessionRepository();
     }
 
-    public function addSessionPlayer($pseudo){
-        $_SESSION['id'] = $this->repository->addSessionPlayer($pseudo, $_SESSION['code']);
+    public function addSessionPlayer($pseudo , $mail){
+        $_SESSION['id'] = $this->repository->addSessionPlayer($pseudo, $mail,$_SESSION['code']);
         $_SESSION['pseudo'] = $pseudo;
+        $_SESSION['mail'] = $mail;
     }
 
     public function showRanking(): void
