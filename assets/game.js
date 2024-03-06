@@ -94,13 +94,15 @@ function getMouseOrTouchPos(canvas, event) {
             y: event.clientY - rect.top
         };
     }
-}
+}*/
+
 /**
  * Permets de détecter les mouvements de la souris
  * et de faire que le ballon suit la souris si la souris est clicker
  * @param {*} e
  * @deprecated remplacer la balle qui suit la souris par une flèche qui indique la direction de la balle
  */
+/*
 // Fonction pour gérer le mouvement de la souris
 window.addEventListener("mousemove", (e) => {
     if (mouseIsDown) {
@@ -124,6 +126,7 @@ window.addEventListener("touchmove", (e) => {
  * Permets de détecter le click de la souris
  * l'action n'est pris en compte que si la souris est sur le ballon
  */
+/*
 // Fonction pour gérer le clic de la souris
 window.addEventListener("mousedown", (e) => {
     let pos = getMouseOrTouchPos(canvas, e);
@@ -132,6 +135,7 @@ window.addEventListener("mousedown", (e) => {
         mouseIsDown = true;
     }
 });
+*/
 
 // Fonction pour gérer le début du toucher
 window.addEventListener("touchstart", (e) => {
@@ -147,6 +151,7 @@ window.addEventListener("touchstart", (e) => {
  * Permets de détecter le relâchement de la souris
  * si la souris est clicker alors, on calcule la nouvelle position de la balle
  */
+/*
 // Fonction pour gérer le relâchement de la souris
 window.addEventListener("mouseup", (e) => {
     if (mouseIsDown) {
@@ -156,6 +161,8 @@ window.addEventListener("mouseup", (e) => {
     }
     mouseIsDown = false;
 });
+*/
+ */
 
 // Fonction pour gérer la fin du toucher
 window.addEventListener("touchend", (e) => {
@@ -168,94 +175,95 @@ window.addEventListener("touchend", (e) => {
     mouseIsDown = false;
 });
 
-/**
- * Permets de dessiner un cercle sur le canvas
- * @param {*} circle prend en paramètre un objet de type : {x:Number, y:Number, r:Number}
- * @param {*} color prend un string de la couleur
- */
-function drawBall(circle,color) {
-    ctx.beginPath();
-    ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI*2);
-    ctx.fillStyle = color;
-    ctx.fill();
-    ctx.closePath();
-}
 
-/**
- * Permet de dessiner un rectangle sur le canvas
- * @param {object} rect prend en paramètre un objet de type : {x:Number, y:Number, width:Number, height:Number}
- * @param {string} color prend un string de la couleur
- */
-function drawRectangle(rect,color,context){
-    context.beginPath();
-    context.rect(rect.x, rect.y, rect.width, rect.height);
-    context.fillStyle = color;
-    context.fill();
-    context.closePath();
-}
-
-/**
- * Permet de dessiner la cage sur le canvas
- */
-function drawCage(cage,context) {
-    // poteau gauche
-    drawRectangle(cage.poteauGauche, cage.poteauGauche.color,context);
-    //poteau droit
-    drawRectangle(cage.poteauDroite, cage.poteauDroite.color,context);
-    // fonde la cage
-    drawRectangle(cage.fond, cage.fond.color,context);
-}
-
-/**
- * Permet de calculer la norme d'un vecteur
- * @param xA
- * @param yA
- * @param xB
- * @param yB
- * @returns {number}
- */
-function Norm(xA,yA,xB,yB) {
-    return Math.sqrt(Math.pow(xB-xA,2)+Math.pow(yB-yA,2));
-}
-
-/**
- * Permet de dessiner une flèche sur le canvas
- * @param xA
- * @param yA
- * @param xB
- * @param yB
- * @param ArrowLength
- * @param ArrowWidth
- */
-function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
-    if (ArrowLength === undefined) {ArrowLength=10;}
-    if (ArrowWidth === undefined) {ArrowWidth=8;}
-    ctx.lineCap="round";
-    // Calculs des coordonnées des points C, D et E
-    AB=Norm(xA,yA,xB,yB);
-    xC=xB+ArrowLength*(xA-xB)/AB;yC=yB+ArrowLength*(yA-yB)/AB;
-    xD=xC+ArrowWidth*(-(yB-yA))/AB;yD=yC+ArrowWidth*((xB-xA))/AB;
-    xE=xC-ArrowWidth*(-(yB-yA))/AB;yE=yC-ArrowWidth*((xB-xA))/AB;
-    // et on trace le segment [AB], et sa flèche :
-    ctx.beginPath();
-    ctx.moveTo(xA,yA);ctx.lineTo(xB,yB);
-    ctx.moveTo(xD,yD);ctx.lineTo(xB,yB);ctx.lineTo(xE,yE);
-    ctx.stroke();
-}
-
-/**
- * Permet de dessiner le texte de la réponse sur le canvas
- * @param {string} txt : texte à afficher
- * @param {number} x : position x du texte
- * @param {number} y : position y du texte
- * @param {string} color : couleur du texte
- */
-function drawText(txt, x, y, color,context){
-    context.font = tailleCage/5 +"px Arial";
-    context.fillStyle = color;
-    context.textAlign = "center";
-    context.fillText(txt,x,y);
-}
+// /**
+//  * Permets de dessiner un cercle sur le canvas
+//  * @param {*} circle prend en paramètre un objet de type : {x:Number, y:Number, r:Number}
+//  * @param {*} color prend un string de la couleur
+//  */
+// function drawBall(circle,color) {
+//     ctx.beginPath();
+//     ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI*2);
+//     ctx.fillStyle = color;
+//     ctx.fill();
+//     ctx.closePath();
+// }
+//
+// /**
+//  * Permet de dessiner un rectangle sur le canvas
+//  * @param {object} rect prend en paramètre un objet de type : {x:Number, y:Number, width:Number, height:Number}
+//  * @param {string} color prend un string de la couleur
+//  */
+// function drawRectangle(rect,color,context){
+//     context.beginPath();
+//     context.rect(rect.x, rect.y, rect.width, rect.height);
+//     context.fillStyle = color;
+//     context.fill();
+//     context.closePath();
+// }
+//
+// /**
+//  * Permet de dessiner la cage sur le canvas
+//  */
+// function drawCage(cage,context) {
+//     // poteau gauche
+//     drawRectangle(cage.poteauGauche, cage.poteauGauche.color,context);
+//     //poteau droit
+//     drawRectangle(cage.poteauDroite, cage.poteauDroite.color,context);
+//     // fonde la cage
+//     drawRectangle(cage.fond, cage.fond.color,context);
+// }
+//
+// /**
+//  * Permet de calculer la norme d'un vecteur
+//  * @param xA
+//  * @param yA
+//  * @param xB
+//  * @param yB
+//  * @returns {number}
+//  */
+// function Norm(xA,yA,xB,yB) {
+//     return Math.sqrt(Math.pow(xB-xA,2)+Math.pow(yB-yA,2));
+// }
+//
+// /**
+//  * Permet de dessiner une flèche sur le canvas
+//  * @param xA
+//  * @param yA
+//  * @param xB
+//  * @param yB
+//  * @param ArrowLength
+//  * @param ArrowWidth
+//  */
+// function drawArrow (xA,yA,xB,yB,ArrowLength,ArrowWidth) {
+//     if (ArrowLength === undefined) {ArrowLength=10;}
+//     if (ArrowWidth === undefined) {ArrowWidth=8;}
+//     ctx.lineCap="round";
+//     // Calculs des coordonnées des points C, D et E
+//     AB=Norm(xA,yA,xB,yB);
+//     xC=xB+ArrowLength*(xA-xB)/AB;yC=yB+ArrowLength*(yA-yB)/AB;
+//     xD=xC+ArrowWidth*(-(yB-yA))/AB;yD=yC+ArrowWidth*((xB-xA))/AB;
+//     xE=xC-ArrowWidth*(-(yB-yA))/AB;yE=yC-ArrowWidth*((xB-xA))/AB;
+//     // et on trace le segment [AB], et sa flèche :
+//     ctx.beginPath();
+//     ctx.moveTo(xA,yA);ctx.lineTo(xB,yB);
+//     ctx.moveTo(xD,yD);ctx.lineTo(xB,yB);ctx.lineTo(xE,yE);
+//     ctx.stroke();
+// }
+//
+// /**
+//  * Permet de dessiner le texte de la réponse sur le canvas
+//  * @param {string} txt : texte à afficher
+//  * @param {number} x : position x du texte
+//  * @param {number} y : position y du texte
+//  * @param {string} color : couleur du texte
+//  */
+// function drawText(txt, x, y, color,context){
+//     context.font = tailleCage/5 +"px Arial";
+//     context.fillStyle = color;
+//     context.textAlign = "center";
+//     context.fillText(txt,x,y);
+// }
 
 /**
  * Permet de détecter si un cercle et un rectangle donné en paramètre sont en collision
@@ -311,34 +319,34 @@ function collisionManager(){
     }
 }
 
-/**
- * Permet de gérer les rebonds de la balle
- * vérifie si la balle est en collision avec un des éléments de la cage
- * si oui alors, on inverse la direction de la balle
- * en calculant la nouvelle position de la balle
- */
-function bounceManager(cage){
-    if(RectCircleColliding(ball,cage.fond)) { // collision avec le fond de la cage
-        newX = ball.x + (newX- ball.x);
-        newY = ball.y - (newY - ball.y);
-    }
-    if(RectCircleColliding(ball,cage.poteauGauche) || RectCircleColliding(ball,cage.poteauDroite)) { // collision avec un des poteaux de la cage
-        if(ball.y > cage.poteauGauche.y+cage.poteauGauche.height){
-            newX = ball.x + (newX- ball.x);
-            newY = ball.y - (newY - ball.y);
-        } else{
-            newX = ball.x - (newX- ball.x);
-            newY = ball.y + (newY - ball.y);
-        }
-    }
-    if(Math.abs(ball.x - 0) < ball.r || Math.abs(ball.x - canvas.width) < ball.r){ // collision avec les bords gauche et droite du canvas
-        newX = ball.x - (newX- ball.x);
-        newY = ball.y + (newY - ball.y);
-    } else if(Math.abs(ball.y - 0) < ball.r || Math.abs(ball.y - canvas.height) < ball.r){ // collision avec les bords haut et bas du canvas
-        newX = ball.x + (newX- ball.x);
-        newY = ball.y - (newY - ball.y);
-    }
-}
+// /**
+//  * Permet de gérer les rebonds de la balle
+//  * vérifie si la balle est en collision avec un des éléments de la cage
+//  * si oui alors, on inverse la direction de la balle
+//  * en calculant la nouvelle position de la balle
+//  */
+// function bounceManager(cage){
+//     if(RectCircleColliding(ball,cage.fond)) { // collision avec le fond de la cage
+//         newX = ball.x + (newX- ball.x);
+//         newY = ball.y - (newY - ball.y);
+//     }
+//     if(RectCircleColliding(ball,cage.poteauGauche) || RectCircleColliding(ball,cage.poteauDroite)) { // collision avec un des poteaux de la cage
+//         if(ball.y > cage.poteauGauche.y+cage.poteauGauche.height){
+//             newX = ball.x + (newX- ball.x);
+//             newY = ball.y - (newY - ball.y);
+//         } else{
+//             newX = ball.x - (newX- ball.x);
+//             newY = ball.y + (newY - ball.y);
+//         }
+//     }
+//     if(Math.abs(ball.x - 0) < ball.r || Math.abs(ball.x - canvas.width) < ball.r){ // collision avec les bords gauche et droite du canvas
+//         newX = ball.x - (newX- ball.x);
+//         newY = ball.y + (newY - ball.y);
+//     } else if(Math.abs(ball.y - 0) < ball.r || Math.abs(ball.y - canvas.height) < ball.r){ // collision avec les bords haut et bas du canvas
+//         newX = ball.x + (newX- ball.x);
+//         newY = ball.y - (newY - ball.y);
+//     }
+// }
 
 // a: actuel {x, y}; n: arrivé {x, y}; v vitesse pixel
 /**
