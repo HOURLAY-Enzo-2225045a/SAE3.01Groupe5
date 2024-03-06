@@ -45,6 +45,14 @@ class CodesController
     }
     public function stop(){
         $this->repository->stop();
+        $sessionRepo = new \Repository\SessionRepository();
+        $data = $sessionRepo->getMailAndPseudoOfHighestScore();
+        $to = $data['mail'];
+        $who = $data['pseudo'];
+        $subject = 'Jeu Spartiate';
+        $headers = 'De: Spartiates <jeuspartiates@alwaysdata.net>' . "\r\n";
+        $message = 'Bonjour '.$who.' vous avez fait le meilleur score gardez ce mail pour récupérer votre prix';
+        mail($to, $subject, $message, $headers);
         echo 'Pas de session en cours';
     }
 

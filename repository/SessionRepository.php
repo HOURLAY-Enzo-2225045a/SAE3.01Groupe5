@@ -130,5 +130,13 @@ class SessionRepository extends AbstractRepository
         return $data;
     }
 
+    public function getMailAndPseudoOfHighestScore(){
+        $query = 'SELECT pseudo, mail FROM SESSION WHERE SCORE = (SELECT MAX(SCORE) FROM SESSION)';
+        $statement = $this->connexion->prepare($query);
+        $statement->execute();
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
 
 }
