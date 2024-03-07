@@ -13,7 +13,9 @@ export class Game {
         this.leftCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width * (2 / 10)) - tailleCage / 2, Math.trunc(tmpCanvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
         this.midCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width / 2) - tailleCage / 2, Math.trunc(tmpCanvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
         this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width * (8 / 10)) - tailleCage / 2, Math.trunc(tmpCanvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
-        this.palet = new Palet(Math.trunc(tmpCanvas.width / 2), Math.trunc(tmpCanvas.height * (5 / 10)), Math.trunc(this.midCage.getBack().width / 8), 10, tmpCanvas);
+        this.palet = new Palet(Math.trunc(tmpCanvas.width / 2),
+            Math.trunc(tmpCanvas.height * (7 / 10)),
+            Math.trunc(this.midCage.getBack().width / 8), 10, tmpCanvas);
         this.collisionManager = new CollisionManager(this.canvasManager.getCanvas(), this.palet, [this.leftCage, this.midCage, this.rightCage], this);
         this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas(), this);
         this.score = 0;
@@ -65,6 +67,8 @@ export class Game {
      * Démarre le jeu
      */
     start() {
+        document.getElementById("tutorial-hand").style.display = "none";
+
         this.isInActiveSession();
         if (sessionStorage.getItem("question") !== null) {
             this.responseCage = parseInt(sessionStorage.getItem("randCage"));
@@ -88,28 +92,59 @@ export class Game {
         window.addEventListener('touchstart', (e) => this.eventManager.handleMouseDown(e));
         window.addEventListener('touchend', (e) => this.eventManager.handleTouchEnd(e));
         window.addEventListener('touchmove', (e) => this.eventManager.handleMouseMove(e));
-        // window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
+        this.eventManager.handleOrientation();
+        // Gestion du changement de taille de la fenêtre
+        window.addEventListener('orientationchange', (e) => this.eventManager.handleOrientation());
+        window.addEventListener('resize',  (e) => this.eventManager.handleOrientation());
+
+        this.drawImage(this.leftCage.back.x, this.leftCage.back.y, this.leftCage.back.width, this.leftCage.leftPole.height);
+        this.drawImage(this.midCage.back.x, this.midCage.back.y, this.midCage.back.width, this.midCage.leftPole.height);
+        this.drawImage(this.rightCage.back.x, this.rightCage.back.y, this.rightCage.back.width, this.rightCage.leftPole.height);
 
         // Boucle de jeu
         setInterval(() => {
-            this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
-            this.palet.draw(this.canvasManager.getCtx()); //drawBall(ball,"#0095DD");
-            this.leftCage.draw(this.canvasManager.getCtx());
+            this.canvasManager.clear();
+            this.canvasManager.drawStatic();
+            this.palet.draw(this.canvasManager.getCtx());
+            /*this.leftCage.draw(this.canvasManager.getCtx());
             this.midCage.draw(this.canvasManager.getCtx());
-            this.rightCage.draw(this.canvasManager.getCtx());// ctx.drawImage(staticCanvas, 0, 0);
+            this.rightCage.draw(this.canvasManager.getCtx());*/
             // Gestion du déplacement du palet
             if (this.eventManager.getMouseIsDown()) {
-                this.drawArrow(this.palet.x, this.palet.y, this.palet.newX, this.palet.newY);// drawArrow(ball.x,ball.y,newX,newY);
+                this.drawArrow(this.palet.x, this.palet.y, this.palet.newX, this.palet.newY);
             }
-            if (this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()) {//getMouseIsDown?
+            if (this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()) {
                 this.palet.resetPrevPos();
                 if (this.palet.move()) {
                     this.palet.resetPos();
                 }
             }
             this.collisionManager.handleCollisions();
-
         }, 10);
+    }
+
+    /**
+     * Dessine une image dans le canvas statique
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
+    drawImage(x, y, w, h) {
+        let image = new Image();
+        image.src = "/assets/images/hockeyCage.png";
+        let canvas = this.canvasManager.getStaticCanvas();
+        let ctx = this.canvasManager.getStaticCtx();
+        image.onload = function () {
+            // Vérifie que l'image est dans la zone de dessin du canvas
+            if (image.width > canvas.width || image.height > canvas.height) {
+                // Déplace l'image à l'intérieur de la zone de dessin
+                image.x = (canvas.width - image.width) / 2;
+                image.y = (canvas.height - image.height) / 2;
+            }
+            // Dessine l'image
+            ctx.drawImage(image, x, y, w, h);
+        }
     }
 
     /**

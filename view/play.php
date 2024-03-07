@@ -27,6 +27,9 @@
 <a href="/home" class="absolute left-5 top-0 w-20 h-20">
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
+<a onclick="animationHelper()" class="absolute left-[10%] top-0 w-16 h-16">
+    <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/questionMark.svg" alt="Delete">
+</a>
 <div class="h-[20%] bg-customBlue w-full flex flex-col p-5" id="top">
     <div class="items-center text-3xl text-black text-right">
         <label>Score :</label>
@@ -63,5 +66,29 @@
         Retour à l'accueil
     </a>
 </div>
+<div class="absolute w-full h-full z-50 top-0 bg-customBlueDark opacity-100 flex flex-col items-center justify-center space-y-5 text-white"
+     id="blockLandscape" style="display: none">
+    <h1>Tournez votre téléphone</h1>
+</div>
+<div id="tutorial-hand" class="hand-animation absolute left-[50%] bottom-[20%]" style="display: none"></div>
+    <style>
+        .hand-animation {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('/assets/images/hand.png'); /* Remplacez 'hand.png' par le chemin de votre image de main */
+            background-size: cover;
+            animation: handAnimation 2.5s infinite;
+        }
+
+        @keyframes handAnimation {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(200px);
+            }
+        }
+    </style>
 </body>
 </html>

@@ -212,6 +212,15 @@ function getSessionCode() {
     });
 }
 
+function animationHelper() {
+    console.log("animationHelper")
+    if( document.getElementById('tutorial-hand').style.display === 'none'){
+        document.getElementById('tutorial-hand').style.display = 'block';
+    } else {
+        document.getElementById('tutorial-hand').style.display = 'none';
+    }
+}
+
 if (window.location.pathname === "/users") {
     getSessionCode()
     updateRanking()

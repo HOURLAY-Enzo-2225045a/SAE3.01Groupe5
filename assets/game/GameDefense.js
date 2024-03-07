@@ -18,21 +18,7 @@ export class GameDefense {
         let goalBackHeight = Math.trunc(goalSize / 15)
 
         this.goal = new Cage(
-            new Rectangle(goalBackX, goalBackY, goalBackWidth, goalBackHeight, "grey"),
-            new Rectangle(
-                goalBackX,
-                goalBackY - Math.trunc(goalBackWidth / 2),
-                goalBackHeight,
-                Math.trunc(goalBackWidth / 2),
-                "black"
-            ),
-            new Rectangle(
-                goalBackX + goalBackWidth - goalBackHeight,
-                goalBackY - Math.trunc(goalBackWidth / 2),
-                goalBackHeight,
-                Math.trunc(goalBackWidth / 2),
-                "black"
-            )
+            new Rectangle(goalBackX, goalBackY, goalBackWidth, goalBackHeight, "grey")
         );
 
         this.defender = new Palet(
@@ -129,11 +115,19 @@ export class GameDefense {
         window.addEventListener('touchstart', (e) => this.eventManager.handleMouseDown(e));
         window.addEventListener('touchend', (e) => this.eventManager.handleTouchEnd(e));
         window.addEventListener('touchmove', (e) => this.eventManager.handleMouseMove(e));
+        this.eventManager.handleOrientation();
+        // Gestion du changement de taille de la fenêtre
+        window.addEventListener('orientationchange', (e) => this.eventManager.handleOrientation());
+        window.addEventListener('resize',  (e) => this.eventManager.handleOrientation());
 
+        this.drawImage(this.goal.back.x, this.goal.back.y, this.goal.back.width, this.goal.leftPole.height);
+
+        // Boucle de jeu
         setInterval(() => {
             this.canvasManager.clear(); // ctx.clearRect(0, 0, canvas.width, canvas.height);
+            this.canvasManager.drawStatic(); // ctx.drawImage(staticCanvas, 0, 0);
 
-            this.goal.draw(this.canvasManager.getCtx());
+            //this.goal.draw(this.canvasManager.getCtx());
             this.defender.draw(this.canvasManager.getCtx());
             this.leftStriker.draw(this.canvasManager.getCtx(), "#FA5456");
             this.midleStriker.draw(this.canvasManager.getCtx(), "#FA5456");
@@ -158,6 +152,30 @@ export class GameDefense {
             this.collisionManager.handleCollisionsDefense(this.defender, this.goal, [this.leftStriker, this.midleStriker, this.rightStriker])
 
         }, 10);
+    }
+
+    /**
+     * Dessine une image dans le canvas statique
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
+    drawImage(x, y, w, h) {
+        let image = new Image();
+        image.src = "/assets/images/hockeyCage.png";
+        let canvas = this.canvasManager.getStaticCanvas();
+        let ctx = this.canvasManager.getStaticCtx();
+        image.onload = function () {
+            // Vérifie que l'image est dans la zone de dessin du canvas
+            if (image.width > canvas.width || image.height > canvas.height) {
+                // Déplace l'image à l'intérieur de la zone de dessin
+                image.x = (canvas.width - image.width) / 2;
+                image.y = (canvas.height - image.height) / 2;
+            }
+            // Dessine l'image
+            ctx.drawImage(image, x, y, w, h);
+        }
     }
 
     /**

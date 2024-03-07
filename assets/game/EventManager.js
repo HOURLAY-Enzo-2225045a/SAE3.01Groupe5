@@ -21,6 +21,7 @@ export class EventManager {
 
     handleMouseDown(e) {
         if (this.gameActive) {
+            document.getElementById("tutorial-hand").style.display = "none";
             let pos = this.getMouseOrTouchPos(e);
             if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
                 pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
@@ -56,6 +57,30 @@ export class EventManager {
         }
     }
 
+
+    // Fonction pour détecter l'orientation
+    handleOrientation() {
+        // Récupérer l'angle d'orientation
+        const orientationAngle = window.screen.orientation.angle;
+
+        // Déterminer le mode paysage ou portrait en fonction de l'angle
+        const isLandscape = Math.abs(orientationAngle) === 90;
+
+        // Faire quelque chose en fonction de l'orientation
+        if (isLandscape) {
+            // Le site est en mode paysage
+            console.log('Le site est en mode paysage.');
+            document.getElementById("blockLandscape").style.display = "flex";
+        } else {
+            // Le site est en mode portrait
+            if(document.getElementById("blockLandscape").style.display === "flex"){
+                console.log('Le site est en mode portrait.');
+                document.getElementById("blockLandscape").style.display = "none";
+                location.reload();
+            }
+        }
+    }
+
     getMouseOrTouchPos(event) {
         let rect = this.canvas.getBoundingClientRect();
         if (event.touches && event.touches.length > 0) {
@@ -70,4 +95,6 @@ export class EventManager {
             };
         }
     }
+
+
 }

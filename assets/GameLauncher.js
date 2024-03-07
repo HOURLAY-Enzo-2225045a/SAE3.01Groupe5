@@ -18,7 +18,8 @@ let staticCanvas = document.createElement('canvas');
 staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 
-canvas.style.backgroundImage = "url('/assets/images/ice.webp')";    // Ajout d'un background au canvas
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')";// ajout d'un background au canvas
+canvas.style.backgroundSize = "cover"; // ajustement du background au canvas
 
 const game = new Game(canvas, staticCanvas);
 const gameDefense = new GameDefense(canvas, staticCanvas);
@@ -31,7 +32,6 @@ if (sessionStorage.getItem("game") !== null) {
         game.start();
     }
 }
-
 
 //fonction appelée par le websocket pour changer le statut de la session
 function sessionStatus(status) {
