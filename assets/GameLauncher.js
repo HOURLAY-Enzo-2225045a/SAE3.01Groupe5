@@ -18,7 +18,6 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 
 const game = new Game(canvas,staticCanvas);
-const gameDefender = new Game(canvas,staticCanvas);
 
 game.start();
 

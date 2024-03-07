@@ -50,7 +50,6 @@ export class Game {
         this.isInActiveSession();
         if(sessionStorage.getItem("question") !== null ){
             this.responseCage = parseInt(sessionStorage.getItem("randCage"));
-            console.log(this.responseCage);
             $("#question").text(sessionStorage.getItem("question"));
             $("#rep1").text(sessionStorage.getItem("repA"));
             $("#rep2").text(sessionStorage.getItem("repB"));
@@ -110,7 +109,6 @@ export class Game {
     getQuestion() {
         this.responseCage = Math.floor(Math.random() * 3);
         let randCage = this.responseCage
-        console.log(this.responseCage);
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",

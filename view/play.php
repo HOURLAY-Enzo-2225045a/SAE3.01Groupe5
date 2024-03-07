@@ -43,13 +43,24 @@
 </div>
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 
-<div class="absolute w-[90vw] h-[90vh] z-50 right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5 text-white"
+<div class="absolute w-full h-full z-50 top-0 bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5 text-white"
      id="endGame" style="display: none">
-    <label class="text-5xl" id="pseudo"></label>
-    <span><label class="text-5xl">Score : </label>
-    <label class="text-5xl" id="scoreEnd"></label></span>
-    <span><label class="text-5xl">Classement : #</label>
-    <label class="text-5xl" id="rank"></label></span>
+    <span>
+        <label class="text-5xl">Felicitation </label>
+        <label class="text-5xl" id="pseudo"></label>
+        <label class="text-5xl">!</label>
+    </span>
+    <span>
+        <label class="text-5xl">Score : </label>
+        <label class="text-5xl" id="scoreEnd"></label>
+    </span>
+    <span>
+        <label class="text-5xl">Classement : #</label>
+        <label class="text-5xl" id="rank"></label>
+    </span>
+    <a href="/home" class="p-5 bg-customBlue rounded-xl text-4xl">
+        Retour à l'accueil
+    </a>
 </div>
 </body>
 </html>
