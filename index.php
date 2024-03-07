@@ -53,14 +53,14 @@ if ('' == $url || '/' == $url || 'home' == $url) {
 }elseif (isset($pages[$url])) {
 
     $path = 'view/' . $url . '.php';
-    //View::display($pages[$url], $path);
-    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
+    View::display($pages[$url], $path);
+    /*if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']))){
         View::display($pages[$url], $path);
     }elseif($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))){
         $_SESSION['pseudo'] = null;
         header('refresh:0;url=/sessionCode');
     }elseif($url == 'play' && empty($_SESSION['pseudo']))
-        header('refresh:0;url=/pseudo');
+        header('refresh:0;url=/pseudo');*/
 
 }elseif (isset($forms[$url])) {
     $path = 'view/forms/' . $url . '.php';
