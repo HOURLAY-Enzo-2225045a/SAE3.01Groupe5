@@ -45,10 +45,10 @@ export class Palet {
         this.newY = this.y;
     }
 
-    draw(context) {
+    draw(context, color= "#0095DD") {
+        context.fillStyle = color;
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-        context.fillStyle = "#0095DD";
         context.fill();
         context.closePath();
     }
@@ -87,6 +87,10 @@ export class Palet {
 
         // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
         return (dist.x <= this.velocity && dist.y <= this.velocity);
+    }
+
+    moveDown() {
+        this.y += this.velocity;
     }
 
     bounce(status) {

@@ -41,6 +41,7 @@
     <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep2"></label></div>
     <div class="text-center w-[29.3%]"><label class="text-3xl text-black" id="rep3"></label></div>
 </div>
+
 <canvas id="myCanvas" class="bg-gray-200 absolute top-[20%] right-1/2 translate-x-1/2"></canvas>
 
 <div class="absolute w-full h-full z-50 top-0 bg-customBlueDark opacity-95 flex flex-col items-center justify-center space-y-5 text-white"

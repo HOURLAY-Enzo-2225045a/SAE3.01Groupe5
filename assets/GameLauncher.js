@@ -1,4 +1,5 @@
 import {Game} from "./game/Game.js";
+import {GameDefense} from "./game/GameDefense.js";
 
 // pourcentage de la taille du canvas par rapport à la taille de la fenêtre
 let widthPercentage = 100;
@@ -17,9 +18,23 @@ let staticCanvas = document.createElement('canvas');
 staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 
-const game = new Game(canvas,staticCanvas);
+canvas.style.backgroundImage = "url('/assets/images/ice.webp')";    // Ajout d'un background au canvas
 
-game.start();
+const game = new Game(canvas,staticCanvas);
+const gameDefense = new GameDefense(canvas,staticCanvas);
+
+if(sessionStorage.getItem("game") !== null) {
+    let mode = sessionStorage.getItem("game");
+    if (mode === "defense") {
+        gameDefense.start();
+    } else {
+        game.start();
+    }
+}
+
+
+
+
 
 //fonction appelée par le websocket pour changer le statut de la session
 function sessionStatus(status) {
@@ -27,7 +42,6 @@ function sessionStatus(status) {
         case 'start':
             game.eventManager.gameActive = true;
             $("#endGame").hide();
-            console.log("game started");
             location.reload();
             break;
         case 'stop':

@@ -53,20 +53,23 @@ if ('' == $url || '/' == $url || 'home' == $url) {
     View::display('Home', $path);
 
 } elseif (isset($pages[$url])) {
-
     $path = 'view/' . $url . '.php';
-    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']) && !empty($_SESSION['spartiateId']))) {
+    if ($url != "play" || (!empty($_SESSION['code']) && $codesController->checkSessionCode($_SESSION['code']) && !empty($_SESSION['pseudo']) && !empty($_SESSION['spartiateId']) && !empty($_SESSION['gameMode']))) {
         View::display($pages[$url], $path);
     } elseif ($url == 'play' && (!isset($_SESSION['code']) || !$codesController->checkSessionCode($_SESSION['code']))) {
         $_SESSION['pseudo'] = null;
         $_SESSION['spartiateId'] = null;
-
+        $_SESSION['gameMode'] = null;
         header('refresh:0;url=/sessionCode');
     } elseif ($url == 'play' && empty($_SESSION['pseudo'])) {
         $_SESSION['spartiateId'] = null;
+        $_SESSION['gameMode'] = null;
         header('refresh:0;url=/pseudo');
     } elseif ($url == 'play' && empty($_SESSION['spartiateId'])) {
+        $_SESSION['gameMode'] = null;
         $spartiatesController->showChooseSpartiate();
+    } elseif ($url == 'play' && empty($_SESSION['gameMode'])) {
+        View::display('Choissisez un spartiates', 'view/chooseGameMode.php');
     }
 
 } elseif (isset($forms[$url])) {

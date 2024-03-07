@@ -95,6 +95,21 @@ $(document).ready(function(e){
         });
     });
 
+    $(document).on("click", ".chooseButton", function () {
+        let action = $(this).data("action");
+        // Effectuer la requête AJAX
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: action,
+            },
+        }).done(function (response) {
+            sessionStorage.setItem("game", response);
+            location.reload();
+        });
+    });
+
     $(document).on("click", ".actionButton", function () {
         let action = $(this).data("action");
         let id = $(this).data("id");
@@ -111,6 +126,12 @@ $(document).ready(function(e){
                 window.location.href = response;
         });
     });
+
+    $(document).on("click", ".deleteButton", function () {
+        updateRanking();
+    });
+
+
 
     $(".callActionButton").on("click", function () {
         let buttonConfirmDelete = $('.actionButton');

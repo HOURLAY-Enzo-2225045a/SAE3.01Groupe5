@@ -40,7 +40,9 @@ $actionsMapping = [
     'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
     'startWS' => ['webSocketMessage' => 'start', 'adminOnly' => true],
     'stopWS' => ['webSocketMessage' => 'stop', 'adminOnly' => true],
-    'connexionWS' => ['controller' => $wscontroller, 'adminOnly' => false]
+    'connexionWS' => ['controller' => $wscontroller, 'adminOnly' => false],
+    'chooseDefense' => ['controller' => $sessionController, 'adminOnly' => false],
+    'chooseAttack' => ['controller' => $sessionController, 'adminOnly' => false],
 ];
 
 // Fonction pour traiter les actions
