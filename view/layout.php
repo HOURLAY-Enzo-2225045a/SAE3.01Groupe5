@@ -7,7 +7,7 @@
     <title>%title%</title>
     <!--    style-->
     <link rel="stylesheet" href="/dist/output.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <script src="/dist/bundle.js"></script>
     <script src="/dist/jquery.min.js"></script>
     <script src="/assets/index.js" defer></script>
