@@ -49,6 +49,8 @@ export class Game {
     start() {
         this.isInActiveSession();
         if(sessionStorage.getItem("question") !== null ){
+            this.responseCage = parseInt(sessionStorage.getItem("randCage"));
+            console.log(this.responseCage);
             $("#question").text(sessionStorage.getItem("question"));
             $("#rep1").text(sessionStorage.getItem("repA"));
             $("#rep2").text(sessionStorage.getItem("repB"));
@@ -67,7 +69,10 @@ export class Game {
         window.addEventListener('mousedown', (e) => this.eventManager.handleMouseDown(e));
         window.addEventListener('mouseup', (e) => this.eventManager.handleMouseUp(e));
         window.addEventListener('mousemove', (e) => this.eventManager.handleMouseMove(e));
-        //window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
+        window.addEventListener('touchstart', (e) => this.eventManager.handleMouseDown(e));
+        window.addEventListener('touchend', (e) => this.eventManager.handleTouchEnd(e));
+        window.addEventListener('touchmove', (e) => this.eventManager.handleMouseMove(e));
+        // window.addEventListener('resize', (e) => this.eventManager.handleResize(e));
 
         // Boucle de jeu
         setInterval(() => {
@@ -83,7 +88,7 @@ export class Game {
             if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
                 this.palet.resetPrevPos();
                 if(this.palet.move()){
-                    this.palet.resetNewPos();
+                    this.palet.resetPos();
                 }
             }
             this.collisionManager.handleCollisions(); //collisionManager();
@@ -105,6 +110,7 @@ export class Game {
     getQuestion() {
         this.responseCage = Math.floor(Math.random() * 3);
         let randCage = this.responseCage
+        console.log(this.responseCage);
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",
@@ -116,6 +122,7 @@ export class Game {
                 let repA = (randCage === 0)? response.vrai : response.faux1;
                 let repB = (randCage === 1)? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
                 let repC = (randCage === 2)? response.vrai : response.faux2;
+                sessionStorage.setItem("randCage", randCage);
                 sessionStorage.setItem("question", response.text);
                 sessionStorage.setItem("repA", repA);
                 sessionStorage.setItem("repB", repB);
@@ -203,7 +210,6 @@ export class Game {
     }
 
     static endGame(){
-
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",

@@ -18,6 +18,7 @@ staticCanvas.width = canvas.width;
 staticCanvas.height = canvas.height;
 
 const game = new Game(canvas,staticCanvas);
+const gameDefender = new Game(canvas,staticCanvas);
 
 game.start();
 
@@ -27,6 +28,8 @@ function sessionStatus(status) {
         case 'start':
             game.eventManager.gameActive = true;
             $("#endGame").hide();
+            console.log("game started");
+            location.reload();
             break;
         case 'stop':
             game.eventManager.gameActive= false;

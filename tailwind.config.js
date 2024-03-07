@@ -6,6 +6,9 @@ module.exports = {
         'customBlue': '#00D5FF',
         'customBlueDark': '#001a3a',
       },
+      fontFamily: {
+        'sans': ['ui-sans-serif', 'Lilita One'],
+      }
     },
   },
   variants: {},

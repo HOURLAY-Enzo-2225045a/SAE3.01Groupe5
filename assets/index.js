@@ -126,6 +126,7 @@ $(document).ready(function(e){
                 action: action,
             },
         }).done(function (response) {
+            updateRanking();
             $('#code').html(response);
         });
     });
@@ -161,6 +162,7 @@ $(document).ready(function(e){
             } else {
                 sendMessage(response);
             }
+            updateRanking();
         });
     });
 

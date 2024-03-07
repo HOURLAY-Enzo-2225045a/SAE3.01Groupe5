@@ -30,7 +30,7 @@ $actionsMapping = [
     'searchSpartiate' => ['fields' => ['searchTerm'],                           'controller' => $spartiatesController, 'adminOnly' => true                              ],
     'start' => [                                                                'controller' => $codesController, 'adminOnly' => true                                   ],
     'stop' => [                                                                 'controller' => $codesController, 'adminOnly' => true                                   ],
-    'addSessionPlayer' => ['fields' => ['pseudo','mail'],                          'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
+    'addSessionPlayer' => ['fields' => ['pseudo','mail'],                       'controller' => $sessionController, 'redirect' => '/play' ,'adminOnly' => false                                ],
     'showRanking' => ['controller' => $sessionController, 'adminOnly' => true ],
     'addScore' => [ 'fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
     'getSessionCode' => ['controller' => $codesController, 'adminOnly' => true ],
@@ -38,6 +38,7 @@ $actionsMapping = [
     'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false ],
     'showEndGame' => ['fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
     'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
+    'startWS' => ['webSocketMessage' => 'start', 'adminOnly' => true],
     'stopWS' => ['webSocketMessage' => 'stop', 'adminOnly' => true],
     'connexionWS' => ['controller' => $wscontroller, 'adminOnly' => false]
 ];

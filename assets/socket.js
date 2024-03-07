@@ -27,11 +27,9 @@ socket.addEventListener('message', (event) => {
     if (messageMapping.includes(message)) {
         if(typeof window.sessionStatus === 'function')
             window.sessionStatus(message);
+    }else{
+        WSRanking(message);
     }
-    WSRanking(message);
-
-
-
 });
 
 socket.addEventListener('close', (event) => {
@@ -39,12 +37,12 @@ socket.addEventListener('close', (event) => {
 });
 
 function sendMessage(message) {
-    if(message === "stop"){
+    console.log('Envoi du message:', message);
+    if(message === "stop" || message === "start") {
         const JsonMessage = {
             action: 'resetScore',
         };
         socket.send(JSON.stringify(JsonMessage));
-
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",
@@ -52,7 +50,6 @@ function sendMessage(message) {
                 action: message,
             },
         }).done(function (response) {
-            console.log("modif de code socvket")
             $('#code').html(response);
         });
     }

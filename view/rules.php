@@ -2,7 +2,7 @@
     <img class="p-2 w-sm h-sm bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 
-<div class="m-10">
+<div class="m-10 ">
     <h1 class="titlePage text-center">
         <span class="text-black">Les</span> règles du jeu
     </h1>
@@ -33,7 +33,7 @@
             <!-- Item 4 -->
             <div class="overflow-auto hidden duration-700 ease-in-out" data-carousel-item>
                 <span class="w-full absolute top-0 left-1/2 text-3xl font-semibold text-gray-800 -translate-x-1/2 text-center">
-
+                    <?php echo file_get_contents('view/rules/offSide.php') ?>
                 </span>
             </div>
         </div>

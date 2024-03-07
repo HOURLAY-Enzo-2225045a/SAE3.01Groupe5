@@ -38,6 +38,15 @@ export class EventManager {
         this.mouseIsDown = false;
     }
 
+    handleTouchEnd(e) {
+        if (this.mouseIsDown) {
+            let pos = this.getMouseOrTouchPos(e.changedTouches[0]);
+            this.palet.newX = this.palet.x + ((this.palet.x - pos.x) * 5);
+            this.palet.newY = this.palet.y - ((pos.y - this.palet.y) * 5);
+        }
+        this.mouseIsDown = false;
+    }
+
     handleMouseMove(e) {
         if (this.mouseIsDown) {
             let pos = this.getMouseOrTouchPos(e);
@@ -47,17 +56,17 @@ export class EventManager {
         }
     }
 
-    getMouseOrTouchPos(e) {
+    getMouseOrTouchPos(event) {
         let rect = this.canvas.getBoundingClientRect();
-        if (e.touches && e.touches.length > 0) {
+        if (event.touches && event.touches.length > 0) {
             return {
-                x: e.touches[0].clientX - rect.left,
-                y: e.touches[0].clientY - rect.top
+                x: event.touches[0].clientX - rect.left,
+                y: event.touches[0].clientY - rect.top
             };
         } else {
             return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top
             };
         }
     }

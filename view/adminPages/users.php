@@ -13,15 +13,15 @@
     </h1>
     <div class="w-full flex justify-center items-center text-4xl"><h2 class="bg-customBlue p-5 rounded-xl" id="code"></h2>
     </div>
-    <div class="w-full flex flex-row justify-center items-center">
-        <a class="button cursor-pointer sessionAction" data-action="start">Demarrer</a>
-        <a class="button cursor-pointer buttonWS" data-action="stopWS">Stop</a>
+    <div class="md:px-5 lg:w-full flex flex-row justify-center items-center">
+        <a class="bg-white lg:w-1/3 md:w-full md:h-[8vh] py-8 md:py-6 drop-shadow-xl md:text-4xl lg:text-xl my-4 mx-1 rounded-lg flex justify-center items-center cursor-pointer buttonWS" data-action="startWS">Demarrer</a>
+        <a class="bg-white lg:w-1/3 md:w-full md:h-[8vh] py-8 md:py-6 drop-shadow-xl md:text-4xl lg:text-xl my-4 mx-1 rounded-lg flex justify-center items-center cursor-pointer buttonWS" data-action="stopWS">Stop</a>
         <!--    <a class="sessionAction" data-action="reset">Reinitialiser</a>-->
     </div>
 
-    <div class="w-full flex flex-row justify-center items-center">
-        <a class="blueButton" href='/spartiates'>Sportifs</a>
-        <a class="blueButton" href='/questions'>Questions</a>
+    <div class="md:px-5 lg:w-full flex flex-row justify-center items-center">
+        <a class="bg-customBlue lg:w-1/3 md:w-full md:h-[8vh] py-8 md:py-6 drop-shadow-xl md:text-4xl lg:text-xl my-4 mx-1 rounded-lg flex justify-center items-center cursor-pointer" href='/spartiates'>Sportifs</a>
+        <a class="bg-customBlue lg:w-1/3 md:w-full md:h-[8vh] py-8 md:py-6 drop-shadow-xl md:text-4xl lg:text-xl my-4 mx-1 rounded-lg flex justify-center items-center cursor-pointer" href='/questions'>Questions</a>
     </div>
 
     <div class="container mx-auto px-4 py-8">
