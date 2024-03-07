@@ -6,7 +6,7 @@
  * @param {Number} height : hauteur du rectangle
  * @param {String} color : couleur du rectangle
  */
-export class Rectangle{
+export class Rectangle {
     constructor(x, y, width, height, color) {
         this.x = x;
         this.y = y;
@@ -15,7 +15,7 @@ export class Rectangle{
         this.color = color;
     }
 
-    draw(context){
+    draw(context) {
         context.beginPath();
         context.rect(this.x, this.y, this.width, this.height);
         context.fillStyle = this.color;

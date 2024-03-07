@@ -1,5 +1,10 @@
 <?php
 
+use Controls\CodesController;
+use Controls\QuestionsController;
+use Controls\SessionController;
+use Controls\SpartiatesController;
+use Controls\UsersController;
 use View\View;
 
 require 'vendor/autoload.php';
@@ -19,11 +24,11 @@ if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1
     $_SESSION['last_activity'] = time();
 }
 
-$questionsController = new \Controls\QuestionsController();
-$spartiatesController = new \Controls\SpartiatesController();
-$usersController = new \Controls\UsersController();
-$codesController = new \Controls\CodesController();
-$sessionController = new \Controls\SessionController();
+$questionsController = new QuestionsController();
+$spartiatesController = new SpartiatesController();
+$usersController = new UsersController();
+$codesController = new CodesController();
+$sessionController = new SessionController();
 
 // Gestion des actions
 require 'controls/actionController.php';

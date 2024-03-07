@@ -20,10 +20,10 @@ staticCanvas.height = canvas.height;
 
 canvas.style.backgroundImage = "url('/assets/images/ice.webp')";    // Ajout d'un background au canvas
 
-const game = new Game(canvas,staticCanvas);
-const gameDefense = new GameDefense(canvas,staticCanvas);
+const game = new Game(canvas, staticCanvas);
+const gameDefense = new GameDefense(canvas, staticCanvas);
 
-if(sessionStorage.getItem("game") !== null) {
+if (sessionStorage.getItem("game") !== null) {
     let mode = sessionStorage.getItem("game");
     if (mode === "defense") {
         gameDefense.start();
@@ -31,9 +31,6 @@ if(sessionStorage.getItem("game") !== null) {
         game.start();
     }
 }
-
-
-
 
 
 //fonction appelée par le websocket pour changer le statut de la session
@@ -45,7 +42,7 @@ function sessionStatus(status) {
             location.reload();
             break;
         case 'stop':
-            game.eventManager.gameActive= false;
+            game.eventManager.gameActive = false;
             $("#endGame").show();
             Game.endGame("socket");
             break;

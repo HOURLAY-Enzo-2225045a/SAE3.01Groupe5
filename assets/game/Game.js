@@ -1,24 +1,42 @@
-import { Cage } from "./Cage.js";
-import { Palet } from "./Palet.js";
-import { CanvasManager } from "./CanvasManager.js";
-import { CollisionManager } from "./CollisionManager.js";
-import { EventManager } from "./EventManager.js";
-import { Rectangle } from "./Rectangle.js";
+import {Cage} from "./Cage.js";
+import {Palet} from "./Palet.js";
+import {CanvasManager} from "./CanvasManager.js";
+import {CollisionManager} from "./CollisionManager.js";
+import {EventManager} from "./EventManager.js";
+import {Rectangle} from "./Rectangle.js";
 
 export class Game {
     constructor(canvas, staticCanvas) {
-        this.canvasManager = new CanvasManager(canvas,staticCanvas);
-        let tailleCage = Math.trunc(this.canvasManager.getCanvas().width*(2.5/10));
+        this.canvasManager = new CanvasManager(canvas, staticCanvas);
+        let tailleCage = Math.trunc(this.canvasManager.getCanvas().width * (2.5 / 10));
         var tmpCanvas = this.canvasManager.getCanvas();
-        this.leftCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(2/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-        this.midCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width/2)-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-        this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width*(8/10))-tailleCage/2, Math.trunc(tmpCanvas.height*(1/10)), tailleCage, Math.trunc(tailleCage/15), "grey"));
-        this.palet = new Palet(Math.trunc(tmpCanvas.width/2), Math.trunc(tmpCanvas.height*(5/10)), Math.trunc(this.midCage.getBack().width/8), 10, tmpCanvas);
+        this.leftCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width * (2 / 10)) - tailleCage / 2, Math.trunc(tmpCanvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+        this.midCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width / 2) - tailleCage / 2, Math.trunc(tmpCanvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+        this.rightCage = new Cage(new Rectangle(Math.trunc(tmpCanvas.width * (8 / 10)) - tailleCage / 2, Math.trunc(tmpCanvas.height * (1 / 10)), tailleCage, Math.trunc(tailleCage / 15), "grey"));
+        this.palet = new Palet(Math.trunc(tmpCanvas.width / 2), Math.trunc(tmpCanvas.height * (5 / 10)), Math.trunc(this.midCage.getBack().width / 8), 10, tmpCanvas);
         this.collisionManager = new CollisionManager(this.canvasManager.getCanvas(), this.palet, [this.leftCage, this.midCage, this.rightCage], this);
         this.eventManager = new EventManager(this.palet, this.canvasManager.getCanvas(), this);
         this.score = 0;
         this.responseCage = 0;
         this.gameActive = true
+    }
+
+    static endGame() {
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "showEndGame",
+                score: parseInt(sessionStorage.getItem("score")),
+            },
+            dataType: 'json',
+            success: function (response) {
+                $("#pseudo").text(response.pseudo);
+                $("#scoreEnd").text(response.score.toString());
+                $("#rank").text(response.rank.toString());
+                sessionStorage.setItem("score", 0);
+            }
+        });
     }
 
     /**
@@ -28,18 +46,18 @@ export class Game {
      * @param toX
      * @param toY
      */
-    drawArrow(fromX, fromY, toX, toY){
+    drawArrow(fromX, fromY, toX, toY) {
         var headlen = 10;   // length of head in pixels
-        var angle = Math.atan2(toY-fromY,toX-fromX);
+        var angle = Math.atan2(toY - fromY, toX - fromX);
         const ctx = this.canvasManager.getCtx();
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(fromX, fromY);
         ctx.lineTo(toX, toY);
-        ctx.lineTo(toX-headlen*Math.cos(angle-Math.PI/6),toY-headlen*Math.sin(angle-Math.PI/6));
+        ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
         ctx.moveTo(toX, toY);
-        ctx.lineTo(toX-headlen*Math.cos(angle+Math.PI/6),toY-headlen*Math.sin(angle+Math.PI/6));
+        ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
         ctx.stroke();
     }
 
@@ -48,18 +66,17 @@ export class Game {
      */
     start() {
         this.isInActiveSession();
-        if(sessionStorage.getItem("question") !== null ){
+        if (sessionStorage.getItem("question") !== null) {
             this.responseCage = parseInt(sessionStorage.getItem("randCage"));
             $("#question").text(sessionStorage.getItem("question"));
             $("#rep1").text(sessionStorage.getItem("repA"));
             $("#rep2").text(sessionStorage.getItem("repB"));
             $("#rep3").text(sessionStorage.getItem("repC"));
-        }
-        else {
+        } else {
             this.getQuestion();
         }
         // Récupération du score du joueur
-        if(!isNaN(parseInt(sessionStorage.getItem("score")))){
+        if (!isNaN(parseInt(sessionStorage.getItem("score")))) {
             this.score = parseInt(sessionStorage.getItem("score"));
         }
         document.getElementById("score").innerText = this.score;
@@ -84,9 +101,9 @@ export class Game {
             if (this.eventManager.getMouseIsDown()) {
                 this.drawArrow(this.palet.x, this.palet.y, this.palet.newX, this.palet.newY);// drawArrow(ball.x,ball.y,newX,newY);
             }
-            if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
+            if (this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()) {//getMouseIsDown?
                 this.palet.resetPrevPos();
-                if(this.palet.move()){
+                if (this.palet.move()) {
                     this.palet.resetPos();
                 }
             }
@@ -108,11 +125,11 @@ export class Game {
             data: {
                 action: "getRandomQuestion",
             },
-            dataType : 'json',
+            dataType: 'json',
             success: function (response) {
-                let repA = (randCage === 0)? response.vrai : response.faux1;
-                let repB = (randCage === 1)? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
-                let repC = (randCage === 2)? response.vrai : response.faux2;
+                let repA = (randCage === 0) ? response.vrai : response.faux1;
+                let repB = (randCage === 1) ? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
+                let repC = (randCage === 2) ? response.vrai : response.faux2;
                 sessionStorage.setItem("randCage", randCage);
                 sessionStorage.setItem("question", response.text);
                 sessionStorage.setItem("repA", repA);
@@ -126,7 +143,7 @@ export class Game {
         });
     }
 
-    addScore(){
+    addScore() {
         this.score += 100;
         sessionStorage.setItem("score", this.score);
         $("#score").text(this.score);
@@ -154,24 +171,6 @@ export class Game {
                 } else if (response === 'true') {
                     $("#endGame").hide();
                 }
-            }
-        });
-    }
-
-    static endGame(){
-        $.ajax({
-            type: "POST",
-            url: "/controls/actionController.php",
-            data: {
-                action: "showEndGame",
-                score : parseInt(sessionStorage.getItem("score")),
-            },
-            dataType: 'json',
-            success: function (response) {
-                $("#pseudo").text(response.pseudo);
-                $("#scoreEnd").text(response.score.toString());
-                $("#rank").text(response.rank.toString());
-                sessionStorage.setItem("score", 0);
             }
         });
     }

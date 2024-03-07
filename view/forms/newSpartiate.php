@@ -2,7 +2,8 @@
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 <div class="flex items-center justify-center w-[50%] translate-x-1/2">
-    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" id="form" method="post" enctype="multipart/form-data">
+    <form class="bg-white p-10 rounded-md drop-shadow-xl flex flex-col justify-center items-center space-y-5" id="form"
+          method="post" enctype="multipart/form-data">
         <input type="hidden" name="action" value="createSpartiate">
         <h1 id="login"> Nouveau Spartiate </h1>
         <label>Nom :<br>

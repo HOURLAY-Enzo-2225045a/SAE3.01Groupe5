@@ -3,14 +3,14 @@ import {EventManager} from "./EventManager.js";
 import {Cage} from "./Cage.js";
 import {Rectangle} from "./Rectangle.js";
 import {Palet} from "./Palet.js";
-import { CanvasManager } from "./CanvasManager.js";
+import {CanvasManager} from "./CanvasManager.js";
 
-export class GameDefense{
+export class GameDefense {
     constructor(canvas, staticCanvas) {
-        this.canvasManager = new CanvasManager(canvas,staticCanvas);
+        this.canvasManager = new CanvasManager(canvas, staticCanvas);
 
         this.canvas = canvas;
-        let goalSize = Math.trunc(canvas.width*(2.5/10)); // taille de la cage en fonction de la taille du Canva.
+        let goalSize = Math.trunc(canvas.width * (2.5 / 10)); // taille de la cage en fonction de la taille du Canva.
 
         let goalBackX = Math.trunc(canvas.width / 2) - goalSize / 2
         let goalBackY = Math.trunc(canvas.height * (9 / 10)) - goalSize / 8
@@ -21,45 +21,45 @@ export class GameDefense{
             new Rectangle(goalBackX, goalBackY, goalBackWidth, goalBackHeight, "grey"),
             new Rectangle(
                 goalBackX,
-                goalBackY - Math.trunc(goalBackWidth/2),
+                goalBackY - Math.trunc(goalBackWidth / 2),
                 goalBackHeight,
-                Math.trunc(goalBackWidth/2),
+                Math.trunc(goalBackWidth / 2),
                 "black"
             ),
             new Rectangle(
                 goalBackX + goalBackWidth - goalBackHeight,
-                goalBackY - Math.trunc(goalBackWidth/2),
+                goalBackY - Math.trunc(goalBackWidth / 2),
                 goalBackHeight,
-                Math.trunc(goalBackWidth/2),
+                Math.trunc(goalBackWidth / 2),
                 "black"
             )
         );
 
         this.defender = new Palet(
-            Math.trunc(this.canvas.width/2),
-            Math.trunc(this.canvas.height*(7/10)),
-            Math.trunc(this.goal.getBack().width/8),
+            Math.trunc(this.canvas.width / 2),
+            Math.trunc(this.canvas.height * (7 / 10)),
+            Math.trunc(this.goal.getBack().width / 8),
             10,
             this.canvas
         );
         this.leftStriker = new Palet(
             Math.trunc(this.canvas.width / 5),
             Math.trunc(this.canvas.height * (2 / 10)),
-            Math.trunc(this.goal.getBack().width/8),
+            Math.trunc(this.goal.getBack().width / 8),
             0.25,
             this.canvas
         );
         this.midleStriker = new Palet(
             Math.trunc(this.canvas.width / 2),
             Math.trunc(this.canvas.height * (2 / 10)),
-            Math.trunc(this.goal.getBack().width/8),
+            Math.trunc(this.goal.getBack().width / 8),
             0.25,
             this.canvas
         );
         this.rightStriker = new Palet(
             Math.trunc(this.canvas.width / 5) * 4,
             Math.trunc(this.canvas.height * (2 / 10)),
-            Math.trunc(this.goal.getBack().width/8),
+            Math.trunc(this.goal.getBack().width / 8),
             0.25,
             this.canvas
         );
@@ -69,36 +69,53 @@ export class GameDefense{
         this.responseStriker = 0;
     }
 
-    drawArrow(fromX, fromY, toX, toY){
+    static endGame() {
+        $.ajax({
+            type: "POST",
+            url: "/controls/actionController.php",
+            data: {
+                action: "showEndGame",
+                score: parseInt(sessionStorage.getItem("score")),
+            },
+            dataType: 'json',
+            success: function (response) {
+                $("#pseudo").text(response.pseudo);
+                $("#scoreEnd").text(response.score.toString());
+                $("#rank").text(response.rank.toString());
+                sessionStorage.setItem("score", 0);
+            }
+        });
+    }
+
+    drawArrow(fromX, fromY, toX, toY) {
         let headlen = 10;   // length of head in pixels
-        let angle = Math.atan2(toY-fromY,toX-fromX);
+        let angle = Math.atan2(toY - fromY, toX - fromX);
         const ctx = this.canvas.getContext("2d");
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(fromX, fromY);
         ctx.lineTo(toX, toY);
-        ctx.lineTo(toX-headlen*Math.cos(angle-Math.PI/6),toY-headlen*Math.sin(angle-Math.PI/6));
+        ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
         ctx.moveTo(toX, toY);
-        ctx.lineTo(toX-headlen*Math.cos(angle+Math.PI/6),toY-headlen*Math.sin(angle+Math.PI/6));
+        ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
         ctx.stroke();
     }
 
-    start(){
+    start() {
         this.isInActiveSession();
-        if(sessionStorage.getItem("question") !== null ){
+        if (sessionStorage.getItem("question") !== null) {
             this.responseStriker = parseInt(sessionStorage.getItem("randStriker"));
             $("#question").text(sessionStorage.getItem("question"));
             $("#rep1").text(sessionStorage.getItem("repA"));
             $("#rep2").text(sessionStorage.getItem("repB"));
             $("#rep3").text(sessionStorage.getItem("repC"));
-        }
-        else {
+        } else {
             this.getQuestion();
         }
 
         // Récupération du score du joueur
-        if(!isNaN(parseInt(sessionStorage.getItem("score")))){
+        if (!isNaN(parseInt(sessionStorage.getItem("score")))) {
             this.score = parseInt(sessionStorage.getItem("score"));
         }
         document.getElementById("score").innerText = this.score;
@@ -126,9 +143,9 @@ export class GameDefense{
                 this.drawArrow(this.defender.x, this.defender.y, this.defender.newX, this.defender.newY);// drawArrow(ball.x,ball.y,newX,newY);
             }
 
-            if(this.defender.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
+            if (this.defender.checkNewPos() && !this.eventManager.getMouseIsDown()) {//getMouseIsDown?
                 this.defender.resetPrevPos();
-                if(this.defender.move()){
+                if (this.defender.move()) {
                     this.defender.resetNewPos();
                 }
             }
@@ -143,8 +160,6 @@ export class GameDefense{
         }, 10);
     }
 
-
-
     /**
      * Récupère une question aléatoire et l'affiche dans le canvas
      * @note Vérifier si modification nécessaire / Ou QuestionManager ?
@@ -158,11 +173,11 @@ export class GameDefense{
             data: {
                 action: "getRandomQuestion",
             },
-            dataType : 'json',
+            dataType: 'json',
             success: function (response) {
-                let repA = (randStriker === 0)? response.vrai : response.faux1;
-                let repB = (randStriker === 1)? response.vrai : (randStriker === 2) ? response.faux2 : response.faux1;
-                let repC = (randStriker === 2)? response.vrai : response.faux2;
+                let repA = (randStriker === 0) ? response.vrai : response.faux1;
+                let repB = (randStriker === 1) ? response.vrai : (randStriker === 2) ? response.faux2 : response.faux1;
+                let repC = (randStriker === 2) ? response.vrai : response.faux2;
                 sessionStorage.setItem("randStriker", randStriker);
                 sessionStorage.setItem("question", response.text);
                 sessionStorage.setItem("repA", repA);
@@ -176,8 +191,7 @@ export class GameDefense{
         });
     }
 
-
-    addScore(){
+    addScore() {
         this.score += 100;
         sessionStorage.setItem("score", this.score);
         $("#score").text(this.score);
@@ -205,24 +219,6 @@ export class GameDefense{
                 } else if (response === 'true') {
                     $("#endGame").hide();
                 }
-            }
-        });
-    }
-
-    static endGame(){
-        $.ajax({
-            type: "POST",
-            url: "/controls/actionController.php",
-            data: {
-                action: "showEndGame",
-                score : parseInt(sessionStorage.getItem("score")),
-            },
-            dataType: 'json',
-            success: function (response) {
-                $("#pseudo").text(response.pseudo);
-                $("#scoreEnd").text(response.score.toString());
-                $("#rank").text(response.rank.toString());
-                sessionStorage.setItem("score", 0);
             }
         });
     }

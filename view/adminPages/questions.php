@@ -2,7 +2,8 @@
     <img class="p-2 bg-customBlue rounded-xl" src="/assets/images/home.svg" alt="Delete">
 </a>
 <a class="absolute right-5 top-5 w-16 h-16">
-    <img class="p-2 bg-customBlue rounded-xl actionButton cursor-pointer" src="/assets/images/deconnect.svg" data-action="deconnect" alt="deconnect">
+    <img class="p-2 bg-customBlue rounded-xl actionButton cursor-pointer" src="/assets/images/deconnect.svg"
+         data-action="deconnect" alt="deconnect">
 </a>
 <h1 class="titlePage">
     <span class="text-black">Les</span> questions
@@ -33,7 +34,8 @@
                         </a>
                         <button data-id="<?= $question->getQuestion_id() ?>"
                                 data-modal-target="deleteModalQuestion" data-modal-toggle="deleteModalQuestion"
-                                class="callActionButton inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
+                                class="callActionButton inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded"
+                                type="button">
                             <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
                         </button>
                     </div>

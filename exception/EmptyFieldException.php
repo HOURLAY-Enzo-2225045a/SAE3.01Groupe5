@@ -1,7 +1,10 @@
 <?php
+
 namespace Exception;
 
-class EmptyFieldException extends \RuntimeException
+use RuntimeException;
+
+class EmptyFieldException extends RuntimeException
 {
 
 }

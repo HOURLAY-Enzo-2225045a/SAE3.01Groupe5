@@ -25,9 +25,9 @@ socket.addEventListener('message', (event) => {
     // console.log('Message reçu:', event.data);
     const message = event.data;
     if (messageMapping.includes(message)) {
-        if(typeof window.sessionStatus === 'function')
+        if (typeof window.sessionStatus === 'function')
             window.sessionStatus(message);
-    }else{
+    } else {
         WSRanking(message);
     }
 });
@@ -38,7 +38,7 @@ socket.addEventListener('close', (event) => {
 
 function sendMessage(message) {
     // console.log('Envoi du message:', message);
-    if(message === "stop" || message === "start") {
+    if (message === "stop" || message === "start") {
         const JsonMessage = {
             action: 'resetScore',
         };

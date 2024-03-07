@@ -4,10 +4,14 @@
 <div class="flex flex-col space-y-5">
     <h1 class="text-3xl text-black text-center">Choisissez votre mode de Jeu</h1>
 
-    <div id="chooseDefense" class="chooseButton cursor-pointer flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md" data-action="chooseAttack">
+    <div id="chooseDefense"
+         class="chooseButton cursor-pointer flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md"
+         data-action="chooseAttack">
         <p class="text-3xl font-medium text-gray-800">Attaque</p>
     </div>
-    <div id="chooseAttack" class="chooseButton cursor-pointer flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md" data-action="chooseDefense">
+    <div id="chooseAttack"
+         class="chooseButton cursor-pointer flex flex-col items-center justify-center w-full p-6 bg-white border border-gray-200 rounded-lg shadow-md"
+         data-action="chooseDefense">
         <p class="text-3xl font-medium text-gray-800">Défense</p>
     </div>
 

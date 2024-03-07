@@ -1,4 +1,3 @@
-
 /**
  * Classe qui représente un palet
  *
@@ -45,17 +44,17 @@ export class Palet {
         this.newY = this.y;
     }
 
-    draw(context, color= "#0095DD") {
+    draw(context, color = "#0095DD") {
         context.fillStyle = color;
         context.beginPath();
-        context.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         context.fill();
         context.closePath();
     }
 
     move() {
-        let   s = {x:1, y:1}        // sens
-            , move = {x:1, y:1} // pixel de déplacement
+        let s = {x: 1, y: 1}        // sens
+            , move = {x: 1, y: 1} // pixel de déplacement
             , delta// delta -> pythagore
             , dist = {}     // distance entre start et end
         ;
@@ -65,25 +64,25 @@ export class Palet {
         dist.y = Math.abs(this.y - this.newY);
 
         // racine carrée de A² + B² (pythagore) → donne l'hypoténuse
-        delta = Math.sqrt((dist.x*dist.x)+(dist.y*dist.y));
+        delta = Math.sqrt((dist.x * dist.x) + (dist.y * dist.y));
 
         // ralentissement en fonction de la distance restante
         let tempV = this.velocity
         this.velocity *= delta / 1000;
 
         // règle des tiers afin d'avoir le déplacement par rapport à V et Delta
-        move.x = (dist.x*this.velocity)/delta;
-        move.y = (dist.y*this.velocity)/delta;
+        move.x = (dist.x * this.velocity) / delta;
+        move.y = (dist.y * this.velocity) / delta;
 
-        this.velocity=tempV;
+        this.velocity = tempV;
 
         // déplacement vers la gauche -1, droite 1, haut -1, bas 1
-        s.x = (this.x > this.newX)? -1: 1;
-        s.y = (this.y > this.newY)? -1: 1;
+        s.x = (this.x > this.newX) ? -1 : 1;
+        s.y = (this.y > this.newY) ? -1 : 1;
 
         // rajoute à nos coordonnées actuelles le déplacement dans le bon sens
-        this.x += move.x*s.x;
-        this.y += move.y*s.y;
+        this.x += move.x * s.x;
+        this.y += move.y * s.y;
 
         // retourne si l'objet est arrivé à son objectif -Vpx=marge d'erreur-
         return (dist.x <= this.velocity && dist.y <= this.velocity);
@@ -106,9 +105,9 @@ export class Palet {
 
         // Calcul de la normale au mur (vecteur normalisé)
         let wallNormal;
-        if(status === "vertical"){ // collision avec les bords gauche et droite du canvas
+        if (status === "vertical") { // collision avec les bords gauche et droite du canvas
             wallNormal = {x: 1, y: 0};
-        } else if(status === "horizontal"){ // collision avec les bords haut et bas du canvas
+        } else if (status === "horizontal") { // collision avec les bords haut et bas du canvas
             wallNormal = {x: 0, y: 1};
         }
 
@@ -138,11 +137,11 @@ export class Palet {
         this.newY = collisionPoint.y + reflectedVector.y
     }
 
-    bounceVertical(){
+    bounceVertical() {
         this.newX = this.x - (this.newX - this.x);
     }
 
-    bounceHorizontal(){
+    bounceHorizontal() {
         this.newY = this.y - (this.newY - this.y);
     }
 }

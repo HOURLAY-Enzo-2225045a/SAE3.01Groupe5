@@ -15,7 +15,7 @@ export class EventManager {
         this.newY = y;
     }
 
-    getMouseIsDown(){
+    getMouseIsDown() {
         return this.mouseIsDown;
     }
 

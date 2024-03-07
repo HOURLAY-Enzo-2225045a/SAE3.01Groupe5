@@ -1,4 +1,4 @@
-import { Rectangle } from "./Rectangle.js"
+import {Rectangle} from "./Rectangle.js"
 
 /**
  * Classe qui représente une cage
@@ -10,9 +10,9 @@ import { Rectangle } from "./Rectangle.js"
 export class Cage {
     constructor(back) {
         this.back = back;
-        this.leftPole = new Rectangle(back.x, back.y, back.height, Math.trunc(back.width/2), "black");
-        this.rightPole = new Rectangle(back.x+back.width-back.height, back.y, back.height, Math.trunc(back.width/2), "black");
-        this.inside = new Rectangle(back.x+back.height, back.y+back.height, back.width-back.height*2 , Math.trunc(back.width/8), "red");
+        this.leftPole = new Rectangle(back.x, back.y, back.height, Math.trunc(back.width / 2), "black");
+        this.rightPole = new Rectangle(back.x + back.width - back.height, back.y, back.height, Math.trunc(back.width / 2), "black");
+        this.inside = new Rectangle(back.x + back.height, back.y + back.height, back.width - back.height * 2, Math.trunc(back.width / 8), "red");
     }
 
     draw(context) {
@@ -24,15 +24,15 @@ export class Cage {
         this.back.draw(context);
     }
 
-    getInside(){
+    getInside() {
         return this.inside;
     }
 
-    getBack(){
+    getBack() {
         return this.back;
     }
 
-    getRects(){
+    getRects() {
         return [this.back, this.leftPole, this.rightPole];
     }
 }

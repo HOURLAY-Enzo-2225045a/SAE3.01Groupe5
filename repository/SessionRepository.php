@@ -2,7 +2,6 @@
 
 namespace Repository;
 
-use Exception\MoreThanOneException;
 use Exception\NotFoundException;
 use Model\SessionUser;
 use PDO;
@@ -14,7 +13,7 @@ class SessionRepository extends AbstractRepository
         parent::__construct();
     }
 
-    public function addSessionPlayer($pseudo,$mail ,$code): false|string
+    public function addSessionPlayer($pseudo, $mail, $code): false|string
     {
         $query1 = 'INSERT INTO MAILS (MAIL ) VALUES (:mail )';
         $statement = $this->connexion->prepare($query1);
@@ -34,13 +33,16 @@ class SessionRepository extends AbstractRepository
 
         return $lastInsertedId;
     }
-    public function deleteSession(){
+
+    public function deleteSession()
+    {
         $query = 'DELETE FROM SESSION';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
     }
 
-    public function getRanking() :  array{
+    public function getRanking(): array
+    {
         $query = 'SELECT * FROM SESSION ORDER BY SCORE DESC limit 10';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
@@ -75,7 +77,8 @@ class SessionRepository extends AbstractRepository
         ]);
     }
 
-    public function setScore($id, $score){
+    public function setScore($id, $score)
+    {
         $query = 'UPDATE SESSION SET SCORE = :score WHERE SESSION_USER_ID = :id';
         $statement = $this->connexion->prepare($query);
         $statement->execute([
@@ -103,7 +106,8 @@ class SessionRepository extends AbstractRepository
         return $data['SCORE'];
     }
 
-    public function isInSession($id){
+    public function isInSession($id)
+    {
         $query = 'SELECT * FROM SESSION WHERE SESSION_USER_ID = :id';
         $statement = $this->connexion->prepare($query);
         $statement->execute([
@@ -117,7 +121,8 @@ class SessionRepository extends AbstractRepository
         return true;
     }
 
-    public function getSessionUser($id){
+    public function getSessionUser($id)
+    {
         $query = 'SELECT pseudo, score,
        (SELECT COUNT(DISTINCT score) + 1 FROM SESSION WHERE score > t1.score) AS rank
         FROM SESSION t1
@@ -135,14 +140,14 @@ class SessionRepository extends AbstractRepository
         return $data;
     }
 
-    public function getMailAndPseudoOfHighestScore(){
+    public function getMailAndPseudoOfHighestScore()
+    {
         $query = 'SELECT pseudo, mail FROM SESSION WHERE SCORE = (SELECT MAX(SCORE) FROM SESSION)';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
-
 
 
 }

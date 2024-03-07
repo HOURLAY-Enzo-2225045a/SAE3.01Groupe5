@@ -10,11 +10,11 @@ abstract class View
 
     public static function display($title, $path, $data = null)
     {
-        if(!file_exists($path))
+        if (!file_exists($path))
             header('refresh:0;url=/404');
-        if($path == 'view/play.php') {
+        if ($path == 'view/play.php') {
             echo str_replace(['%title%'], [$title], file_get_contents($path));
-        }else {
+        } else {
 
             extract(array('data' => $data));
             ob_start();

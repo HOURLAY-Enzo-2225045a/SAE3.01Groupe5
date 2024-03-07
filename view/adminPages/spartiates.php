@@ -45,7 +45,8 @@
                         </a>
                         <button data-id="<?= $spartiate->getSpart_id() ?>"
                                 data-modal-target="deleteModalSpartiate" data-modal-toggle="deleteModalSpartiate"
-                                class="callActionButton inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded" type="button">
+                                class="callActionButton inline-block w-8 h-8 bg-red-500 hover:bg-red-700 rounded"
+                                type="button">
                             <img class="p-1" src="/assets/images/trashcan.svg" alt="Delete">
                         </button>
                     </div>

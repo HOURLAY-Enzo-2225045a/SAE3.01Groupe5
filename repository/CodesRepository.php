@@ -27,23 +27,25 @@ class CodesRepository extends AbstractRepository
 
         if ($statement->rowCount() === 0) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
-    public function isSessionCode(){
+    public function isSessionCode()
+    {
         $query = 'SELECT * FROM CODES WHERE CODE_TYPE = "SESSION"';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
-    public function start($code){
+    public function start($code)
+    {
         $query = 'INSERT INTO CODES (CODE_TYPE, CODE)
                     VALUES ("SESSION", :code)';
         $statement = $this->connexion->prepare($query);
@@ -52,13 +54,15 @@ class CodesRepository extends AbstractRepository
         ]);
     }
 
-    public function reset(){
+    public function reset()
+    {
         $query = 'DELETE FROM CODES WHERE CODE_TYPE = "SESSION"';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
     }
 
-    public function stop(){
+    public function stop()
+    {
         $query = 'UPDATE CODES SET ACTIVE = 0 WHERE CODE_TYPE = "SESSION";';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
@@ -76,7 +80,8 @@ class CodesRepository extends AbstractRepository
         return $data['CODE'];
     }
 
-    public function isActive($code){
+    public function isActive($code)
+    {
         $query = 'SELECT * FROM CODES WHERE CODE_TYPE = "SESSION" and CODE = :code and ACTIVE = 1';
         $statement = $this->connexion->prepare($query);
         $statement->execute([

@@ -14,11 +14,11 @@ export class CanvasManager {
         this.context.drawImage(this.staticCanvas, 0, 0);
     }
 
-    getCanvas(){
+    getCanvas() {
         return this.canvas;
     }
 
-    getStaticCanvas(){
+    getStaticCanvas() {
         return this.staticCanvas;
     }
 

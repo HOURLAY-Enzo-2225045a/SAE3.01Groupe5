@@ -1,5 +1,5 @@
-$(document).ready(function(e){
-    $(document).on("click", ".star", function(){
+$(document).ready(function (e) {
+    $(document).on("click", ".star", function () {
         // Toggle l'état rempli/vide de l'étoile
         let filled = !$(this).data("filled");
         $(this).data("filled", filled);
@@ -122,7 +122,7 @@ $(document).ready(function(e){
                 id: id,
             },
         }).done(function (response) {
-            if(response !== "")
+            if (response !== "")
                 window.location.href = response;
         });
     });
@@ -130,7 +130,6 @@ $(document).ready(function(e){
     $(document).on("click", ".deleteButton", function () {
         updateRanking();
     });
-
 
 
     $(".callActionButton").on("click", function () {
