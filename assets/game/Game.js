@@ -48,8 +48,15 @@ export class Game {
      */
     start() {
         this.isInActiveSession();
-        console.log("start");
-        this.getQuestion();
+        if(sessionStorage.getItem("question") !== null ){
+            $("#question").text(sessionStorage.getItem("question"));
+            $("#rep1").text(sessionStorage.getItem("repA"));
+            $("#rep2").text(sessionStorage.getItem("repB"));
+            $("#rep3").text(sessionStorage.getItem("repC"));
+        }
+        else {
+            this.getQuestion();
+        }
         // Récupération du score du joueur
         if(!isNaN(parseInt(sessionStorage.getItem("score")))){
             this.score = parseInt(sessionStorage.getItem("score"));
@@ -74,7 +81,6 @@ export class Game {
                 this.drawArrow(this.palet.x, this.palet.y, this.palet.newX, this.palet.newY);// drawArrow(ball.x,ball.y,newX,newY);
             }
             if(this.palet.checkNewPos() && !this.eventManager.getMouseIsDown()){//getMouseIsDown?
-                console.log("move");
                 this.palet.resetPrevPos();
                 if(this.palet.move()){
                     this.palet.resetNewPos();
@@ -110,6 +116,10 @@ export class Game {
                 let repA = (randCage === 0)? response.vrai : response.faux1;
                 let repB = (randCage === 1)? response.vrai : (randCage === 2) ? response.faux2 : response.faux1;
                 let repC = (randCage === 2)? response.vrai : response.faux2;
+                sessionStorage.setItem("question", response.text);
+                sessionStorage.setItem("repA", repA);
+                sessionStorage.setItem("repB", repB);
+                sessionStorage.setItem("repC", repC);
                 $("#question").text(response.text);
                 $("#rep1").text(repA);
                 $("#rep2").text(repB);
@@ -123,7 +133,7 @@ export class Game {
         sessionStorage.setItem("score", this.score);
         $("#score").text(this.score);
         this.palet.resetPos();
-        // this.getQuestion();
+        sendScore(this.score);
     }
 
     /**
@@ -193,6 +203,7 @@ export class Game {
     }
 
     static endGame(){
+
         $.ajax({
             type: "POST",
             url: "/controls/actionController.php",

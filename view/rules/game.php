@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-semibold text-gray-800 mb-2">Bienvenue "Username !"</h1>
+<h1 class="text-2xl font-semibold text-gray-800 mb-2">Bienvenue !</h1>
 <h2>Ici je vais t’apprendre les basiques du hockey sur glace.</h2>
 <h2>Alors enfile tes patins et c’est partie !</h2>
 <p class="text-gray-600 mb-4">Le hockey sur glace est un sport qui se pratique à <strong>6 contre 6</strong>, avec <strong>1 gardien</strong> et <strong>5 joueurs</strong> par équipe.</p>

@@ -98,7 +98,6 @@ $(document).ready(function(e){
     $(document).on("click", ".actionButton", function () {
         let action = $(this).data("action");
         let id = $(this).data("id");
-        console.log(action + " " + id )
         // Effectuer la requête AJAX
         $.ajax({
             type: "POST",
@@ -194,5 +193,5 @@ function getSessionCode() {
 if (window.location.pathname === "/users") {
     getSessionCode()
     updateRanking()
-    setInterval(updateRanking, 3000);
+    // setInterval(updateRanking, 3000);
 }

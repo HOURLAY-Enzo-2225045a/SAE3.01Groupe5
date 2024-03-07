@@ -37,7 +37,6 @@ $actionsMapping = [
     'getRandomQuestion' => ['controller' => $questionsController, 'adminOnly' => false ],
     'isInActiveSession' => ['controller' => $sessionController, 'adminOnly' => false ],
     'showEndGame' => ['fields' => ['score'], 'controller' => $sessionController, 'adminOnly' => false ],
-    'showScore' => ['controller' => $sessionController, 'adminOnly' => false ],
     'setSessionSpart' => ['fields' => ['spartiateId'], 'controller' => $sessionController, 'adminOnly' => false ],
     'stopWS' => ['webSocketMessage' => 'stop', 'adminOnly' => true],
     'connexionWS' => ['controller' => $wscontroller, 'adminOnly' => false]

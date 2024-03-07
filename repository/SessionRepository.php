@@ -41,7 +41,7 @@ class SessionRepository extends AbstractRepository
     }
 
     public function getRanking() :  array{
-        $query = 'SELECT * FROM SESSION ORDER BY SCORE DESC';
+        $query = 'SELECT * FROM SESSION ORDER BY SCORE DESC limit 10';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
         $sessionUsers = [];
@@ -139,9 +139,10 @@ class SessionRepository extends AbstractRepository
         $query = 'SELECT pseudo, mail FROM SESSION WHERE SCORE = (SELECT MAX(SCORE) FROM SESSION)';
         $statement = $this->connexion->prepare($query);
         $statement->execute();
-        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
+
 
 
 }

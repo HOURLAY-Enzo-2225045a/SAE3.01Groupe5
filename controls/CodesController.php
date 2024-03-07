@@ -63,14 +63,19 @@ class CodesController
         $this->repository->stop();
         $sessionRepo = new \Repository\SessionRepository();
         $data = $sessionRepo->getMailAndPseudoOfHighestScore();
-        if($data['mail'] != null && $data['pseudo'] != null) {
-            $to = $data['mail'];
-            $who = $data['pseudo'];
-            $subject = 'Jeu Spartiate';
-            $headers = 'De: Spartiates <jeuspartiates@alwaysdata.net>' . "\r\n";
-            $message = 'Bonjour ' . $who . ' vous avez fait le meilleur score gardez ce mail pour récupérer votre prix';
-            mail($to, $subject, $message, $headers);
+        if(!empty($data)) {
+            foreach ($data as $row) {
+                if (!empty($row['mail']) && !empty($row['pseudo'])) {
+                    $to = $row['mail'];
+                    $who = $row['pseudo'];
+                    $subject = 'Jeu Spartiate';
+                    $headers = 'De: Spartiates <jeuspartiates@alwaysdata.net>' . "\r\n";
+                    $message = 'Bonjour ' . $who . ' vous avez fait le meilleur score gardez ce mail pour récupérer votre prix';
+                    mail($to, $subject, $message, $headers);
+                }
+            }
         }
+        
         echo 'Pas de session en cours';
     }
 

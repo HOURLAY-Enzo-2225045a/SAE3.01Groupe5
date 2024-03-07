@@ -25,14 +25,12 @@ export class EventManager {
             if (pos.x < this.palet.x + this.palet.radius && pos.x > this.palet.x - this.palet.radius &&
                 pos.y < this.palet.y + this.palet.radius && pos.y > this.palet.y - this.palet.radius) {
                 this.mouseIsDown = true;
-                //console.log("mouse down")
             }
         }
     }
 
     handleMouseUp(e) {
         if (this.mouseIsDown) {
-            console.log("mouse up")
             let pos = this.getMouseOrTouchPos(e);
             this.palet.newX = this.palet.x + ((this.palet.x - pos.x) * 5);
             this.palet.newY = this.palet.y - ((pos.y - this.palet.y) * 5);
@@ -42,7 +40,6 @@ export class EventManager {
 
     handleMouseMove(e) {
         if (this.mouseIsDown) {
-            //console.log("mouse move")
             let pos = this.getMouseOrTouchPos(e);
             this.palet.newX = (this.palet.x + (this.palet.x - pos.x));
             this.palet.newY = (this.palet.y - (pos.y - this.palet.y));
