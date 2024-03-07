@@ -22,7 +22,7 @@ let messageMapping = [
 ];
 
 socket.addEventListener('message', (event) => {
-    console.log('Message reçu:', event.data);
+    // console.log('Message reçu:', event.data);
     const message = event.data;
     if (messageMapping.includes(message)) {
         if(typeof window.sessionStatus === 'function')
@@ -37,7 +37,7 @@ socket.addEventListener('close', (event) => {
 });
 
 function sendMessage(message) {
-    console.log('Envoi du message:', message);
+    // console.log('Envoi du message:', message);
     if(message === "stop" || message === "start") {
         const JsonMessage = {
             action: 'resetScore',
