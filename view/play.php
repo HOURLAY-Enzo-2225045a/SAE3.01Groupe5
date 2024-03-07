@@ -7,7 +7,7 @@
     <title>%title%</title>
     <!--    style-->
     <link rel="stylesheet" href="/dist/output.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <script src="/dist/bundle.js"></script>
     <script src="/assets/socket.js"></script>
     <script type="module" src="../assets/GameLauncher.js"></script>
@@ -70,25 +70,7 @@
      id="blockLandscape" style="display: none">
     <h1>Tournez votre téléphone</h1>
 </div>
-<div id="tutorial-hand" class="hand-animation absolute left-[50%] bottom-[20%]" style="display: none"></div>
-    <style>
-        .hand-animation {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-image: url('/assets/images/hand.png'); /* Remplacez 'hand.png' par le chemin de votre image de main */
-            background-size: cover;
-            animation: handAnimation 2.5s infinite;
-        }
+<div id="tutorial-hand" class="hand-animation absolute left-[50%] bottom-[25vh]" style="display: none"></div>
 
-        @keyframes handAnimation {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(200px);
-            }
-        }
-    </style>
 </body>
 </html>

@@ -1095,6 +1095,10 @@ input:checked + .toggle-bg{
   bottom: 1.25rem;
 }
 
+.bottom-\[25vh\]{
+  bottom: 25vh;
+}
+
 .bottom-\[60px\]{
   bottom: 60px;
 }
@@ -1113,6 +1117,10 @@ input:checked + .toggle-bg{
 
 .left-\[10\%\]{
   left: 10%;
+}
+
+.left-\[50\%\]{
+  left: 50%;
 }
 
 .right-0{
@@ -1328,6 +1336,10 @@ input:checked + .toggle-bg{
 
 .h-\[5vh\]{
   height: 5vh;
+}
+
+.h-\[8vh\]{
+  height: 8vh;
 }
 
 .h-full{
@@ -1871,6 +1883,11 @@ input:checked + .toggle-bg{
   padding-bottom: 1rem;
 }
 
+.py-6{
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
 .py-8{
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -2163,6 +2180,26 @@ input:checked + .toggle-bg{
   color: rgb(0 213 255 / var(--tw-text-opacity));
 }
 
+.hand-animation {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-image: url('/assets/images/hand.png');
+  /* Remplacez 'hand.png' par le chemin de votre image de main */
+  background-size: cover;
+  animation: handAnimation 2.5s infinite;
+}
+
+@keyframes handAnimation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(200px);
+  }
+}
+
 .hover\:border-gray-300:hover{
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -2337,10 +2374,6 @@ input:checked + .toggle-bg{
     height: 7vh;
   }
 
-  .md\:h-\[8vh\]{
-    height: 8vh;
-  }
-
   .md\:h-auto{
     height: auto;
   }
@@ -2361,27 +2394,13 @@ input:checked + .toggle-bg{
     width: 83.333333%;
   }
 
-  .md\:w-full{
-    width: 100%;
-  }
-
   .md\:grid-cols-2{
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .md\:px-5{
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
   }
 
   .md\:py-6{
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
-  }
-
-  .md\:text-4xl{
-    font-size: 2.25rem;
-    line-height: 2.5rem;
   }
 }
 
@@ -2519,5 +2538,6 @@ input:checked + .toggle-bg{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+
 
 

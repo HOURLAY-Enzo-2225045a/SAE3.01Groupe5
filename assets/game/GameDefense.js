@@ -183,6 +183,7 @@ export class GameDefense {
      * @note Vérifier si modification nécessaire / Ou QuestionManager ?
      */
     getQuestion() {
+        this.defender.resetPos();
         this.responseStriker = Math.floor(Math.random() * 3);
         let randStriker = this.responseStriker
         $.ajax({
