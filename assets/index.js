@@ -1,3 +1,4 @@
+
 $(document).ready(function (e) {
     $(document).on("click", ".star", function () {
         // Toggle l'état rempli/vide de l'étoile
@@ -146,8 +147,8 @@ $(document).ready(function (e) {
                 action: action,
             },
         }).done(function (response) {
-            updateRanking();
             $('#code').html(response);
+            updateRanking();
         });
     });
 
@@ -182,7 +183,8 @@ $(document).ready(function (e) {
             } else {
                 sendMessage(response);
             }
-            updateRanking();
+            setTimeout(updateRanking, 1000);
+            console.log("updateRanking");
         });
     });
 
@@ -225,4 +227,7 @@ if (window.location.pathname === "/users") {
     getSessionCode()
     updateRanking()
     // setInterval(updateRanking, 3000);
+}
+if (window.location.pathname === "/sessionCode") {
+    sessionStorage.setItem("score", "0");
 }
